@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tec | 陋室]]></title>
+  <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
+  <link href="http://sonnewilling.com/"/>
+  <updated>2014-03-12T10:43:05+08:00</updated>
+  <id>http://sonnewilling.com/</id>
+  <author>
+    <name><![CDATA[Wanax]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用发布流程]]></title>
+    <link href="http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng/"/>
+    <updated>2014-03-01T17:20:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng</id>
+    <content type="html"><![CDATA[<h3>概述</h3>
+
+<p>整个发布流程有四个关键词，<em>Certificates</em>，<em>Identifiers</em>，<em>Devices</em>与<em>Provisioning Profiles</em>.</p>
+
+<p>它们的相互关系如下图所示，</p>
+
+<p><img src="/images/tec/IOSPub/pic_1.png" alt="image" /></p>
+
+<p>简单说来便是用户身份验证书（Certificates），App应用身份ID（Identifiers），可用于开发的Devices三者合一生成一份Provisioning Profile，并将此profile下载到本机双击安装后就自然可以在xcode中找到了(注意左上角的“GooGuu”在配置发布时应将Target与Project的设置调未相同选项，以避免发布失败)。</p>
+
+<!--more-->
+
+
+<p><img src="/images/tec/IOSPub/pic_3.png" alt="image" /></p>
+
+<h3>步骤分解</h3>
+
+<h4>一.Certificates证书申请</h4>
+
+<p>付费申请到开发者账号后首先要做的便是使用它来生成一个开发或者发布的证书，这个证书是App发布的起点，有了它便表明你是名已经被苹果公司认证过的开发人员并有权力发布自己开发的App到AppStore上去。</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
+
+<p>证书申请的步骤这位姐姐讲解地很详细了，不需要再一一赘述，看到第J步&mdash;<em>下载证书，双击安装</em>便可以停一下，先来看Identifier。</p>
+
+<h4>二.Identifiers-App ID的申请</h4>
+
+<p>Certificates是表明你开发者身份的东西，花了近100的大洋肯定不可能只满足用来开发一款App，而是会进行多方面的尝试，这时候就需要通过App ID来对我们开发出的各种应用进行唯一的标示。</p>
+
+<p>可以简单的理解为Certificates的苹果公司给你的身份证，而App ID是你给自己开发的App的一个身份证。</p>
+
+<p><img src="/images/tec/IOSPub/pic_4.png" alt="image" /></p>
+
+<h4>三.Devices的用处</h4>
+
+<p>开发的App可以在Xcode自带的模拟器下运行调试，想要进行真机测试的话则需要用到Devices的配置选项了。</p>
+
+<p>当你将外置设备连入苹果电脑，进入Xcode的Window->Organizer->Devices中便会发现自己的设备名称：</p>
+
+<p><img src="/images/tec/IOSPub/pic_5.png" alt="image" /></p>
+
+<p>现在的Xcode已经集成了添加Device的功能，点击连接后的设备名称，你会在右边的窗口中发现诸如“添加该设备到开发机”之类的选项。</p>
+
+<p><img src="/images/tec/IOSPub/pic_6.png" alt="image" /></p>
+
+<p>之后到Device里简单的验证一下便可以了，你会发现自己的设备序列号已经添加到了该列表里面。</p>
+
+<p>这个Devices列表按照第二张图的样子看应该是会在最后跟AppID与Certificate打包在一起来生成Profile文件，这样开发者身份信息，App的身份信息，可用测试的设备信息都可以随时的调用。</p>
+
+<h4>四.Provisioning Profiles的生成与使用</h4>
+
+<p>还是继续从第K步&mdash;<em>生成证书对应的provision File</em> 看刚刚那位姐姐的讲解吧。</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
+
+<h3>发布</h3>
+
+<p>这样一步步下来，一份完成的Profile便拿在了手上，分为Development和Distribution两种，分别用于开发与发布的使用。</p>
+
+<p>还不清楚的话可以看下这位哥儿们的讲解，更加的专业与细致。</p>
+
+<p><a href="http://www.cnblogs.com/cywin888/p/3263027.html">关于Certificate、Provisioning Profile、App ID的介绍及其之间的关系</a></p>
+
+<p>接下来还剩下两步工作，一个是本地二进制文件的打包验证，一个是苹果网站的新App申请或者旧App版本更新的申请。</p>
+
+<h4>1.苹果网站上的相关工作</h4>
+
+<p>我们去到<a href="https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa">App Product</a>这里，在网站上对App进行配置。</p>
+
+<p>大致可以理解为通知苹果公司我将会有一个App通过Xcode进行上传，你要注意接收啊之类云云。</p>
+
+<p>如果之前已经有旧的版本了那很简单，进入“Manage Your Apps”的页面，点击你要更新的App进入一个新的页面，里面有个Button叫“Add Version”点击进入，有一个流程页面，唯一需要注意的是<em>填写的新的版本号需要跟本地项目的Target->General的下图位置处的版本号填写相同</em>，不然在最后打包完毕验证时会发生错误导致无法提交。</p>
+
+<p><img src="/images/tec/IOSPub/pic_10.png" alt="image" /></p>
+
+<p><img src="/images/tec/IOSPub/pic_9.png" alt="image" /></p>
+
+<p>如果是第一次发布App则稍微有点麻烦，具体的还是参见刚刚那位姐姐的文章吧&hellip;</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133642">iOS 发布应用程序到App Store</a></p>
+
+<h4>2.本地Xcode的相关工作</h4>
+
+<p>将发布设备调节到下图的位置，前提是没有外置的设备连在苹果机上，其实连上也无所谓，只是文字显示不一样。</p>
+
+<p><img src="/images/tec/IOSPub/pic_7.png" alt="image" /></p>
+
+<p>然后点击Product->Archive来静待二进制文件的生成吧。</p>
+
+<p>生成后会自动跳转到Window->Organizer->Archives，然后分别对打包好的App进行验证与最后的提交，就是这样了~</p>
+
+<p><img src="/images/tec/IOSPub/pic_8.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Django框架网站搭建入门]]></title>
+    <link href="http://sonnewilling.com/blog/2013/11/15/python-djangokuang-jia-wang-zhan-da-jian-ru-men/"/>
+    <updated>2013-11-15T16:22:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/11/15/python-djangokuang-jia-wang-zhan-da-jian-ru-men</id>
+    <content type="html"><![CDATA[<p>最近学习了下python，传说中的pyhon的框架比关键字还多果然名不虚传。想用pyhon搭个网站练练手，上网一搜果然一大把。看了下推荐各有利弊，但Django的文档比较全面，虽然说有点封闭，但也没要求多高，感觉拿来上手正合适不过了。</p>
+
+<p><a href="http://django-chinese-docs.readthedocs.org/en/latest/index.html">Django 中文文档</a></p>
+
+<p>这篇文章主要是个学习笔记的作用，就是根据上面的网站一步步搞起的。</p>
+
+<p>Django是一个MVC框架，相比于Java的MVC SSH简单的不是一点半点，想之前搭SSH还通了个宵，现在看看Django的MVC简单到只有三个python文件，跟着教程一步步搭起来回过头才想起来这特么也是MVC的框架啊，自不待言。</p>
+
+<p><img src="/images/tec/python-django.png" alt="image" /></p>
+
+<p>上图是一个对Django MVC的简单示意，很容易可以看出，<code>view.py</code>是主管视图部分的，<code>model.py</code>主管模型层，遗憾没有个<code>control.py</code>，哈哈，<code>url.py</code>控制跳转，是为controller。</p>
+
+<p>现在便一步步开始吧。</p>
+
+<!--more-->
+
+
+<h2>一.安装</h2>
+
+<p>上周（November 6, 2013）Django才刚更新到1.6，<a href="https://docs.djangoproject.com/en/dev/releases/1.6/">Django 1.6 release notes</a>这里是一些新特性的介绍。</p>
+
+<p>因为中文文档还是介绍的1.5的安装过程，所以先按着1.5的版本来吧。需要注意的是Django适用<code>python 2.6.5</code>到 <code>2.7</code> 的所有 Python 版本，还具有 <code>3.2</code> 和<code>3.3</code>版本的实验性支持，因为python3相对于2.x来说有了一些语法与库的更新，所以在版本选择上还是需要注意一下的，就比如在2.x中有关http请求的lib放在<code>httplib</code>中，而在python3中则在<code>urllib</code>中，倒是有个开源第三方库叫<code>httplib2</code>，看一些教程都推荐在python3中使用这个第三方库，是因为有诸如缓存之类的特性。</p>
+
+<p>Django的安装不麻烦，<a href="https://www.djangoproject.com/download/">DownLoad</a>去这里下载压缩包，解压完进入文件目录执行</p>
+
+<p><code>
+sudo python setup.py install
+</code>
+就可以了。</p>
+
+<p>可以终端进入python shell验证一下</p>
+
+<p>```</p>
+
+<blockquote><blockquote><blockquote><p>import django
+print(django.get_version())
+1.5
+```</p></blockquote></blockquote></blockquote>
+
+<h2>二.项目启动</h2>
+
+<p>对于一个Django项目有两个基本的概念</p>
+
+<ol>
+<li>project，这是对整个具体的项目的称号，我们一个网站便是一个project</li>
+<li>app，相对于一个project可以细分很多app，也就是功能块的意思，我们可以建立很多app，并可以在/project/settings.py进行设置，也就是号称的即插即用。</li>
+</ol>
+
+
+<p>开启终端，定位到一个合适的目录，键入第一行命令，生成我们的第一个Django项目</p>
+
+<p><code>
+django-admin.py startproject mysite
+</code>
+<code>mysite</code>的名字便对应着project，这个看个人意志了。</p>
+
+<p>妥当了后便是一个初步的网站架构</p>
+
+<blockquote><p>mysite/</p>
+
+<blockquote><p>   manage.py</p>
+
+<p>   mysite/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>   settings.py</p>
+
+<p>   urls.py</p>
+
+<p>   wsgi.py</p></blockquote></blockquote></blockquote>
+
+<p>这是一个基本的目录层次</p>
+
+<p><code>manage.py</code>是个命令行工具，可让你以各种方式与该 Django 项目进行交互，<code>settings.py</code>是对整个网站的一些基本配置，<code>urls.py</code>便是最外层的控制跳转，这里我们可以直接定位到具体的处理方法，但一般还是建议定位到相关的app，然后再让app里的<code>url.py</code>进行具体的跳转控制。<code>wagi.py</code>是一个对公共网关接口的配置，比如说放到新浪SAE的时候我们需要对这个文件进行编写配置。</p>
+
+<p>初步介绍就是这样，shell定位到第一层的<code>mysite</code>上，输入</p>
+
+<p><code>
+python manage.py runserver
+</code></p>
+
+<p>去<code>http://127.0.0.1:8000/</code>进行访问，便可以看到初步的效果了。</p>
+
+<h2>三.APP激活</h2>
+
+<p>项目启动成功后我们可以进入app的建立与关联。</p>
+
+<p><code>
+python manage.py startapp polls
+</code></p>
+
+<p>使用上面的命令在根目录建立一个app。</p>
+
+<blockquote><p>polls/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>  models.py</p>
+
+<p>   tests.py</p>
+
+<p>   views.py</p></blockquote></blockquote>
+
+<p>初始的app一般是这样的目录结构，一般还要自己新建一个<code>url.py</code>以便接过在根目录下<code>url.py</code>跳转控制的大旗~</p>
+
+<p><code>model.py</code>便是模型层中相关的具体模型了，<code>view.py</code>顾名思义，在通过<code>url.py</code>控制跳转到这个文件后对请求做具体处理，一般传参为<code>request</code>而返回一个<code>HttpResponse</code>。</p>
+
+<p>进入根目录下面的<code>settings.py</code>对app进行插入</p>
+
+<p>```
+INSTALLED_APPS = (</p>
+
+<pre><code>'django.contrib.auth',
+'django.contrib.contenttypes',
+'django.contrib.sessions',
+'django.contrib.sites',
+'django.contrib.messages',
+'django.contrib.staticfiles',
+# Uncomment the next line to enable the admin:
+# 'django.contrib.admin',
+# Uncomment the next line to enable admin documentation:
+# 'django.contrib.admindocs',
+'polls',
+</code></pre>
+
+<p>)
+```</p>
+
+<p>使用</p>
+
+<p><code>
+python manage.py syncdb
+</code>
+告诉项目对app进行同步安装。至此，一个初步的app便配置成功了。</p>
+
+<h2>四.APP中编写第一个视图</h2>
+
+<p>让我们编写第一个视图。打开文件 polls/views.py 并在其中输入以下 Python 代码</p>
+
+<p>```py
+from django.http import HttpResponse
+def index(request):</p>
+
+<pre><code>return HttpResponse("Hello, world. You're at the poll index.")
+</code></pre>
+
+<p>```</p>
+
+<p>在 Django 中这可能是最简单的视图了。为了调用这个视图，我们需要将它映射到一个 URL – 为此我们需要配置一个URLconf 。</p>
+
+<p>在 polls 目录下创建一个名为 urls.py 的 URLconf 文档。 你的应用目录现在看起来像这样</p>
+
+<blockquote><p>polls/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>   admin.py</p>
+
+<p>   models.py</p>
+
+<p>   tests.py</p>
+
+<p>   urls.py</p>
+
+<p>   views.py</p></blockquote></blockquote>
+
+<p>在 polls/urls.py 文件中输入以下代码：</p>
+
+<p>`&ldquo;py
+from django.conf.urls import patterns, url
+from polls import views
+urlpatterns = patterns(&rdquo;,</p>
+
+<pre><code>url(r'^$', views.index, name='index')
+</code></pre>
+
+<p>)
+```</p>
+
+<p>这是一个简单的正则匹配，大概意思便是进入根url的话则直接去执行<code>view.py</code>里的<code>index</code>方法，便是我们刚刚定义过的那个函数。</p>
+
+<p>下一步是将 polls.urls 模块指向 root URLconf 。在 mysite/urls.py 中插入一个 include() 方法，最后的样子如下所示</p>
+
+<p>`&ldquo;py
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+admin.autodiscover()
+urlpatterns = patterns(&rdquo;,</p>
+
+<pre><code>url(r'^polls/', include('polls.urls')),
+url(r'^admin/', include(admin.site.urls)),
+</code></pre>
+
+<p>)
+```</p>
+
+<p>现在你在 URLconf 中配置了 index 视图。通过浏览器访问 <a href="http://localhost:8000/polls/">http://localhost:8000/polls/</a> ，如同你在 index 视图中定义的一样，你将看到 “Hello, world. You’re at the poll index.” 文字。</p>
+
+<p>更多的一些视图编写方法请参见<a href="http://django-chinese-docs.readthedocs.org/en/latest/intro/tutorial03.html">这里</a></p>
+
+<p>这里只是简单的介绍了下的客户请求服务器控制跳转处理请求并返回http对象的过程，并没有介绍如何搭配数据库模型层的运用，想进行细致的学习请移步<a href="http://django-chinese-docs.readthedocs.org/en/latest/index.html">Django 中文文档</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用Octopress搭建个人博客]]></title>
+    <link href="http://sonnewilling.com/blog/2013/11/14/shi-yong-octopressda-jian-ge-ren-bo-ke/"/>
+    <updated>2013-11-14T16:45:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/11/14/shi-yong-octopressda-jian-ge-ren-bo-ke</id>
+    <content type="html"><![CDATA[<p><img src="/images/tec/octopress-header.png" alt="image" /></p>
+
+<p>十月份用octopress搭建了一个个人博客，现在把大概的流程介绍一下，常用的几个命令也在这里记下来。</p>
+
+<p><a href="http://http://octopress.org/">Octopress</a>是个利用<a href="https://github.com/mojombo/jekyll">Jekyll</a>引擎开发的博客系统。它将生成的静态页面push到我们自己的github上，可以很好的在github page上展示。号称程序员博客逼格利器</p>
+
+<blockquote><p>A blogging framework for hackers.</p></blockquote>
+
+<!--more-->
+
+
+<h3>首先是搭建发布环境</h3>
+
+<p>Octopress需要Ruby环境，前几天自己电脑上装的Ubantu10.0自带的Ruby1.8.7试过了不行，起码要更新到Ruby1.9.1吧，官方的建议是1.9.3.</p>
+
+<p>安装Ruby有两个方法，一个是直接去官网下载Ruby包，解压缩，安装。另一个是使用RVM(Ruby Version Manager)来负责安装和管理Ruby的环境。</p>
+
+<p>在Mac电脑上我直接下载安装了Rvm</p>
+
+<p><code>
+curl -L https://get.rvm.io | bash -s stable --ruby
+</code></p>
+
+<p><code>
+rvm install 1.9.3
+rvm use 1.9.3
+rvm rubygems latest
+</code></p>
+
+<p>参见<a href="http://octopress.org/docs/setup/rvm/">Installing Ruby With RVM</a></p>
+
+<p>这样便简单搞定，但Ubantu上rvm死活搞不定，网上搜了下使用第一种方法直接安装算完了，也不麻烦。</p>
+
+<h3>然后便是安装Octopress</h3>
+
+<p>先把Octopress从网上down下来</p>
+
+<p><a href="https://github.com/imathis/octopress">Octopress</a></p>
+
+<p>电脑上有git的话简单一点</p>
+
+<p><code>
+git clone git://github.com/imathis/octopress.git octopress
+</code></p>
+
+<p>解压进入项目目录安装相关依赖</p>
+
+<p><code>
+cd octopress
+gem install bundler
+rbenv rehash
+bundle install
+</code>
+参见<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
+
+<p>这几步是把发布Octopress的环境搞定，还没有正式开始搭建Octopress，我在Mac上发布的博客，在Ubantu从git上check下来，也要这么来一遍才能正式使用Octopress。</p>
+
+<p>最后安装默认的Octopress 主题。</p>
+
+<p><code>
+rake install
+</code></p>
+
+<h3>接下来是配置Octopress</h3>
+
+<p>主要是对<code>_config.yml</code>进行修改，其它的话自行研究吧。</p>
+
+<p>具体配置参见<a href="http://octopress.org/docs/configuring/">Configuring Octopress</a>写得很详细了。</p>
+
+<p>搞定配置后可以先大体的看下样式</p>
+
+<p><code>
+rake generate//通过引擎生成静态网页
+rake preview//本地预览
+</code>
+<a href="localhost:4000">localhost:4000</a>进行本地预览</p>
+
+<h3>觉得差不多了就可以把Octopress发到github上了</h3>
+
+<p>首先需要在GitHub上创建一个仓库，并将仓库名称按照：username.github.com的方式命名。待发布完毕可以直接使用<code>http://username.github.com</code>来访问博客。同时可以把博客的源码放到source分支下，并把生成的内容提交到master分支。这样随便换到哪里的电脑上都可以check下来接着写了。</p>
+
+<p>第一步是对我们新建的目录进行建立与初始化，会提示输入你的git的账号和密码，一次确认完毕以后你每次提交都会跑到你确认的git账号下的github.com/username/username.github.com下了。</p>
+
+<p>本地生成一下静态Html发上去就妥了</p>
+
+<p><code>
+rake generate//生成
+rake deploy//发布
+</code></p>
+
+<h3>最后说下写博客的常用命令</h3>
+
+<p><code>
+rake new_post["title"]
+</code></p>
+
+<p>这是新建一篇文章，存放在<code>source/_posts</code>目录下面，使用的是markdown语法，具体规则不麻烦，大家可以自己谷歌下。Mac下用Mou进行编辑很方便，Linux的话线上编辑会好一点，chrome有不少插件，其中一个叫Ma‘de，好像是作者用以表达对母亲的爱…</p>
+
+<p><code>
+ rake generate
+ git add .
+ git commit -am "Some comment here."
+ git push origin source
+ rake deploy
+</code></p>
+
+<p>使用上面几条命令生成与发布博客，中间的三条git命令是把博客的源码放到source的分支上，以便在不同的电脑上编辑博客。</p>
+
+<p>参见<a href="http://octopress.org/docs/blogging/">Blogging Basics</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UICollectionView与CXPhotoBrowser配合使用示例]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li/"/>
+    <updated>2013-10-31T15:56:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li</id>
+    <content type="html"><![CDATA[<p>UICollection是在iOS6.0中新加的功能，用于图片的集中展示，大概就是图片墙的意思。基本的使用类似于UITableView，也是设置代理，数据源，对单个的Cell可以自行定制样式。稍有不同的是在UITableView中整体样式的设置只有两种，一种是Group和Plain，而在UICollection中则有较多的选择方案，具体的实现方式需要编码人员对UICollectionViewFlowLayout自行调整。</p>
+
+<p>开发的App中有用到这种功能，结合一个台湾哥儿们Chris Xu的开源插件CXPhotoBrower，可以达到比较好的展示图片的效果。</p>
+
+<p>具体效果图如下：</p>
+
+<p><img src="/images/tec/uicollectionImg.png" alt="image" /></p>
+
+<p><img src="/images/tec/cxphotobrowserImg.png" alt="image" /></p>
+
+<p>现在开始一步步搭建吧。</p>
+
+<!--more-->
+
+
+<h3>一.备齐原料</h3>
+
+<p>UICollection是系统自带的，这个不用关心，CXPhotoBrowser需要自行下载引入。建议使用CocoaPods进行配置，<code>pod 'CXPhotoBrowser'</code>即可，没有用过的话那进入下面的页面按指引搭建吧。</p>
+
+<blockquote><p><a href="https://github.com/ChrisXu1221/CXPhotoBrowser">https://github.com/ChrisXu1221/CXPhotoBrowser</a></p></blockquote>
+
+<h3>二.UICollection的使用</h3>
+
+<h4>1.新建一个UICollectionViewController的VC</h4>
+
+<h4>2.初始化配置UICollectionViewFlowLayout，内嵌于UICollectionViewController中对CollectionCell进行样式管理。</h4>
+
+<p>```objc</p>
+
+<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+/*
+对四方边界与cell之间的距离进行设置，也可以通过代理设置
+*/
+[flowLayout setItemSize:CGSizeMake(163, 309)];
+flowLayout.sectionInset = UIEdgeInsetsMake(10,15,5,15);
+[flowLayout setMinimumLineSpacing:5.0];
+[flowLayout setMinimumInteritemSpacing:5.0];
+[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+//使用自定义的CollectionCell，出队列，与UITableView的思路相近
+[self.collectionView registerNib:[UINib nibWithNibName:@"PicCollectionCell" bundle:nil] forCellWithReuseIdentifier:GraphExcCellIdentifier];
+[self.collectionView setBackgroundColor:[Utiles colorWithHexString:@"#5b4d41"]];
+self.collectionView.delegate = self;
+self.collectionView.dataSource = self;
+//使用开源插件进行下拉分页的功能，读者自行谷歌
+[self.collectionView addInfiniteScrollingWithActionHandler:^{
+    [self addPics:@"" reset:NO];
+}];
+self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+</code></pre>
+
+<p>```</p>
+
+<h4>3.CollectionCell的创建</h4>
+
+<p>使用nib创建Cell，过程类似于tableCell，不再赘述了。</p>
+
+<h4>4.Delegate与DataSource的设置</h4>
+
+<p>```objc
+&ndash;(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{</p>
+
+<pre><code>return [self.images count];
+</code></pre>
+
+<p>}
+&ndash;(UICollectionViewCell <em>)collectionView:(UICollectionView </em>)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{</p>
+
+<pre><code>FinanPicCollectCell *cell = (FinanPicCollectCell *)[collectionView dequeueReusableCellWithReuseIdentifier:GraphExcCellIdentifier forIndexPath:indexPath];
+id model=[self.images objectAtIndex:indexPath.row];
+//使用SDWebImage进行图片加载
+[cell.imageView setImageWithURL:[NSURL URLWithString:[model objectForKey:@"smallImage"]]
+               placeholderImage:[UIImage imageNamed:@"LOADING.png"]];
+return cell;
+</code></pre>
+
+<p>}
+/<em>
+等同于
+[flowLayout setMinimumLineSpacing:5.0];
+[flowLayout setMinimumInteritemSpacing:5.0];
+但可针对每个Cell单独定制
+</em>/
+&ndash; (CGFloat)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{</p>
+
+<pre><code>return 10.0;
+</code></pre>
+
+<p>}
+&ndash; (CGFloat)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{</p>
+
+<pre><code>return 2.0;
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>至此，一个基本的UICollection便简单的搭建完毕了。下面使用CXPhotoBrowser实现图片的单张浏览功能，支持左右切换与捏合放大缩小。</h3>
+
+<h3>三.CXPhotoBrowser的使用</h3>
+
+<p>此插件也是使用数据源代理的思路实现的，我们在载入UICollection的同时也一起对CX进行数据源的设置，另外实现两个代理方法，一个是点击单张图片获取index一遍进行此图片的放大浏览，另一个是在单张浏览功能里左右滑动时获取前后图片的index用于最上面信息栏的展示。
+```objc
+//pragma mark &ndash;
+//pragma mark CXPhotoBrowserDelegate
+//点击图片弹出详细页面
+&ndash; (void)collectionView:(UICollectionView <em>)collectionView didSelectItemAtIndexPath:(NSIndexPath </em>)indexPath{</p>
+
+<pre><code>[self.browser setInitialPageIndex:indexPath.row];
+[self presentViewController:self.browser animated:YES completion:^{
+}];
+</code></pre>
+
+<p>}
+//左右切换视图事件
+&ndash; (void)photoBrowser:(CXPhotoBrowser *)photoBrowser didChangedToPageAtIndex:(NSUInteger)index{</p>
+
+<pre><code>[self.imageTitleLabel setText:[NSString stringWithFormat:@"%d/%d",(index+1),[self.images count]]];
+</code></pre>
+
+<p>}
+//pragma mark &ndash; CXPhotoBrowserDataSource
+&ndash; (NSUInteger)numberOfPhotosInPhotoBrowser:(CXPhotoBrowser *)photoBrowser
+{</p>
+
+<pre><code>return [self.photoDataSource count];
+</code></pre>
+
+<p>}
+&ndash; (id <CXPhotoProtocol>)photoBrowser:(CXPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
+{</p>
+
+<pre><code>if (index &lt; self.photoDataSource.count)
+    return [self.photoDataSource objectAtIndex:index];
+return nil;
+</code></pre>
+
+<p>}
+//对上方信息栏进行设置
+&ndash; (CXBrowserNavBarView <em>)browserNavigationBarViewOfOfPhotoBrowser:(CXPhotoBrowser </em>)photoBrowser withSize:(CGSize)size
+{</p>
+
+<pre><code>CGRect frame;
+frame.origin = CGPointZero;
+frame.size = size;
+if (!navBarView)
+{
+    navBarView = [[CXBrowserNavBarView alloc] initWithFrame:frame];       
+    [navBarView setBackgroundColor:[UIColor clearColor]];       
+    UIView *bkgView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, size.width, size.height)];
+    [bkgView setBackgroundColor:[UIColor blackColor]];
+    bkgView.alpha = 0.2;
+    bkgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [navBarView addSubview:bkgView];        
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
+    [doneButton setTitle:NSLocalizedString(@"返回",@"Dismiss button title") forState:UIControlStateNormal];
+    [doneButton setFrame:CGRectMake(size.width - 60, 5, 50, 30)];
+    [doneButton addTarget:self action:@selector(photoBrowserDidTapDoneButton:) forControlEvents:UIControlEventTouchUpInside];
+    [doneButton.layer setMasksToBounds:YES];
+    [doneButton.layer setCornerRadius:4.0];
+    [doneButton.layer setBorderWidth:1.0];
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 1, 1, 1, 1 });
+    [doneButton.layer setBorderColor:colorref];
+    doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [navBarView addSubview:doneButton];        
+    self.imageTitleLabel = [[UILabel alloc] init];
+    [self.imageTitleLabel setFrame:CGRectMake((size.width - 60)/2,0, 60, 40)];
+    //[self.imageTitleLabel setCenter:navBarView.center];
+    [self.imageTitleLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.imageTitleLabel setFont:[UIFont boldSystemFontOfSize:20.]];
+    [self.imageTitleLabel setTextColor:[UIColor whiteColor]];
+    [self.imageTitleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.imageTitleLabel setText:@""];
+    self.imageTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
+    [self.imageTitleLabel setTag:BROWSER_TITLE_LBL_TAG];
+    [navBarView addSubview:self.imageTitleLabel];
+}    
+return navBarView;
+</code></pre>
+
+<p>}
+//pragma mark &ndash; PhotBrower Actions
+&ndash; (void)photoBrowserDidTapDoneButton:(UIButton *)sender
+{</p>
+
+<pre><code>[self dismissViewControllerAnimated:YES completion:nil];
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>至此一个简答的图片墙加详细浏览的功能便做完了，欢迎交流新的想法。</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发小技巧笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/30/ioskai-fa-xiao-ji-qiao-bi-ji/"/>
+    <updated>2013-10-30T16:03:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/30/ioskai-fa-xiao-ji-qiao-bi-ji</id>
+    <content type="html"><![CDATA[<h3>字体粗度的设置</h3>
+
+<p><code>objc
+button.titlelabel.font = [uifont boldSystemFontOfSize:xx];
+</code></p>
+
+<h3>UINavigation中间隔button的设置</h3>
+
+<p>```objc</p>
+
+<pre><code>UIBarButtonItem *fontListBt = [[UIBarButtonItem alloc]
+                                initWithTitle:@"Font"
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(rightBtClicked:)];
+UIBarButtonItem *fontSizeBt = [[UIBarButtonItem alloc]
+                                 initWithTitle:@"Size"
+                                 style:UIBarButtonItemStyleBordered
+                                 target:self
+                                 action:@selector(popoverFontSize:)];    
+UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] 
+            initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+            target:nil
+            action:nil];
+self.toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0,0,SCREEN_HEIGHT-320,44)];
+[self.toolBar setItems:[NSArray arrayWithObjects:flexibleSpace,fontSizeBt,fontListBt, nil]];
+[self.view addSubview:self.toolBar];
+</code></pre>
+
+<p>```</p>
+
+<!--more-->
+
+
+<h3>UILabel的圆角设置</h3>
+
+<p>```objc</p>
+
+<pre><code>label.layer.cornerRadius=3.0;
+label.layer.borderWidth=1.0;
+</code></pre>
+
+<p>```</p>
+
+<h3>UILabel自动换行</h3>
+
+<p>```objc</p>
+
+<pre><code>label.lineBreakMode=NSLineBreakByCharWrapping;
+label.numberOfLines=2;
+</code></pre>
+
+<p>```</p>
+
+<h3>UILabel行间距设置的取巧解决方案</h3>
+
+<h4>将原本要放入的UILabel替换成同大小的UIWebView</h4>
+
+<h4>大致思路是使用webView里内置的JS引擎解析插入的JS代码，以达到调整行间距的目的。</h4>
+
+<h4>缺点为若嵌入在Cell中，对Cell的点击事件这一区域无法正常响应，现在的解决思路是对此webView添加独立的事件监听，达到同等目的</h4>
+
+<p>```objc</p>
+
+<pre><code>cell.webView.backgroundColor = [UIColor clearColor];
+cell.webView.opaque = NO;
+cell.webView.dataDetectorTypes = UIDataDetectorTypeNone;\
+[(UIScrollView *)[[cell.webView subviews] objectAtIndex:0] setBounces:NO];//禁止webView的滚动
+//16px/18px:前者为行间距，后者为字体大小
+NSString *webviewText = @"&lt;style&gt;body{margin:0;color:#967c6c;background-color:transparent;font:16px/18px Custom-Font-Name}&lt;/style&gt;";
+NSString *htmlString = [webviewText stringByAppendingFormat:@"%@", str];
+[cell.webView loadHTMLString:htmlString baseURL:nil];
+</code></pre>
+
+<p>```</p>
+
+<h3>URL路径的UTF-8转码</h3>
+
+<h4>在一些通过url路径显示图片的页面中，会出现部分图片无法正常显示的问题。有一种可能是抓包分析可以看出这些无法正常显示的图片的url中有中文字体的嵌入，这便涉及到了URL转码的问题，可根据具体的字体编码设置进行转码，大致code如下</h4>
+
+<p><code>objc
+NSURL *url = [NSURL URLWithString:[strUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+</code></p>
+
+<h3>获取文本的长宽尺寸</h3>
+
+<p>```objc
+CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH &ndash; (CELL_CONTENT_MARGIN * 2), 20000.0f);<br/>
+NSDictionary * attributes = [NSDictionary dictionaryWithObject:[UIFont systemFontOfSize:FONT_SIZE] forKey:NSFontAttributeName];
+NSAttributedString *attributedText =[[NSAttributedString alloc]</p>
+
+<pre><code>                                     initWithString:text
+                                     attributes:attributes];                                         
+</code></pre>
+
+<p>CGRect rect = [attributedText boundingRectWithSize:constraint</p>
+
+<pre><code>                            options:NSStringDrawingUsesLineFragmentOrigin
+                            context:nil];
+</code></pre>
+
+<p>```</p>
+
+<h3>NSNumberFormatter的一些使用方法</h3>
+
+<p><a href="http://objc.toodarkpark.net/Foundation/Classes/NSNumberFormatter.html">学习一</a>
+<a href="https://developer.apple.com/library/ios/documentation/cocoa/Conceptual/DataFormatting/Articles/dfNumberFormatting10_4.html">学习二</a></p>
+
+<p>现在主要是对setPositiveFormat的使用总结，比较常用的有下面的场景</p>
+
+<p>```objc
+if([obj[@&ldquo;unit&rdquo;] isEqualToString:@&ldquo;1000.0&rdquo;]){</p>
+
+<pre><code>    [formatter setPositiveFormat:@"$#,###0.00"];//大整数三位一个逗号+小数取舍
+    //还可以添加诸如￥的字符，若要添加0需‘0’包裹
+}else if([obj[@"unit"] isEqualToString:@"%"]){
+    [formatter setPositiveFormat:@"0.00%;0.00%;-0.00%"];//百分数小数取舍
+}else if([obj[@"unit"] isEqualToString:@"1.0"]){
+    [formatter setPositiveFormat:@"##0.0"];//一般浮点的小数取舍
+</code></pre>
+
+<p>}
+NSMutableDictionary *dic=[[[NSMutableDictionary alloc] init] autorelease];
+for(id valueData in obj[@&ldquo;array&rdquo;]){</p>
+
+<pre><code>   [dic setValue:[formatter stringFromNumber:valueData[@"v"]] forKey:valueData[@"y"]];
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```objc
+NSNumberFormatter <em>formatter=[[[NSNumberFormatter alloc] init] autorelease];[formatter setPositiveFormat:@&ldquo;00&rdquo;];//年份补足的用法，表示至少两位整数。不足左添0
+NSMutableArray </em>temp=[[[NSMutableArray alloc] init] autorelease];
+for(int i=[rangeDic[@&ldquo;begin&rdquo;] integerValue];i&lt;=[rangeDic[@&ldquo;end&rdquo;] integerValue];i++){</p>
+
+<pre><code>    [temp addObject:[formatter stringFromNumber:[NSNumber numberWithFloat:(6.0+i)]]];
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>ios7下Label自适应</h3>
+
+<p>```objc</p>
+
+<pre><code>NSString * tstring =@"UILabel与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size";
+//高度估计文本大概要显示几行，宽度根据需求自己定义。 MAXFLOAT 可以算出具体要多高
+CGSize size =CGSizeMake(300,2000);
+// label可设置的最大高度和宽度
+//    CGSize size = CGSizeMake(300.f, MAXFLOAT);
+//    获取当前文本的属性
+NSDictionary * tdic = @{NSFontAttributeName:[UIFont fontWithName:@"Heiti SC" size:12.0], NSForegroundColorAttributeName:[UIColor blueColor]};
+NSLog(@"%@",tdic);
+//ios7方法，获取文本需要的size，限制宽度
+CGSize  actualsize =[tstring boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+NSLog(@"%@",NSStringFromCGSize(actualsize));
+// ios7之前使用方法获取文本需要的size，7.0已弃用下面的方法。此方法要求font，与breakmode与之前设置的完全一致
+//    CGSize actualsize = [tstring sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping];
+//   更新UILabel的frame
+UILabel * testlable = [[UILabel alloc]initWithFrame:CGRectMake(10,20,200,20)];
+testlable.numberOfLines =0;
+testlable.font = [UIFont systemFontOfSize:12];
+testlable.lineBreakMode = NSLineBreakByWordWrapping ;
+testlable.text = tstring ;
+[testlable setBackgroundColor:[UIColor redColor]];
+testlable.frame =CGRectMake(10,20, actualsize.width, actualsize.height);
+[self.view addSubview:testlable];
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

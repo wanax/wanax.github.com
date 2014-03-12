@@ -1,0 +1,2294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[陋室]]></title>
+  <link href="http://sonnewilling.com/atom.xml" rel="self"/>
+  <link href="http://sonnewilling.com/"/>
+  <updated>2014-03-12T10:43:05+08:00</updated>
+  <id>http://sonnewilling.com/</id>
+  <author>
+    <name><![CDATA[Wanax]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS应用发布流程]]></title>
+    <link href="http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng/"/>
+    <updated>2014-03-01T17:20:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng</id>
+    <content type="html"><![CDATA[<h3>概述</h3>
+
+<p>整个发布流程有四个关键词，<em>Certificates</em>，<em>Identifiers</em>，<em>Devices</em>与<em>Provisioning Profiles</em>.</p>
+
+<p>它们的相互关系如下图所示，</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_1.png" alt="image" /></p>
+
+<p>简单说来便是用户身份验证书（Certificates），App应用身份ID（Identifiers），可用于开发的Devices三者合一生成一份Provisioning Profile，并将此profile下载到本机双击安装后就自然可以在xcode中找到了(注意左上角的“GooGuu”在配置发布时应将Target与Project的设置调未相同选项，以避免发布失败)。</p>
+
+<!--more-->
+
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_3.png" alt="image" /></p>
+
+<h3>步骤分解</h3>
+
+<h4>一.Certificates证书申请</h4>
+
+<p>付费申请到开发者账号后首先要做的便是使用它来生成一个开发或者发布的证书，这个证书是App发布的起点，有了它便表明你是名已经被苹果公司认证过的开发人员并有权力发布自己开发的App到AppStore上去。</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
+
+<p>证书申请的步骤这位姐姐讲解地很详细了，不需要再一一赘述，看到第J步&mdash;<em>下载证书，双击安装</em>便可以停一下，先来看Identifier。</p>
+
+<h4>二.Identifiers-App ID的申请</h4>
+
+<p>Certificates是表明你开发者身份的东西，花了近100的大洋肯定不可能只满足用来开发一款App，而是会进行多方面的尝试，这时候就需要通过App ID来对我们开发出的各种应用进行唯一的标示。</p>
+
+<p>可以简单的理解为Certificates的苹果公司给你的身份证，而App ID是你给自己开发的App的一个身份证。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_4.png" alt="image" /></p>
+
+<h4>三.Devices的用处</h4>
+
+<p>开发的App可以在Xcode自带的模拟器下运行调试，想要进行真机测试的话则需要用到Devices的配置选项了。</p>
+
+<p>当你将外置设备连入苹果电脑，进入Xcode的Window->Organizer->Devices中便会发现自己的设备名称：</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_5.png" alt="image" /></p>
+
+<p>现在的Xcode已经集成了添加Device的功能，点击连接后的设备名称，你会在右边的窗口中发现诸如“添加该设备到开发机”之类的选项。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_6.png" alt="image" /></p>
+
+<p>之后到Device里简单的验证一下便可以了，你会发现自己的设备序列号已经添加到了该列表里面。</p>
+
+<p>这个Devices列表按照第二张图的样子看应该是会在最后跟AppID与Certificate打包在一起来生成Profile文件，这样开发者身份信息，App的身份信息，可用测试的设备信息都可以随时的调用。</p>
+
+<h4>四.Provisioning Profiles的生成与使用</h4>
+
+<p>还是继续从第K步&mdash;<em>生成证书对应的provision File</em> 看刚刚那位姐姐的讲解吧。</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
+
+<h3>发布</h3>
+
+<p>这样一步步下来，一份完成的Profile便拿在了手上，分为Development和Distribution两种，分别用于开发与发布的使用。</p>
+
+<p>还不清楚的话可以看下这位哥儿们的讲解，更加的专业与细致。</p>
+
+<p><a href="http://www.cnblogs.com/cywin888/p/3263027.html">关于Certificate、Provisioning Profile、App ID的介绍及其之间的关系</a></p>
+
+<p>接下来还剩下两步工作，一个是本地二进制文件的打包验证，一个是苹果网站的新App申请或者旧App版本更新的申请。</p>
+
+<h4>1.苹果网站上的相关工作</h4>
+
+<p>我们去到<a href="https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa">App Product</a>这里，在网站上对App进行配置。</p>
+
+<p>大致可以理解为通知苹果公司我将会有一个App通过Xcode进行上传，你要注意接收啊之类云云。</p>
+
+<p>如果之前已经有旧的版本了那很简单，进入“Manage Your Apps”的页面，点击你要更新的App进入一个新的页面，里面有个Button叫“Add Version”点击进入，有一个流程页面，唯一需要注意的是<em>填写的新的版本号需要跟本地项目的Target->General的下图位置处的版本号填写相同</em>，不然在最后打包完毕验证时会发生错误导致无法提交。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_10.png" alt="image" /></p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_9.png" alt="image" /></p>
+
+<p>如果是第一次发布App则稍微有点麻烦，具体的还是参见刚刚那位姐姐的文章吧&hellip;</p>
+
+<p><a href="http://my.oschina.net/joanfen/blog/133642">iOS 发布应用程序到App Store</a></p>
+
+<h4>2.本地Xcode的相关工作</h4>
+
+<p>将发布设备调节到下图的位置，前提是没有外置的设备连在苹果机上，其实连上也无所谓，只是文字显示不一样。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_7.png" alt="image" /></p>
+
+<p>然后点击Product->Archive来静待二进制文件的生成吧。</p>
+
+<p>生成后会自动跳转到Window->Organizer->Archives，然后分别对打包好的App进行验证与最后的提交，就是这样了~</p>
+
+<p><img src="http://sonnewilling.com/images/tec/IOSPub/pic_8.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[女先生们的书]]></title>
+    <link href="http://sonnewilling.com/blog/2013/11/20/nu-xian-sheng-men-de-shu/"/>
+    <updated>2013-11-20T16:48:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/11/20/nu-xian-sheng-men-de-shu</id>
+    <content type="html"><![CDATA[<p><img src="http://sonnewilling.com/images/read/ladybook.jpg" alt="image" /></p>
+
+<p>这段时间除了看了黄仁宇的两部讲历史的书外还看了几本纪实传记之类的书，感觉都还不错，回顾了一番还真巧都是女先生们所作，果然感觉不一样。</p>
+
+<p>最先翻起来的是齐邦媛的巨流河，记得前几年貌似火过但觉得名字有点二，跟逆流河就差一个字，本能的就闪开了，再翻开已是去年冬天，无奈看到一半对齐先生的絮絮叨叨心生厌倦也就放下了。</p>
+
+<p>再来就是柴静的看见，爱看豆上推过来的，女先生的名字起得好，看封面长得也漂亮，比齐奶奶是好多了，所以也就通读了一番。讲第一次见白岩松的时候震惊了，貌似问她平时听什么歌，看啥书，怎么说得忘记了，当时就觉得逼格特高，差点没忍住就把这本扔下去拜读那几本去了。再然后通过她知道CCTV里也是有理想主义的存在的，其中对崔永元的印象尤深。</p>
+
+<!--more-->
+
+
+<p>在一个下午读了萧红的呼兰河传。初读的时候以为是像沈从文边城一样的小镇故事，开头的气氛文字很像，就边读边等着主角的登场，都翻到快一半了还是那种慢慢地气氛。一点点的说事儿，才发觉这特么感觉是部半自传的小说吧。写的好像都是作者儿时的故事，讲爷爷，讲他家长工，结尾在他家长工的老婆死了，现在也不知道那个长工还在不在，看完打了个冷战，想说点什么但又不知从何说起。</p>
+
+<p>早就耳闻龙的大江大海，爱看豆上找到了李敖的大江大海骗了你，下回来是正宗的龙的作品。先不说真实与否，就觉得李二的风格很低，一点君子气息都没有，满地的想找人咬，何必呢。内容真的有些血腥，随处的17，8岁上了船再回首便是耄耋老人，父母不在。</p>
+
+<p>2013年12月18日</p>
+
+<p>这个月忙着做pad版的app，拜<a href="http://lusongsong.com/reed/801.html">GFW</a>所赐，费了一上午的功夫才把app提交上去坐等审核。这玩意儿有时候是挺讨厌的，做我们这行的讲究的就是个天下文章一大抄，行话叫做开源共享，协作开发。本身先天上就存在着语言弱势，沟通不便，特么又加上这么一个道道，颇有种瞎子骑破驴的感觉，自己从那闭门造车，哼哧哼哧看上去很努力，屁用都没有，操。</p>
+
+<p>话再说回来吧，其实后面还是又捡起了齐奶奶的巨流河看了起来，蛮可以跟龙的大江大海结合起来一起看的。写得都是抗日解放那段日子的事情。齐奶奶是自传，有很多自己的小故事，但牵扯到局势的时候老有种才起了个头就煞尾了的感觉，很多事情不知是不方便说还是不想再提，总之你可以记得她的初恋，记得她妈酿黄豆酱的方法，但总会对一些我等关心的high点给略过了。记忆中就是她做学生的时候马克思主义流进校园，很多学生成立了学习小组后她还在那里啃雪莱，因为思想追求的不同而被孤立抛弃表现出了较大的情感波动，立下了不问政事的意愿，其它的你就可以领略作为一个国民党高层后代所享受的种种福利与待遇，基本上可以称之为一个落魄贵族的流浪情感史。想起之前看过的《青春之歌》和《未央歌》就感概都是学生差距真特么大，要再想想《平凡的世界》&hellip;.特么没法再想了。</p>
+
+<p>确实，书中齐奶奶一直都是种独善其身，自我修行的态度，最终看样子也做到了，但看到大江大海时你就发现在那个年代独善其身都是需要莫大的社会背景的。大江大海从一个叫美君的故事起头，貌似就是龙的亲生母亲，兵荒马乱中流落至了台湾，自己开起杂货铺撑起一个家，每天都有逃难的人来到码头，也能看到穿得跟要饭一样的国军纷纷攘攘，各种抓人充军，小孩出去打个酱油被抓走幸运的话最后能回家探望父母的时候也是面对着一座座坟头了。有个段落是讲剧院里在演四郎探母，基本上都是中年子女陪着老父亲去看，整部戏就是唱腔伴着那些一头白发老人的抽泣完场的，读来心下不忍。</p>
+
+<p>书中还讲了很多大陆正史不可能公布的东西，虽无法考证真伪，句句读来却很虐心。关于这个时代王鼎钧老先生也写过一本书叫《文学江湖》，遗憾并未看过，但他说齐奶奶的书是“欲说还休”，龙的是“语不惊人死不休”，而他自己的则是“欲休还说”，关于《文学江湖》并不知何如，前两者倒感觉真是贴切。又想起之前看过的一本唐德刚的《新中国三十年》，也颇有种语不惊人死不休的感觉。</p>
+
+<p>其实龙写的其它书还是蛮油腻的，有些看不下去，堪比真实版的琼瑶言情。相比之下很喜欢迟子建的《额尔古纳河右岸》。有两本书差不多每年都会看一遍。一本是坐火车回老家的时候会看一遍《天龙八部》，别的不为，就为了看那萧峰带着燕云十八飞骑上少室山时的奔腾如虎风烟举的气势，每看到此处便热血沸腾，再待到隔空三掌便从不可一世的丁春秋手中救出阿紫后，心情更是不可抑制，完美地满足各种意淫的快感。曾跟同学讨论过，金庸笔下各种英雄层出不穷，招式兵器也是应接不暇，唯独到了萧峰这里便只有一招，或者说只有一句话，“一掌拍出”，不行就再“一掌拍出”，像丁老怪这种连拍了三掌甚至给出了掌名“亢龙有悔”的感觉已经是不能再高的待遇了。再就是从老家走前的一晚要看的《右岸》，尤其是冬天的时候，烤着暖气，开盏小黄灯，看那本书很容易就带进去了，感觉真的是在听一位老奶奶讲她这一辈子的故事，随她的讲述而跌宕起伏，跟她一起着急那染病的小鹿，然后拥被入睡，香甜无梦，再美不过。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Django框架网站搭建入门]]></title>
+    <link href="http://sonnewilling.com/blog/2013/11/15/python-djangokuang-jia-wang-zhan-da-jian-ru-men/"/>
+    <updated>2013-11-15T16:22:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/11/15/python-djangokuang-jia-wang-zhan-da-jian-ru-men</id>
+    <content type="html"><![CDATA[<p>最近学习了下python，传说中的pyhon的框架比关键字还多果然名不虚传。想用pyhon搭个网站练练手，上网一搜果然一大把。看了下推荐各有利弊，但Django的文档比较全面，虽然说有点封闭，但也没要求多高，感觉拿来上手正合适不过了。</p>
+
+<p><a href="http://django-chinese-docs.readthedocs.org/en/latest/index.html">Django 中文文档</a></p>
+
+<p>这篇文章主要是个学习笔记的作用，就是根据上面的网站一步步搞起的。</p>
+
+<p>Django是一个MVC框架，相比于Java的MVC SSH简单的不是一点半点，想之前搭SSH还通了个宵，现在看看Django的MVC简单到只有三个python文件，跟着教程一步步搭起来回过头才想起来这特么也是MVC的框架啊，自不待言。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/python-django.png" alt="image" /></p>
+
+<p>上图是一个对Django MVC的简单示意，很容易可以看出，<code>view.py</code>是主管视图部分的，<code>model.py</code>主管模型层，遗憾没有个<code>control.py</code>，哈哈，<code>url.py</code>控制跳转，是为controller。</p>
+
+<p>现在便一步步开始吧。</p>
+
+<!--more-->
+
+
+<h2>一.安装</h2>
+
+<p>上周（November 6, 2013）Django才刚更新到1.6，<a href="https://docs.djangoproject.com/en/dev/releases/1.6/">Django 1.6 release notes</a>这里是一些新特性的介绍。</p>
+
+<p>因为中文文档还是介绍的1.5的安装过程，所以先按着1.5的版本来吧。需要注意的是Django适用<code>python 2.6.5</code>到 <code>2.7</code> 的所有 Python 版本，还具有 <code>3.2</code> 和<code>3.3</code>版本的实验性支持，因为python3相对于2.x来说有了一些语法与库的更新，所以在版本选择上还是需要注意一下的，就比如在2.x中有关http请求的lib放在<code>httplib</code>中，而在python3中则在<code>urllib</code>中，倒是有个开源第三方库叫<code>httplib2</code>，看一些教程都推荐在python3中使用这个第三方库，是因为有诸如缓存之类的特性。</p>
+
+<p>Django的安装不麻烦，<a href="https://www.djangoproject.com/download/">DownLoad</a>去这里下载压缩包，解压完进入文件目录执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo python setup.py install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就可以了。</p>
+
+<p>可以终端进入python shell验证一下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; import django
+</span><span class='line'>&gt;&gt;&gt; print(django.get_version())
+</span><span class='line'>1.5</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>二.项目启动</h2>
+
+<p>对于一个Django项目有两个基本的概念</p>
+
+<ol>
+<li>project，这是对整个具体的项目的称号，我们一个网站便是一个project</li>
+<li>app，相对于一个project可以细分很多app，也就是功能块的意思，我们可以建立很多app，并可以在/project/settings.py进行设置，也就是号称的即插即用。</li>
+</ol>
+
+
+<p>开启终端，定位到一个合适的目录，键入第一行命令，生成我们的第一个Django项目</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>django-admin.py startproject mysite</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>mysite</code>的名字便对应着project，这个看个人意志了。</p>
+
+<p>妥当了后便是一个初步的网站架构</p>
+
+<blockquote><p>mysite/</p>
+
+<blockquote><p>   manage.py</p>
+
+<p>   mysite/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>   settings.py</p>
+
+<p>   urls.py</p>
+
+<p>   wsgi.py</p></blockquote></blockquote></blockquote>
+
+<p>这是一个基本的目录层次</p>
+
+<p><code>manage.py</code>是个命令行工具，可让你以各种方式与该 Django 项目进行交互，<code>settings.py</code>是对整个网站的一些基本配置，<code>urls.py</code>便是最外层的控制跳转，这里我们可以直接定位到具体的处理方法，但一般还是建议定位到相关的app，然后再让app里的<code>url.py</code>进行具体的跳转控制。<code>wagi.py</code>是一个对公共网关接口的配置，比如说放到新浪SAE的时候我们需要对这个文件进行编写配置。</p>
+
+<p>初步介绍就是这样，shell定位到第一层的<code>mysite</code>上，输入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python manage.py runserver</span></code></pre></td></tr></table></div></figure>
+
+
+<p>去<code>http://127.0.0.1:8000/</code>进行访问，便可以看到初步的效果了。</p>
+
+<h2>三.APP激活</h2>
+
+<p>项目启动成功后我们可以进入app的建立与关联。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python manage.py startapp polls</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用上面的命令在根目录建立一个app。</p>
+
+<blockquote><p>polls/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>  models.py</p>
+
+<p>   tests.py</p>
+
+<p>   views.py</p></blockquote></blockquote>
+
+<p>初始的app一般是这样的目录结构，一般还要自己新建一个<code>url.py</code>以便接过在根目录下<code>url.py</code>跳转控制的大旗~</p>
+
+<p><code>model.py</code>便是模型层中相关的具体模型了，<code>view.py</code>顾名思义，在通过<code>url.py</code>控制跳转到这个文件后对请求做具体处理，一般传参为<code>request</code>而返回一个<code>HttpResponse</code>。</p>
+
+<p>进入根目录下面的<code>settings.py</code>对app进行插入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INSTALLED_APPS = (
+</span><span class='line'>    'django.contrib.auth',
+</span><span class='line'>    'django.contrib.contenttypes',
+</span><span class='line'>    'django.contrib.sessions',
+</span><span class='line'>    'django.contrib.sites',
+</span><span class='line'>    'django.contrib.messages',
+</span><span class='line'>    'django.contrib.staticfiles',
+</span><span class='line'>    # Uncomment the next line to enable the admin:
+</span><span class='line'>    # 'django.contrib.admin',
+</span><span class='line'>    # Uncomment the next line to enable admin documentation:
+</span><span class='line'>    # 'django.contrib.admindocs',
+</span><span class='line'>    'polls',
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python manage.py syncdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>告诉项目对app进行同步安装。至此，一个初步的app便配置成功了。</p>
+
+<h2>四.APP中编写第一个视图</h2>
+
+<p>让我们编写第一个视图。打开文件 polls/views.py 并在其中输入以下 Python 代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello, world. You&#39;re at the poll index.&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 Django 中这可能是最简单的视图了。为了调用这个视图，我们需要将它映射到一个 URL – 为此我们需要配置一个URLconf 。</p>
+
+<p>在 polls 目录下创建一个名为 urls.py 的 URLconf 文档。 你的应用目录现在看起来像这样</p>
+
+<blockquote><p>polls/</p>
+
+<blockquote><p>   <strong>init</strong>.py</p>
+
+<p>   admin.py</p>
+
+<p>   models.py</p>
+
+<p>   tests.py</p>
+
+<p>   urls.py</p>
+
+<p>   views.py</p></blockquote></blockquote>
+
+<p>在 polls/urls.py 文件中输入以下代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">polls</span> <span class="kn">import</span> <span class="n">views</span>
+</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一个简单的正则匹配，大概意思便是进入根url的话则直接去执行<code>view.py</code>里的<code>index</code>方法，便是我们刚刚定义过的那个函数。</p>
+
+<p>下一步是将 polls.urls 模块指向 root URLconf 。在 mysite/urls.py 中插入一个 include() 方法，最后的样子如下所示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+</span><span class='line'><span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^polls/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;polls.urls&#39;</span><span class="p">)),</span>
+</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你在 URLconf 中配置了 index 视图。通过浏览器访问 <a href="http://localhost:8000/polls/">http://localhost:8000/polls/</a> ，如同你在 index 视图中定义的一样，你将看到 “Hello, world. You’re at the poll index.” 文字。</p>
+
+<p>更多的一些视图编写方法请参见<a href="http://django-chinese-docs.readthedocs.org/en/latest/intro/tutorial03.html">这里</a></p>
+
+<p>这里只是简单的介绍了下的客户请求服务器控制跳转处理请求并返回http对象的过程，并没有介绍如何搭配数据库模型层的运用，想进行细致的学习请移步<a href="http://django-chinese-docs.readthedocs.org/en/latest/index.html">Django 中文文档</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用Octopress搭建个人博客]]></title>
+    <link href="http://sonnewilling.com/blog/2013/11/14/shi-yong-octopressda-jian-ge-ren-bo-ke/"/>
+    <updated>2013-11-14T16:45:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/11/14/shi-yong-octopressda-jian-ge-ren-bo-ke</id>
+    <content type="html"><![CDATA[<p><img src="http://sonnewilling.com/images/tec/octopress-header.png" alt="image" /></p>
+
+<p>十月份用octopress搭建了一个个人博客，现在把大概的流程介绍一下，常用的几个命令也在这里记下来。</p>
+
+<p><a href="http://http://octopress.org/">Octopress</a>是个利用<a href="https://github.com/mojombo/jekyll">Jekyll</a>引擎开发的博客系统。它将生成的静态页面push到我们自己的github上，可以很好的在github page上展示。号称程序员博客逼格利器</p>
+
+<blockquote><p>A blogging framework for hackers.</p></blockquote>
+
+<!--more-->
+
+
+<h3>首先是搭建发布环境</h3>
+
+<p>Octopress需要Ruby环境，前几天自己电脑上装的Ubantu10.0自带的Ruby1.8.7试过了不行，起码要更新到Ruby1.9.1吧，官方的建议是1.9.3.</p>
+
+<p>安装Ruby有两个方法，一个是直接去官网下载Ruby包，解压缩，安装。另一个是使用RVM(Ruby Version Manager)来负责安装和管理Ruby的环境。</p>
+
+<p>在Mac电脑上我直接下载安装了Rvm</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -L https://get.rvm.io | bash -s stable --ruby</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3
+</span><span class='line'>rvm use 1.9.3
+</span><span class='line'>rvm rubygems latest</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参见<a href="http://octopress.org/docs/setup/rvm/">Installing Ruby With RVM</a></p>
+
+<p>这样便简单搞定，但Ubantu上rvm死活搞不定，网上搜了下使用第一种方法直接安装算完了，也不麻烦。</p>
+
+<h3>然后便是安装Octopress</h3>
+
+<p>先把Octopress从网上down下来</p>
+
+<p><a href="https://github.com/imathis/octopress">Octopress</a></p>
+
+<p>电脑上有git的话简单一点</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/imathis/octopress.git octopress</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解压进入项目目录安装相关依赖</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd octopress
+</span><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参见<a href="http://octopress.org/docs/setup/">Octopress Setup</a></p>
+
+<p>这几步是把发布Octopress的环境搞定，还没有正式开始搭建Octopress，我在Mac上发布的博客，在Ubantu从git上check下来，也要这么来一遍才能正式使用Octopress。</p>
+
+<p>最后安装默认的Octopress 主题。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake install</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>接下来是配置Octopress</h3>
+
+<p>主要是对<code>_config.yml</code>进行修改，其它的话自行研究吧。</p>
+
+<p>具体配置参见<a href="http://octopress.org/docs/configuring/">Configuring Octopress</a>写得很详细了。</p>
+
+<p>搞定配置后可以先大体的看下样式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate//通过引擎生成静态网页
+</span><span class='line'>rake preview//本地预览</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="localhost:4000">localhost:4000</a>进行本地预览</p>
+
+<h3>觉得差不多了就可以把Octopress发到github上了</h3>
+
+<p>首先需要在GitHub上创建一个仓库，并将仓库名称按照：username.github.com的方式命名。待发布完毕可以直接使用<code>http://username.github.com</code>来访问博客。同时可以把博客的源码放到source分支下，并把生成的内容提交到master分支。这样随便换到哪里的电脑上都可以check下来接着写了。</p>
+
+<p>第一步是对我们新建的目录进行建立与初始化，会提示输入你的git的账号和密码，一次确认完毕以后你每次提交都会跑到你确认的git账号下的github.com/username/username.github.com下了。</p>
+
+<p>本地生成一下静态Html发上去就妥了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate//生成
+</span><span class='line'>rake deploy//发布</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>最后说下写博客的常用命令</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["title"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是新建一篇文章，存放在<code>source/_posts</code>目录下面，使用的是markdown语法，具体规则不麻烦，大家可以自己谷歌下。Mac下用Mou进行编辑很方便，Linux的话线上编辑会好一点，chrome有不少插件，其中一个叫Ma‘de，好像是作者用以表达对母亲的爱…</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> rake generate
+</span><span class='line'> git add .
+</span><span class='line'> git commit -am "Some comment here." 
+</span><span class='line'> git push origin source
+</span><span class='line'> rake deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用上面几条命令生成与发布博客，中间的三条git命令是把博客的源码放到source的分支上，以便在不同的电脑上编辑博客。</p>
+
+<p>参见<a href="http://octopress.org/docs/blogging/">Blogging Basics</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UICollectionView与CXPhotoBrowser配合使用示例]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li/"/>
+    <updated>2013-10-31T15:56:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li</id>
+    <content type="html"><![CDATA[<p>UICollection是在iOS6.0中新加的功能，用于图片的集中展示，大概就是图片墙的意思。基本的使用类似于UITableView，也是设置代理，数据源，对单个的Cell可以自行定制样式。稍有不同的是在UITableView中整体样式的设置只有两种，一种是Group和Plain，而在UICollection中则有较多的选择方案，具体的实现方式需要编码人员对UICollectionViewFlowLayout自行调整。</p>
+
+<p>开发的App中有用到这种功能，结合一个台湾哥儿们Chris Xu的开源插件CXPhotoBrower，可以达到比较好的展示图片的效果。</p>
+
+<p>具体效果图如下：</p>
+
+<p><img src="http://sonnewilling.com/images/tec/uicollectionImg.png" alt="image" /></p>
+
+<p><img src="http://sonnewilling.com/images/tec/cxphotobrowserImg.png" alt="image" /></p>
+
+<p>现在开始一步步搭建吧。</p>
+
+<!--more-->
+
+
+<h3>一.备齐原料</h3>
+
+<p>UICollection是系统自带的，这个不用关心，CXPhotoBrowser需要自行下载引入。建议使用CocoaPods进行配置，<code>pod 'CXPhotoBrowser'</code>即可，没有用过的话那进入下面的页面按指引搭建吧。</p>
+
+<blockquote><p><a href="https://github.com/ChrisXu1221/CXPhotoBrowser">https://github.com/ChrisXu1221/CXPhotoBrowser</a></p></blockquote>
+
+<h3>二.UICollection的使用</h3>
+
+<h4>1.新建一个UICollectionViewController的VC</h4>
+
+<h4>2.初始化配置UICollectionViewFlowLayout，内嵌于UICollectionViewController中对CollectionCell进行样式管理。</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">UICollectionViewFlowLayout</span> <span class="o">*</span><span class="n">flowLayout</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UICollectionViewFlowLayout</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">对四方边界与cell之间的距离进行设置，也可以通过代理设置</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setItemSize:</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">163</span><span class="p">,</span> <span class="mi">309</span><span class="p">)];</span>
+</span><span class='line'><span class="n">flowLayout</span><span class="p">.</span><span class="n">sectionInset</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">15</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumLineSpacing:</span><span class="mf">5.0</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setMinimumInteritemSpacing:</span><span class="mf">5.0</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">flowLayout</span> <span class="nl">setScrollDirection:</span><span class="n">UICollectionViewScrollDirectionVertical</span><span class="p">];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UICollectionView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectZero</span> <span class="nl">collectionViewLayout:</span><span class="n">flowLayout</span><span class="p">];</span>
+</span><span class='line'><span class="c1">//使用自定义的CollectionCell，出队列，与UITableView的思路相近</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">registerNib:</span><span class="p">[</span><span class="n">UINib</span> <span class="nl">nibWithNibName:</span><span class="s">@&quot;PicCollectionCell&quot;</span> <span class="nl">bundle:</span><span class="nb">nil</span><span class="p">]</span> <span class="nl">forCellWithReuseIdentifier:</span><span class="n">GraphExcCellIdentifier</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">Utiles</span> <span class="nl">colorWithHexString:</span><span class="s">@&quot;#5b4d41&quot;</span><span class="p">]];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//使用开源插件进行下拉分页的功能，读者自行谷歌</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">addInfiniteScrollingWithActionHandler:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">addPics:</span><span class="s">@&quot;&quot;</span> <span class="nl">reset:</span><span class="n">NO</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span><span class="p">.</span><span class="n">indicatorStyle</span> <span class="o">=</span> <span class="n">UIScrollViewIndicatorStyleWhite</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.CollectionCell的创建</h4>
+
+<p>使用nib创建Cell，过程类似于tableCell，不再赘述了。</p>
+
+<h4>4.Delegate与DataSource的设置</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">numberOfItemsInSection:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">-</span><span class="p">(</span><span class="n">UICollectionViewCell</span> <span class="o">*</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">cellForItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">FinanPicCollectCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">(</span><span class="n">FinanPicCollectCell</span> <span class="o">*</span><span class="p">)[</span><span class="n">collectionView</span> <span class="nl">dequeueReusableCellWithReuseIdentifier:</span><span class="n">GraphExcCellIdentifier</span> <span class="nl">forIndexPath:</span><span class="n">indexPath</span><span class="p">];</span>
+</span><span class='line'>    <span class="kt">id</span> <span class="n">model</span><span class="o">=</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="nl">objectAtIndex:</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//使用SDWebImage进行图片加载</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">imageView</span> <span class="nl">setImageWithURL:</span><span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="p">[</span><span class="n">model</span> <span class="nl">objectForKey:</span><span class="s">@&quot;smallImage&quot;</span><span class="p">]]</span>
+</span><span class='line'>                   <span class="nl">placeholderImage:</span><span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;LOADING.png&quot;</span><span class="p">]];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">cell</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">等同于</span>
+</span><span class='line'><span class="cm">[flowLayout setMinimumLineSpacing:5.0];</span>
+</span><span class='line'><span class="cm">[flowLayout setMinimumInteritemSpacing:5.0];</span>
+</span><span class='line'><span class="cm">但可针对每个Cell单独定制</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">layout:</span><span class="p">(</span><span class="n">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span> <span class="nf">minimumLineSpacingForSectionAtIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mf">10.0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">layout:</span><span class="p">(</span><span class="n">UICollectionViewLayout</span><span class="o">*</span><span class="p">)</span><span class="nv">collectionViewLayout</span> <span class="nf">minimumInteritemSpacingForSectionAtIndex:</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">section</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mf">2.0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>至此，一个基本的UICollection便简单的搭建完毕了。下面使用CXPhotoBrowser实现图片的单张浏览功能，支持左右切换与捏合放大缩小。</h3>
+
+<h3>三.CXPhotoBrowser的使用</h3>
+
+<p>此插件也是使用数据源代理的思路实现的，我们在载入UICollection的同时也一起对CX进行数据源的设置，另外实现两个代理方法，一个是点击单张图片获取index一遍进行此图片的放大浏览，另一个是在单张浏览功能里左右滑动时获取前后图片的index用于最上面信息栏的展示。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//pragma mark -</span>
+</span><span class='line'><span class="c1">//pragma mark CXPhotoBrowserDelegate</span>
+</span><span class='line'><span class="c1">//点击图片弹出详细页面</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">collectionView:</span><span class="p">(</span><span class="n">UICollectionView</span> <span class="o">*</span><span class="p">)</span><span class="nv">collectionView</span> <span class="nf">didSelectItemAtIndexPath:</span><span class="p">(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">browser</span> <span class="nl">setInitialPageIndex:</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">presentViewController:</span><span class="n">self</span><span class="p">.</span><span class="n">browser</span> <span class="nl">animated:</span><span class="n">YES</span> <span class="nl">completion:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">}];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//左右切换视图事件</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">photoBrowser:</span><span class="p">(</span><span class="n">CXPhotoBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">photoBrowser</span> <span class="nf">didChangedToPageAtIndex:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setText:</span><span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span><span class="s">@&quot;%d/%d&quot;</span><span class="p">,(</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">),[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="n">count</span><span class="p">]]];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//pragma mark - CXPhotoBrowserDataSource</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nf">numberOfPhotosInPhotoBrowser:</span><span class="p">(</span><span class="n">CXPhotoBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">photoBrowser</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">photoDataSource</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">CXPhotoProtocol</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">photoBrowser:</span><span class="p">(</span><span class="n">CXPhotoBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">photoBrowser</span> <span class="nf">photoAtIndex:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">photoDataSource</span><span class="p">.</span><span class="n">count</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">photoDataSource</span> <span class="nl">objectAtIndex:</span><span class="n">index</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//对上方信息栏进行设置</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CXBrowserNavBarView</span> <span class="o">*</span><span class="p">)</span><span class="nf">browserNavigationBarViewOfOfPhotoBrowser:</span><span class="p">(</span><span class="n">CXPhotoBrowser</span> <span class="o">*</span><span class="p">)</span><span class="nv">photoBrowser</span> <span class="nf">withSize:</span><span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nv">size</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">CGRect</span> <span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">frame</span><span class="p">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">CGPointZero</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">frame</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">navBarView</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">navBarView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CXBrowserNavBarView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">frame</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">navBarView</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
+</span><span class='line'>        <span class="n">UIView</span> <span class="o">*</span><span class="n">bkgView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">bkgView</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">blackColor</span><span class="p">]];</span>
+</span><span class='line'>        <span class="n">bkgView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">bkgView</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleWidth</span> <span class="o">|</span> <span class="n">UIViewAutoresizingFlexibleHeight</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">navBarView</span> <span class="nl">addSubview:</span><span class="n">bkgView</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">UIButton</span> <span class="o">*</span><span class="n">doneButton</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIButton</span> <span class="nl">buttonWithType:</span><span class="n">UIButtonTypeCustom</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span><span class="p">.</span><span class="n">titleLabel</span> <span class="nl">setFont:</span><span class="p">[</span><span class="n">UIFont</span> <span class="nl">boldSystemFontOfSize:</span><span class="mf">12.0</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span> <span class="nl">setTitle:</span><span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@&quot;返回&quot;</span><span class="p">,</span><span class="s">@&quot;Dismiss button title&quot;</span><span class="p">)</span> <span class="nl">forState:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span> <span class="nl">setFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">30</span><span class="p">)];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span> <span class="nl">addTarget:</span><span class="n">self</span> <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">photoBrowserDidTapDoneButton:</span><span class="p">)</span> <span class="nl">forControlEvents:</span><span class="n">UIControlEventTouchUpInside</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span><span class="p">.</span><span class="n">layer</span> <span class="nl">setMasksToBounds:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span><span class="p">.</span><span class="n">layer</span> <span class="nl">setCornerRadius:</span><span class="mf">4.0</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span><span class="p">.</span><span class="n">layer</span> <span class="nl">setBorderWidth:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">CGColorSpaceRef</span> <span class="n">colorSpace</span> <span class="o">=</span> <span class="n">CGColorSpaceCreateDeviceRGB</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">CGColorRef</span> <span class="n">colorref</span> <span class="o">=</span> <span class="n">CGColorCreate</span><span class="p">(</span><span class="n">colorSpace</span><span class="p">,(</span><span class="n">CGFloat</span><span class="p">[]){</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">});</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">doneButton</span><span class="p">.</span><span class="n">layer</span> <span class="nl">setBorderColor:</span><span class="n">colorref</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">doneButton</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleLeftMargin</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">navBarView</span> <span class="nl">addSubview:</span><span class="n">doneButton</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setFrame:</span><span class="n">CGRectMake</span><span class="p">((</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">60</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">40</span><span class="p">)];</span>
+</span><span class='line'>        <span class="c1">//[self.imageTitleLabel setCenter:navBarView.center];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setTextAlignment:</span><span class="n">NSTextAlignmentCenter</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setFont:</span><span class="p">[</span><span class="n">UIFont</span> <span class="nl">boldSystemFontOfSize:</span><span class="mf">20.</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setTextColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">whiteColor</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setText:</span><span class="s">@&quot;&quot;</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleHeight</span> <span class="o">|</span> <span class="n">UIViewAutoresizingFlexibleRightMargin</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span> <span class="nl">setTag:</span><span class="n">BROWSER_TITLE_LBL_TAG</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">navBarView</span> <span class="nl">addSubview:</span><span class="n">self</span><span class="p">.</span><span class="n">imageTitleLabel</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">navBarView</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//pragma mark - PhotBrower Actions</span>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">photoBrowserDidTapDoneButton:</span><span class="p">(</span><span class="n">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="nv">sender</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">self</span> <span class="nl">dismissViewControllerAnimated:</span><span class="n">YES</span> <span class="nl">completion:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>至此一个简答的图片墙加详细浏览的功能便做完了，欢迎交流新的想法。</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发小技巧笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/30/ioskai-fa-xiao-ji-qiao-bi-ji/"/>
+    <updated>2013-10-30T16:03:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/30/ioskai-fa-xiao-ji-qiao-bi-ji</id>
+    <content type="html"><![CDATA[<h3>字体粗度的设置</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">button</span><span class="p">.</span><span class="n">titlelabel</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="n">uifont</span> <span class="nl">boldSystemFontOfSize:</span><span class="n">xx</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>UINavigation中间隔button的设置</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">UIBarButtonItem</span> <span class="o">*</span><span class="n">fontListBt</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>                                <span class="nl">initWithTitle:</span><span class="s">@&quot;Font&quot;</span>
+</span><span class='line'>                                <span class="nl">style:</span><span class="n">UIBarButtonItemStyleBordered</span>
+</span><span class='line'>                                <span class="nl">target:</span><span class="n">self</span>
+</span><span class='line'>                                <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">rightBtClicked:</span><span class="p">)];</span>
+</span><span class='line'><span class="n">UIBarButtonItem</span> <span class="o">*</span><span class="n">fontSizeBt</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>                                 <span class="nl">initWithTitle:</span><span class="s">@&quot;Size&quot;</span>
+</span><span class='line'>                                 <span class="nl">style:</span><span class="n">UIBarButtonItemStyleBordered</span>
+</span><span class='line'>                                 <span class="nl">target:</span><span class="n">self</span>
+</span><span class='line'>                                 <span class="nl">action:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">popoverFontSize:</span><span class="p">)];</span>
+</span><span class='line'><span class="n">UIBarButtonItem</span> <span class="o">*</span><span class="n">flexibleSpace</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBarButtonItem</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>          <span class="nl">initWithBarButtonSystemItem:</span><span class="n">UIBarButtonSystemItemFlexibleSpace</span>
+</span><span class='line'>          <span class="nl">target:</span><span class="nb">nil</span>
+</span><span class='line'>          <span class="nl">action:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="n">self</span><span class="p">.</span><span class="n">toolBar</span><span class="o">=</span><span class="p">[[</span><span class="n">UIToolbar</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">SCREEN_HEIGHT</span><span class="o">-</span><span class="mi">320</span><span class="p">,</span><span class="mi">44</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">toolBar</span> <span class="nl">setItems:</span><span class="p">[</span><span class="n">NSArray</span> <span class="nl">arrayWithObjects:</span><span class="n">flexibleSpace</span><span class="p">,</span><span class="n">fontSizeBt</span><span class="p">,</span><span class="n">fontListBt</span><span class="p">,</span> <span class="nb">nil</span><span class="p">]];</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">self</span><span class="p">.</span><span class="n">toolBar</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<h3>UILabel的圆角设置</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">label</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span><span class="o">=</span><span class="mf">3.0</span><span class="p">;</span>
+</span><span class='line'><span class="n">label</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">borderWidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>UILabel自动换行</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">label</span><span class="p">.</span><span class="n">lineBreakMode</span><span class="o">=</span><span class="n">NSLineBreakByCharWrapping</span><span class="p">;</span>
+</span><span class='line'><span class="n">label</span><span class="p">.</span><span class="n">numberOfLines</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>UILabel行间距设置的取巧解决方案</h3>
+
+<h4>将原本要放入的UILabel替换成同大小的UIWebView</h4>
+
+<h4>大致思路是使用webView里内置的JS引擎解析插入的JS代码，以达到调整行间距的目的。</h4>
+
+<h4>缺点为若嵌入在Cell中，对Cell的点击事件这一区域无法正常响应，现在的解决思路是对此webView添加独立的事件监听，达到同等目的</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">cell</span><span class="p">.</span><span class="n">webView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
+</span><span class='line'><span class="n">cell</span><span class="p">.</span><span class="n">webView</span><span class="p">.</span><span class="n">opaque</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'><span class="n">cell</span><span class="p">.</span><span class="n">webView</span><span class="p">.</span><span class="n">dataDetectorTypes</span> <span class="o">=</span> <span class="n">UIDataDetectorTypeNone</span><span class="p">;</span>\
+</span><span class='line'><span class="p">[(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)[[</span><span class="n">cell</span><span class="p">.</span><span class="n">webView</span> <span class="n">subviews</span><span class="p">]</span> <span class="nl">objectAtIndex:</span><span class="mi">0</span><span class="p">]</span> <span class="nl">setBounces:</span><span class="n">NO</span><span class="p">];</span><span class="c1">//禁止webView的滚动</span>
+</span><span class='line'><span class="c1">//16px/18px:前者为行间距，后者为字体大小</span>
+</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">webviewText</span> <span class="o">=</span> <span class="s">@&quot;&lt;style&gt;body{margin:0;color:#967c6c;background-color:transparent;font:16px/18px Custom-Font-Name}&lt;/style&gt;&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">htmlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">webviewText</span> <span class="nl">stringByAppendingFormat:</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="n">str</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">webView</span> <span class="nl">loadHTMLString:</span><span class="n">htmlString</span> <span class="nl">baseURL:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>URL路径的UTF-8转码</h3>
+
+<h4>在一些通过url路径显示图片的页面中，会出现部分图片无法正常显示的问题。有一种可能是抓包分析可以看出这些无法正常显示的图片的url中有中文字体的嵌入，这便涉及到了URL转码的问题，可根据具体的字体编码设置进行转码，大致code如下</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString:</span><span class="p">[</span><span class="n">strUrl</span> <span class="nl">stringByAddingPercentEscapesUsingEncoding:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>获取文本的长宽尺寸</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">CGSize</span> <span class="n">constraint</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">CELL_CONTENT_WIDTH</span> <span class="o">-</span> <span class="p">(</span><span class="n">CELL_CONTENT_MARGIN</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">20000.0f</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span> <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="nl">dictionaryWithObject:</span><span class="p">[</span><span class="n">UIFont</span> <span class="nl">systemFontOfSize:</span><span class="n">FONT_SIZE</span><span class="p">]</span> <span class="nl">forKey:</span><span class="n">NSFontAttributeName</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSAttributedString</span> <span class="o">*</span><span class="n">attributedText</span> <span class="o">=</span><span class="p">[[</span><span class="n">NSAttributedString</span> <span class="n">alloc</span><span class="p">]</span>
+</span><span class='line'>                                       <span class="nl">initWithString:</span><span class="n">text</span>
+</span><span class='line'>                                       <span class="nl">attributes:</span><span class="n">attributes</span><span class="p">];</span>                                  
+</span><span class='line'><span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="p">[</span><span class="n">attributedText</span> <span class="nl">boundingRectWithSize:</span><span class="n">constraint</span>
+</span><span class='line'>                              <span class="nl">options:</span><span class="n">NSStringDrawingUsesLineFragmentOrigin</span>
+</span><span class='line'>                              <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>NSNumberFormatter的一些使用方法</h3>
+
+<p><a href="http://objc.toodarkpark.net/Foundation/Classes/NSNumberFormatter.html">学习一</a>
+<a href="https://developer.apple.com/library/ios/documentation/cocoa/Conceptual/DataFormatting/Articles/dfNumberFormatting10_4.html">学习二</a></p>
+
+<p>现在主要是对setPositiveFormat的使用总结，比较常用的有下面的场景</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span><span class="p">([</span><span class="n">obj</span><span class="p">[</span><span class="s">@&quot;unit&quot;</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;1000.0&quot;</span><span class="p">]){</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">formatter</span> <span class="nl">setPositiveFormat:</span><span class="s">@&quot;$#,###0.00&quot;</span><span class="p">];</span><span class="c1">//大整数三位一个逗号+小数取舍</span>
+</span><span class='line'>      <span class="c1">//还可以添加诸如￥的字符，若要添加0需‘0’包裹</span>
+</span><span class='line'>  <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">obj</span><span class="p">[</span><span class="s">@&quot;unit&quot;</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;%&quot;</span><span class="p">]){</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">formatter</span> <span class="nl">setPositiveFormat:</span><span class="s">@&quot;0.00%;0.00%;-0.00%&quot;</span><span class="p">];</span><span class="c1">//百分数小数取舍</span>
+</span><span class='line'>  <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">([</span><span class="n">obj</span><span class="p">[</span><span class="s">@&quot;unit&quot;</span><span class="p">]</span> <span class="nl">isEqualToString:</span><span class="s">@&quot;1.0&quot;</span><span class="p">]){</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">formatter</span> <span class="nl">setPositiveFormat:</span><span class="s">@&quot;##0.0&quot;</span><span class="p">];</span><span class="c1">//一般浮点的小数取舍</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">dic</span><span class="o">=</span><span class="p">[[[</span><span class="n">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">id</span> <span class="n">valueData</span> <span class="k">in</span> <span class="n">obj</span><span class="p">[</span><span class="s">@&quot;array&quot;</span><span class="p">]){</span>
+</span><span class='line'>     <span class="p">[</span><span class="n">dic</span> <span class="nl">setValue:</span><span class="p">[</span><span class="n">formatter</span> <span class="nl">stringFromNumber:</span><span class="n">valueData</span><span class="p">[</span><span class="s">@&quot;v&quot;</span><span class="p">]]</span> <span class="nl">forKey:</span><span class="n">valueData</span><span class="p">[</span><span class="s">@&quot;y&quot;</span><span class="p">]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSNumberFormatter</span> <span class="o">*</span><span class="n">formatter</span><span class="o">=</span><span class="p">[[[</span><span class="n">NSNumberFormatter</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];[</span><span class="n">formatter</span> <span class="nl">setPositiveFormat:</span><span class="s">@&quot;00&quot;</span><span class="p">];</span><span class="c1">//年份补足的用法，表示至少两位整数。不足左添0</span>
+</span><span class='line'><span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">temp</span><span class="o">=</span><span class="p">[[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="p">[</span><span class="n">rangeDic</span><span class="p">[</span><span class="s">@&quot;begin&quot;</span><span class="p">]</span> <span class="n">integerValue</span><span class="p">];</span><span class="n">i</span><span class="o">&lt;=</span><span class="p">[</span><span class="n">rangeDic</span><span class="p">[</span><span class="s">@&quot;end&quot;</span><span class="p">]</span> <span class="n">integerValue</span><span class="p">];</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">temp</span> <span class="nl">addObject:</span><span class="p">[</span><span class="n">formatter</span> <span class="nl">stringFromNumber:</span><span class="p">[</span><span class="n">NSNumber</span> <span class="nl">numberWithFloat:</span><span class="p">(</span><span class="mf">6.0</span><span class="o">+</span><span class="n">i</span><span class="p">)]]];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ios7下Label自适应</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSString</span> <span class="o">*</span> <span class="n">tstring</span> <span class="o">=</span><span class="s">@&quot;UILabel与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size与breakmode与之前设置的完全ewqewqewqewqewqewqewqewqewqew一致sizeWithFont:font constrainedToSize:size&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//高度估计文本大概要显示几行，宽度根据需求自己定义。 MAXFLOAT 可以算出具体要多高</span>
+</span><span class='line'><span class="n">CGSize</span> <span class="n">size</span> <span class="o">=</span><span class="n">CGSizeMake</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">2000</span><span class="p">);</span>
+</span><span class='line'><span class="c1">// label可设置的最大高度和宽度</span>
+</span><span class='line'><span class="c1">//    CGSize size = CGSizeMake(300.f, MAXFLOAT);</span>
+</span><span class='line'><span class="c1">//    获取当前文本的属性</span>
+</span><span class='line'><span class="n">NSDictionary</span> <span class="o">*</span> <span class="n">tdic</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="nl">NSFontAttributeName:</span><span class="p">[</span><span class="n">UIFont</span> <span class="nl">fontWithName:</span><span class="s">@&quot;Heiti SC&quot;</span> <span class="nl">size:</span><span class="mf">12.0</span><span class="p">],</span> <span class="nl">NSForegroundColorAttributeName:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">blueColor</span><span class="p">]};</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span><span class="n">tdic</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//ios7方法，获取文本需要的size，限制宽度</span>
+</span><span class='line'><span class="n">CGSize</span>  <span class="n">actualsize</span> <span class="o">=</span><span class="p">[</span><span class="n">tstring</span> <span class="nl">boundingRectWithSize:</span><span class="n">size</span> <span class="nl">options:</span><span class="n">NSStringDrawingUsesLineFragmentOrigin</span>  <span class="nl">attributes:</span><span class="n">tdic</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">].</span><span class="n">size</span><span class="p">;</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span><span class="n">NSStringFromCGSize</span><span class="p">(</span><span class="n">actualsize</span><span class="p">));</span>
+</span><span class='line'><span class="c1">// ios7之前使用方法获取文本需要的size，7.0已弃用下面的方法。此方法要求font，与breakmode与之前设置的完全一致</span>
+</span><span class='line'><span class="c1">//    CGSize actualsize = [tstring sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping];</span>
+</span><span class='line'><span class="c1">//   更新UILabel的frame</span>
+</span><span class='line'><span class="n">UILabel</span> <span class="o">*</span> <span class="n">testlable</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="n">alloc</span><span class="p">]</span><span class="nl">initWithFrame:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">20</span><span class="p">)];</span>
+</span><span class='line'><span class="n">testlable</span><span class="p">.</span><span class="n">numberOfLines</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">testlable</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIFont</span> <span class="nl">systemFontOfSize:</span><span class="mi">12</span><span class="p">];</span>
+</span><span class='line'><span class="n">testlable</span><span class="p">.</span><span class="n">lineBreakMode</span> <span class="o">=</span> <span class="n">NSLineBreakByWordWrapping</span> <span class="p">;</span>
+</span><span class='line'><span class="n">testlable</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">tstring</span> <span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="n">testlable</span> <span class="nl">setBackgroundColor:</span><span class="p">[</span><span class="n">UIColor</span> <span class="n">redColor</span><span class="p">]];</span>
+</span><span class='line'><span class="n">testlable</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="n">actualsize</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">actualsize</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview:</span><span class="n">testlable</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[西冲行记]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/28/xi-chong-xing-ji/"/>
+    <updated>2013-10-28T00:27:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/28/xi-chong-xing-ji</id>
+    <content type="html"><![CDATA[<p><img src="http://sonnewilling.com/images/road/xichong.jpg" alt="image" /></p>
+
+<p>又是一年花开日，江上数青峰。</p>
+
+<p>记得第一次去西冲是大一，那时刚加入励志社，因为在招新的时候看到说励志社中有骑行队。</p>
+
+<p>高三的时候跟CJ骑着7,80一辆的二手单车差不多快游遍了深圳，比如说推车推上了梧桐山顶，吸着八百里的尘与土跑到CZJ家蹭饭，当时只道是寻常，而今回忆无语凝噎。现在还记得CJ跟我说有的单车价格会上千时洒家的哈喇子流地一会是个S型一会是个B型的窘状，也想起了在推车上梧桐山的时候在一个休息的平台看到的有辆感觉与我们座下的破驴截然不同状的单车上的码表时那副不懂装懂难掩好奇的心态。</p>
+
+<p>于是在社团招新的时候，看到有骑行队这么一个组织也就毫不犹豫地报名参加了。记得在迎新大会上，社团先隆重介绍了骑行川藏归来的两位学长，在提问环节的时候也不知是哪股子二彪子气发作站起来说我也要骑车去，希望以后多交流云云。现在想来大概有两个原因，第一个貌似类似于现在失恋去西藏，失业去西藏，我家猫发胖了我要去西藏之类的心态，第二个则是据说提问有奖……不要鄙视我，朕就是这样汉子。</p>
+
+<!--more-->
+
+
+<p>加入社团有借同学的单车参加过几次晚上的骑行，热热闹闹的还蛮不错。当时骑行队的老大是BM，就是前面说过的骑车去西藏的人物之一，此君能力不小脾气尤屌，我跟此君在大一下学期的时候同住过一个宿舍，那时正赶上他的毕业设计，不是很顺利的样子，每天早上起床第一句话就是“操！”，不是那种简单的语气助词，是真的那种气沉丹田振聋发聩的爆音。感觉上那时他眼中的所有物质上至飞禽下至桌椅板凳还有中间两条腿走路的人都可以被概括成两个字，“傻逼”。我觉得那段时间我之所以能活下来是因为每天晚上临睡前洒家五音极其不全的歌声可以给他的惨淡生活带来些许的笑料。</p>
+
+<p>相处一个学期，他毕业我则又搬迁去了另外的宿舍，关于车的知识没从此君学到多少，大概是因为差距太大，除了给我鄙视外实在想不起有什么好教我的了。最大的收获反倒是在A片方面的长足长进。可以说关于A片的进阶知识便是由此君入门的。还记得有次北哥去我宿舍等我，问我有啥消遣的，随手发了句开电脑找红了的的硬盘分区便是了，被传为笑谈。</p>
+
+<p>记得有天晚上他带我们去车店给我等菜鸟长长见识跟车店老板吹吹水啥的。此君进店时我们几个菜鸟都流着哈喇子在外面试骑了此君的座驾，事后证明最后一个试骑的就是倒霉催的，因为此君出来后大概按他的原话是发现昨天刚装的很高端的一对.xx的光头外胎被磨了一下，这是不可原谅的，因为这对胎买来是用来参加比赛的，而现在不知被哪个二货捏刹车暴死了一下被磨平了一块儿。功能上影响不大我觉得，大概在精神上有种被破处了的心态。于是乎最后试骑的那名同学宛如风中的瑟瑟小草，迎接着大功率的鼓风机而发抖。我们几个前面试骑的菜鸟也蹲在那里不发一言，略有点混蛋。总之就是一句话，以后就再也没有见过那名仁兄了….愿他一路安好。所以现在想来人生还是蛮奇妙的，也许那时候洒家不是像个怂蛋一样窝在那里而是一起站出去，也许也就不会有以后的长途事业了。顺带一提，此君有严重的处女情结。</p>
+
+<p>我与我的美利达小破车大概便是在那个时候相逢的。社团组织西冲骑行，在出发的前一天的晚上跟着大部队把单车给办了，靓丽的白色，特喜欢白色的单车，大概是因为姥姥曾经说过女要俏一身孝，男要俏一身皂吧。当然现在已经全身将近发灰且车梁上还用油墨笔极丑地写着一串铁路运输的手机号码。新入手的时候还是蛮意气风发的，颇有种单车在手天下我有的感觉。若干年后按北哥的说法是，当脚踩上油门，想起那些年对单车的爱，脑子是被驴踢了么。</p>
+
+<p>说回出发的早上，带队的是LYW，骑行队的队长（那时BM是副队，但基本骑行队已经被他接管了，LYW后面基本没怎么再出现在社团活动中）。在以后几年的骑行生涯中，我也曾无数次的幻想着重新构造着我跟刘队第一次也是唯一一次骑长途时的场景，希望不要如现实中那么二逼那么不堪，但无奈历史不可重复，也许这也是一种宝贵的财富，每每通过北哥的口来告诉我你当年有多么多么的傻逼，当然也不排除现在的你，以此来作为一种前进的动力。简单说来，刘队是那种能力很屌性格上却让你感觉不到存在的人物。现在还记得当年夜骑休息的时候我坐在台阶上，刘队走过来双手奉上了一张名片说自己在创业时的样子，虽然我兜里揣不够五毛，但宛如当我是有五千万的大客户，这特么是一种什么样的节操。</p>
+
+<p>记得当时他说跟队骑行的人数有点多，不利于安全。我很自告奋勇的上前说我们骑得快的可以先走，分两拨，弱一点的可以在后面慢慢来。我印象中他瞧了我一眼说了句不合适吧就没再理过我了。现在每每回想起来都恨不得有个地洞钻进去。当时骑车的时候是完全没有责任团队的概念的，只是单纯得想表现地牛逼一点再牛逼一点，结果可能便是细看来不是杨花，点点，是傻逼的你。</p>
+
+<p>那时候队里的几个大牛都还在，山神，叶博，北哥貌似都听到了，初次相识留下如此印象，所以有时候很纳闷为毛后来还能继续玩在一起，至于BM，我很怀疑他知不知道这件事情。</p>
+
+<p>从第一次西冲过夜只穿着一件抓绒蜷缩在帐篷里在晨曦中瑟瑟发抖，到今次的褥子都带了一床早上起来竟有点冒汗，感受到身边的学弟宛如当年的自己一样清晨时准点的滚来滚去被寒冷折磨得睡不着觉，竟有些许的嫉妒。诚然我不会再纠结于手抱在胸前还是夹在腿中间暖一点。同样的，走在山路上拐了个弯见到大海时我也少了照相的冲动，景物还是那些，真竟是般人面不知何处去，桃花依旧笑春风。</p>
+
+<p>也是那句话，去哪里玩并无所谓，无非都是呼朋引伴吃肉喝酒。</p>
+
+<p>有些事情你猜得中开头却猜不中结尾，比如说这篇文章。我是想写这个周末的西冲徒步之行的，提笔却行文至此，也再无甚兴趣以西冲见闻飨读者。就此顿笔，洗洗睡吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Scala在Mac下的安装方法]]></title>
+    <link href="http://sonnewilling.com/blog/2013/10/25/scalazai-macxia-de-an-zhuang-fang-fa/"/>
+    <updated>2013-10-25T14:36:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/10/25/scalazai-macxia-de-an-zhuang-fang-fa</id>
+    <content type="html"><![CDATA[<h3>第一种方法</h3>
+
+<p>1.访问scala的官网<a href="http://www.scala-lang.org/">这里</a>下载最新版的scala。</p>
+
+<p>2.解压缩文件包，可将其移动至<code>/usr/local/share</code>下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mv /download/scalapath /usr/local/share</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.修改环境变量，在mac下使用<code>sudo su</code>进入管理员权限，修改配置文件profile，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim /etc/profile</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在文件的末尾加入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export PATH="$PATH:/usr/local/share/scala/bin"</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>:wq!</code>保存退出，重启终端，完成scala的配置安装。</p>
+
+<h3>第二种方法</h3>
+
+<p>如果本机有安装Ruby的话则安装更加简单，可以借助Homebrew进行安装。
+首先安装Homebrew</p>
+
+<blockquote><p>ruby -e “$(curl -fsSL <a href="https://raw.github.com/mxcl/homebrew/go">https://raw.github.com/mxcl/homebrew/go</a>)”</p></blockquote>
+
+<p>再进行scala的安装<code>brew install scala</code></p>
+
+<p>大功告成~</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UIView三种动画笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/"/>
+    <updated>2013-06-09T10:30:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">0.6f</span>
+</span><span class='line'>        <span class="nl">delay:</span><span class="mi">0</span>
+</span><span class='line'>        <span class="nl">options:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+</span><span class='line'>      <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>         <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  <!--more--></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">beginAnimations:</span><span class="s">@&quot;animation&quot;</span> <span class="nl">context:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">setAnimationDuration:</span><span class="mf">0.8f</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">setAnimationCurve:</span><span class="n">UIViewAnimationCurveEaseOut</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">setAnimationTransition:</span><span class="n">UIViewAnimationTransitionCurlDown</span> <span class="nl">forView:</span><span class="n">delegate</span><span class="p">.</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">view</span> <span class="nl">cache:</span><span class="n">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="n">commitAnimations</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">CATransition</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATransition</span> <span class="n">animation</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">0.8f</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">timingFunction</span> <span class="o">=</span> <span class="n">UIViewAnimationCurveEaseInOut</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">fillMode</span> <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">kCATransitionMoveIn</span><span class="p">;</span>
+</span><span class='line'><span class="n">animation</span><span class="p">.</span><span class="n">subtype</span> <span class="o">=</span> <span class="n">kCATransitionFromBottom</span><span class="p">;</span>
+</span><span class='line'><span class="p">[[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">layer</span><span class="p">]</span> <span class="nl">addAnimation:</span><span class="n">animation</span> <span class="nl">forKey:</span><span class="s">@&quot;animation&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">animation</span><span class="o">=</span><span class="nb">nil</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS上js引擎的使用]]></title>
+    <link href="http://sonnewilling.com/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong/"/>
+    <updated>2013-06-07T11:47:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong</id>
+    <content type="html"><![CDATA[<p> 如上篇文章所述ios折线图绘制，公司开发需要要用到一些字符串转公式的需求。自己实在有点惧自己写语法书啥的听公司大牛说可以使用js引擎试试，于是就抱着试试的态度调研了一把，感觉还不错。</p>
+
+<p>这次试用了两个js引擎，一个是javascriptcore，这个比较方便可以直接引入便使用，另一个是google的v8引擎，这个有点麻烦要先编译通过才行，搞了好一阵才派上用场~倒是学到了好多新知识，哈哈。</p>
+
+<!--more-->
+
+
+<p>先说简单的javascriptcore吧，下载好库引入静态链接库和头文件便可以了。这里有时候会报错说找不到文件。google了一下发下一般是因为xcode本身对外来拷贝文件没有正确引用导致的，解决办法很简单，进入Build Phases 的Compile Source对新添加的头文件进行引用就好了。</p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/20130607111925093_zps428cacd3.png" alt="image" /></p>
+
+<p>接下来便是怎样使用的问题。</p>
+
+<p>先在头文件里引用文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">import</span> <span class="s">&quot;JavaScriptCore/JavaScriptCore.h&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后是构造js的上下文context，这个还蛮重要的东西，具体的原理大家可以自行google，因为我自己理解的也很肤浅，略知皮毛而已。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">JSGlobalContextCreate</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完了以后我把js运行的方法封装成了一个方法，如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">runsJS</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">aJSString</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">aJSString</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;[JSC] JS String is empty!&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">nil</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>    <span class="n">JSStringRef</span> <span class="n">scriptJS</span> <span class="o">=</span> <span class="n">JSStringCreateWithUTF8CString</span><span class="p">([</span><span class="n">aJSString</span> <span class="n">UTF8String</span><span class="p">]);</span>
+</span><span class='line'>    <span class="n">JSValueRef</span> <span class="n">exception</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">JSValueRef</span> <span class="n">result</span> <span class="o">=</span> <span class="n">JSEvaluateScript</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">scriptJS</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">exception</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">res</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">JSStringRef</span> <span class="n">jstrArg</span> <span class="o">=</span> <span class="n">JSValueToStringCopy</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">JSStringCopyCFString</span><span class="p">(</span><span class="n">kCFAllocatorDefault</span><span class="p">,</span> <span class="n">jstrArg</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">JSStringRelease</span><span class="p">(</span><span class="n">jstrArg</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">JSStringRelease</span><span class="p">(</span><span class="n">scriptJS</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>封装完毕便可以顺利使用啦：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">NSString</span> <span class="o">*</span><span class="n">str</span><span class="o">=</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">engine</span> <span class="n">runJS</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;var str=&#39;&#39;;for(var i=0;i&lt;2;i++){str= str + &#39;</span><span class="se">\\</span><span class="s">n&#39; + i + &#39; :Hello&#39; + &#39;, World!&#39;;}&quot;</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//NSLog(@&quot;%@&quot;,str);   </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这便是大体的javascriptcore的使用方法了。</p>
+
+<p>接下来是v8引擎。</p>
+
+<p>v8引擎的编译很痛苦，网上一般比较常见的教程是编译成动态库，lib之类的，但苹果貌似只让用.a的静态库，无形中又增加了负担。我网上搜了好多编译的方法，无非都是些svn check下v8的文件，然后安装python和对应python的一个编译工具scons进行编译。看攻略说，google先在又不提倡用scons了，又开发了另外一种东西&hellip;.真是能折腾。</p>
+
+<p>我遇到的主要问题是好像编译的时候要搭配一个叫breakpad的东西一起，而这玩意儿又死活装不了，就一直卡在那里了。但比较意外的是最后经竟意外发现在v8根目录还有个make的命令，也可以直接编译&hellip;..就这样稀里糊涂的把静态库给整出来了，还隐藏得很深，search了一下才发现在哪里。</p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/20130607113710843_zpsd81cc322.png" alt="image" /></p>
+
+<p>这便是粗略的使用方法啦。</p>
+
+<blockquote><p>一个简单的示例</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'>   <span class="kd">var</span> <span class="nx">test</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">val</span><span class="o">=</span><span class="p">[];</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;1.0&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;1.1&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;1.2&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;1.3&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;2&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">34</span><span class="p">;</span>   
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">str</span><span class="o">=</span><span class="s2">&quot;var v=this.val; v[\&quot;1.3\&quot;]=v[\&quot;1.0\&quot;]*v[\&quot;1.2\&quot;];&quot;</span><span class="p">;</span>
+</span><span class='line'>     <span class="kd">var</span> <span class="nx">fun</span><span class="o">=</span><span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
+</span><span class='line'>     <span class="nx">val</span><span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">]</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+</span><span class='line'>     <span class="nx">fun</span><span class="p">();</span>
+</span><span class='line'>     <span class="k">return</span> <span class="nx">val</span><span class="p">;</span>
+</span><span class='line'> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发之使用CorePlot绘制折线图并添加拖动功能]]></title>
+    <link href="http://sonnewilling.com/blog/2013/06/07/ioskai-fa-zhi-shi-yong-coreplothui-zhi-zhe-xian-tu-bing-tian-jia-tuo-dong-gong-neng/"/>
+    <updated>2013-06-07T11:06:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/06/07/ioskai-fa-zhi-shi-yong-coreplothui-zhi-zhe-xian-tu-bing-tian-jia-tuo-dong-gong-neng</id>
+    <content type="html"><![CDATA[<p>做ios开发快两个月了 从基本的语法开始学起看看这个学学那个的。一开始对delegate controller view各种头大，就老老实实地跟着入门教程一步步的来。所幸之前做了一年多的java开发，熟悉了eclipse的界面和Deja的字体，换到mac下面用xcode也觉得很新鲜。</p>
+
+<!--more-->
+
+
+<p>感觉做ios开发这一块对内存管理要求还是不低的，因为之前做java，对这一块基本不怎么关心，突然转到ios上的时候在内存管理上还是犯过几次错误的。开始学习的时候看书上说谁创建谁释放，就简单的以为但凡创建出来的对象都要显式地去release，后来果然出过一次诡异的错误，修正之后对内存管理就更加用心地去学习了，这一块有时间后面再讨论，现在先把这几天对coreplot的使用记录一下，以备后用。</p>
+
+<p>公司的需求是对数据解析进行折线图绘制，并且用户可以通过触摸调整数据点通过公式计算使折线图重新绘制。数据与公式都是服务器端获取的并且是打包成了一个json的字符串。这里面还牵扯到了字符串解析成公式的问题。上网搜了下，oc下并没有很好的解决方案，像这样做的话似乎只能自己写方法，让我想起了上学时候学编译原理写过的语法树，满满的都是泪啊~妥妥的能不写就不写。后来公司大牛说有js引擎可以拿过来用，因为公司这边也有做网页端的折线图绘制，在js下公式转换异常简单</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">fun</span><span class="o">=</span><span class="k">new</span> <span class="nx">fun</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fun</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上所示，两行代码就把str代表的字符串公式解析并计算一遍了，实在是太无解了，妥妥必须使用，这个东西下篇文章再讲吧。
+图像绘制的话google出来ios上比较常用的是CorePlot和PowerPlot，看了下两者的用法，感觉CorePlot会使用更多的代理之类的东西，感觉比较符合苹果的编码思路，就选了它来用了。</p>
+
+<p>首先是下载coreplot库，把.a文件和头文件引入，这里就不赘述了。</p>
+
+<p>先在头文件里定义几个后面要用到的量</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">//转换坐标系字典，与手指触摸点匹配  </span>
+</span><span class='line'><span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">reverseDic</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//js引擎上下文  </span>
+</span><span class='line'><span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="n">JSGlobalContextRef</span> <span class="n">context</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//绘图view  </span>
+</span><span class='line'><span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">CPTGraphHostingView</span> <span class="o">*</span><span class="n">hostView</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//坐标转换方法，实际坐标转化相对坐标  </span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">CoordinateTransformRealToAbstract</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//坐标转换方法，相对坐标转化实际坐标  </span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">CoordinateTransformAbstractToReal</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//判断手指触摸点是否在折点旁边  </span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isNearByThePoint</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">p</span><span class="p">;</span>      
+</span><span class='line'><span class="c1">//js代码运行  </span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">runsJS</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">aJSString</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+因为要对图像上的折点拖动，而我没有找到合适的对点的事件绑定方法，所以先直接对整个view进行手势监听，通过实际坐标与坐标轴坐标相对转换来判定触摸点是否是在折点附近已达到合理拖动的目的。</p>
+
+<p>接下来便开始.m文件的编码工作啦。我先定义一个简单的折线图公式，y=x+n；把一些数据点塞到point数组里，做后面的datasource。接下来便是折线图的绘制，代码注释写得比较清楚，就不一一赘述了。值得注意的是，这里点的绘制也是使用ios里常用的datasource的方法，所以先别急着找那一系列点出现在哪里~</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>  <span class="p">{</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">UIButton</span> <span class="o">*</span><span class="n">bt</span><span class="o">=</span><span class="p">[[</span><span class="n">UIButton</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">addSubview</span><span class="o">:</span><span class="n">bt</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">points</span><span class="o">=</span><span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">reverseDic</span><span class="o">=</span><span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">NSUInteger</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">NUM</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>          <span class="n">id</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">NSNumber</span> <span class="n">numberWithFloat</span><span class="o">:</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>          <span class="n">id</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">NSNumber</span> <span class="n">numberWithFloat</span><span class="o">:</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">reverseDic</span> <span class="n">setObject</span><span class="o">:</span><span class="n">y</span> <span class="n">forKey</span><span class="o">:</span><span class="p">[</span><span class="n">NSString</span> <span class="n">stringWithFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;%.0f&quot;</span><span class="p">,[</span><span class="n">x</span> <span class="n">floatValue</span><span class="p">]]];</span>
+</span><span class='line'>          <span class="p">[</span><span class="n">points</span> <span class="n">addObject</span><span class="o">:</span><span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">dictionaryWithObjectsAndKeys</span><span class="o">:</span><span class="n">x</span><span class="p">,</span><span class="err">@</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="err">@</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="n">nil</span><span class="p">]];</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="c1">// Do any additional setup after loading the view.  </span>
+</span><span class='line'>      <span class="c1">//初始化图形视图  </span>
+</span><span class='line'>      <span class="n">graph</span><span class="o">=</span><span class="p">[[</span><span class="n">CPTXYGraph</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFrame</span><span class="o">:</span><span class="n">CGRectZero</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">CPTTheme</span> <span class="o">*</span><span class="n">theme</span><span class="o">=</span><span class="p">[</span><span class="n">CPTTheme</span> <span class="n">themeNamed</span><span class="o">:</span><span class="n">kCPTDarkGradientTheme</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">graph</span> <span class="n">applyTheme</span><span class="o">:</span><span class="n">theme</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">self</span> <span class="p">.</span> <span class="n">view</span> <span class="o">=</span><span class="p">[[</span> <span class="n">CPTGraphHostingView</span> <span class="n">alloc</span> <span class="p">]</span> <span class="n">initWithFrame</span> <span class="o">:</span><span class="p">[</span> <span class="n">UIScreen</span> <span class="n">mainScreen</span> <span class="p">].</span> <span class="n">bounds</span> <span class="p">];</span>
+</span><span class='line'>      <span class="n">hostView</span><span class="o">=</span><span class="p">(</span><span class="n">CPTGraphHostingView</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">hostView</span> <span class="n">setHostedGraph</span> <span class="o">:</span> <span class="n">graph</span> <span class="p">];</span>
+</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;orgin:%.2f,%.2f&quot;</span><span class="p">,</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">NSLog</span><span class="p">(</span><span class="err">@</span><span class="s">&quot;size:%.2f,%.2f&quot;</span><span class="p">,</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">,</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
+</span><span class='line'>      <span class="c1">// CPGraph 四边不留白  </span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">paddingLeft</span> <span class="o">=</span> <span class="mf">0.0f</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">paddingRight</span> <span class="o">=</span> <span class="mf">0.0f</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">paddingTop</span> <span class="o">=</span> <span class="mf">0.0f</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">paddingBottom</span> <span class="o">=</span> <span class="n">GRAPAHBOTTOMPAD</span> <span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 绘图区 4 边留白  </span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">plotAreaFrame</span> <span class="p">.</span> <span class="n">paddingLeft</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">plotAreaFrame</span> <span class="p">.</span> <span class="n">paddingTop</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">plotAreaFrame</span> <span class="p">.</span> <span class="n">paddingRight</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="p">;</span>
+</span><span class='line'>      <span class="n">graph</span> <span class="p">.</span> <span class="n">plotAreaFrame</span> <span class="p">.</span> <span class="n">paddingBottom</span> <span class="o">=</span> <span class="mf">00.0</span> <span class="p">;</span>
+</span><span class='line'>      <span class="c1">//绘制图形空间  </span>
+</span><span class='line'>      <span class="n">CPTXYPlotSpace</span> <span class="o">*</span><span class="n">plotSpace</span><span class="o">=</span><span class="p">(</span><span class="n">CPTXYPlotSpace</span> <span class="o">*</span><span class="p">)</span><span class="n">graph</span><span class="p">.</span><span class="n">defaultPlotSpace</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">//plotSpace.allowsUserInteraction=YES;    </span>
+</span><span class='line'>      <span class="c1">//设置x，y坐标范围  </span>
+</span><span class='line'>      <span class="n">plotSpace</span><span class="p">.</span><span class="n">xRange</span><span class="o">=</span><span class="p">[</span><span class="n">CPTPlotRange</span> <span class="n">plotRangeWithLocation</span><span class="o">:</span>
+</span><span class='line'>                        <span class="n">CPTDecimalFromCGFloat</span><span class="p">(</span><span class="n">XRANGEBEGIN</span><span class="p">)</span>                                                  <span class="n">length</span><span class="o">:</span><span class="n">CPTDecimalFromCGFloat</span><span class="p">(</span><span class="n">XRANGELENGTH</span><span class="p">)];</span>
+</span><span class='line'>      <span class="n">plotSpace</span><span class="p">.</span><span class="n">yRange</span><span class="o">=</span><span class="p">[</span><span class="n">CPTPlotRange</span> <span class="n">plotRangeWithLocation</span><span class="o">:</span>
+</span><span class='line'>                        <span class="n">CPTDecimalFromCGFloat</span><span class="p">(</span><span class="n">YRANGEBEGIN</span><span class="p">)</span>  <span class="n">length</span><span class="o">:</span><span class="n">CPTDecimalFromCGFloat</span><span class="p">(</span><span class="n">YRANGELENGTH</span><span class="p">)];</span>
+</span><span class='line'>      <span class="c1">//绘制坐标系  </span>
+</span><span class='line'>      <span class="n">CPTXYAxisSet</span> <span class="o">*</span><span class="n">axisSet</span><span class="o">=</span><span class="p">(</span><span class="n">CPTXYAxisSet</span> <span class="o">*</span><span class="p">)</span><span class="n">graph</span><span class="p">.</span><span class="n">axisSet</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">CPTXYAxis</span> <span class="o">*</span><span class="n">x</span><span class="o">=</span><span class="n">axisSet</span><span class="p">.</span><span class="n">xAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">CPTMutableLineStyle</span> <span class="o">*</span><span class="n">lineStyle</span> <span class="o">=</span> <span class="p">[</span><span class="n">CPTMutableLineStyle</span> <span class="n">lineStyle</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">miterLimit</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">lineColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">CPTColor</span> <span class="n">colorWithComponentRed</span><span class="o">:</span><span class="mi">255</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">green</span><span class="o">:</span><span class="mi">211</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">blue</span><span class="o">:</span><span class="mi">155</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">alpha</span><span class="o">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">x</span><span class="p">.</span><span class="n">majorIntervalLength</span><span class="o">=</span><span class="n">CPTDecimalFromFloat</span><span class="p">(</span><span class="n">XINTERVALLENGTH</span><span class="p">);</span>
+</span><span class='line'> <span class="n">x</span><span class="p">.</span><span class="n">orthogonalCoordinateDecimal</span><span class="o">=</span><span class="n">CPTDecimalFromFloat</span><span class="p">(</span><span class="n">XORTHOGONALCOORDINATE</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">x</span><span class="p">.</span><span class="n">minorTicksPerInterval</span><span class="o">=</span><span class="n">XTICKSPERINTERVAL</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">x</span><span class="p">.</span><span class="n">minorTickLineStyle</span> <span class="o">=</span> <span class="n">lineStyle</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">CPTXYAxis</span> <span class="o">*</span><span class="n">y</span><span class="o">=</span><span class="n">axisSet</span><span class="p">.</span><span class="n">yAxis</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">y</span><span class="p">.</span><span class="n">majorIntervalLength</span><span class="o">=</span><span class="n">CPTDecimalFromFloat</span><span class="p">(</span><span class="n">YINTERVALLENGTH</span><span class="p">);</span> <span class="n">y</span><span class="p">.</span><span class="n">orthogonalCoordinateDecimal</span><span class="o">=</span><span class="n">CPTDecimalFromFloat</span><span class="p">(</span><span class="n">YORTHOGONALCOORDINATE</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">y</span><span class="p">.</span><span class="n">minorTicksPerInterval</span><span class="o">=</span><span class="n">YTICKSPERINTERVAL</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">y</span><span class="p">.</span><span class="n">minorTickLineStyle</span> <span class="o">=</span> <span class="n">lineStyle</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">y</span><span class="p">.</span> <span class="n">labelingPolicy</span> <span class="o">=</span> <span class="n">CPTAxisLabelingPolicyNone</span> <span class="p">;</span>
+</span><span class='line'>      <span class="c1">//修改折线图线段样式  </span>
+</span><span class='line'>      <span class="n">CPTScatterPlot</span> <span class="o">*</span><span class="n">boundLinePlot</span><span class="o">=</span><span class="p">[[[</span><span class="n">CPTScatterPlot</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//CPTMutableLineStyle *lineStyle=[CPTMutableLineStyle lineStyle];  </span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">miterLimit</span><span class="o">=</span><span class="mf">2.0f</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">lineWidth</span><span class="o">=</span><span class="mf">2.0f</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">lineStyle</span><span class="p">.</span><span class="n">lineColor</span><span class="o">=</span><span class="p">[</span><span class="n">CPTColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">boundLinePlot</span><span class="p">.</span><span class="n">dataLineStyle</span><span class="o">=</span><span class="n">lineStyle</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">boundLinePlot</span><span class="p">.</span><span class="n">identifier</span><span class="o">=</span><span class="err">@</span><span class="s">&quot;Blue Plot&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">boundLinePlot</span><span class="p">.</span><span class="n">dataSource</span><span class="o">=</span><span class="n">self</span><span class="p">;</span><span class="c1">//需实现委托        </span>
+</span><span class='line'>      <span class="c1">// Do a red-blue gradient: 渐变色区域  </span>
+</span><span class='line'>      <span class="c1">//  </span>
+</span><span class='line'>      <span class="cm">/*CPTColor * blueColor        = [CPTColor colorWithComponentRed:0.3 green:0.3 blue:1.0 alpha:0.8]; </span>
+</span><span class='line'><span class="cm">     CPTColor * redColor         = [CPTColor colorWithComponentRed:1.0 green:0.3 blue:0.3 alpha:0.8]; </span>
+</span><span class='line'><span class="cm">     CPTGradient * areaGradient1 = [CPTGradient gradientWithBeginningColor:blueColor </span>
+</span><span class='line'><span class="cm">                                                               endingColor:redColor]; </span>
+</span><span class='line'><span class="cm">     areaGradient1.angle = -120.0f; </span>
+</span><span class='line'><span class="cm">     CPTFill * areaGradientFill  = [CPTFill fillWithGradient:areaGradient1]; </span>
+</span><span class='line'><span class="cm">     boundLinePlot.areaFill      = areaGradientFill; </span>
+</span><span class='line'><span class="cm">     boundLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:0.5] decimalValue]; // 渐变色的起点位置 </span>
+</span><span class='line'><span class="cm">     */</span>   
+</span><span class='line'>      <span class="c1">// Add plot symbols: 表示数值的符号的形状  </span>
+</span><span class='line'>      <span class="c1">//  </span>
+</span><span class='line'>      <span class="n">CPTMutableLineStyle</span> <span class="o">*</span> <span class="n">symbolLineStyle</span> <span class="o">=</span> <span class="p">[</span><span class="n">CPTMutableLineStyle</span> <span class="n">lineStyle</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">symbolLineStyle</span><span class="p">.</span><span class="n">lineColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">CPTColor</span> <span class="n">colorWithComponentRed</span><span class="o">:</span><span class="mi">102</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">green</span><span class="o">:</span><span class="mi">204</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">blue</span><span class="o">:</span><span class="mi">255</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">alpha</span><span class="o">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">symbolLineStyle</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>     
+</span><span class='line'>      <span class="n">CPTPlotSymbol</span> <span class="o">*</span> <span class="n">plotSymbol</span> <span class="o">=</span> <span class="p">[</span><span class="n">CPTPlotSymbol</span> <span class="n">ellipsePlotSymbol</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//plotSymbol.fill          = [CPTFill fillWithColor: [CPTColor colorWithComponentRed:102/255.0 green:204/255.0 blue:255/255.0 alpha:1.0]];  </span>
+</span><span class='line'>      <span class="n">plotSymbol</span><span class="p">.</span><span class="n">lineStyle</span>     <span class="o">=</span> <span class="n">symbolLineStyle</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">plotSymbol</span><span class="p">.</span><span class="n">size</span>          <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">boundLinePlot</span><span class="p">.</span><span class="n">plotSymbol</span> <span class="o">=</span> <span class="n">plotSymbol</span><span class="p">;</span>    
+</span><span class='line'>      <span class="c1">// Animate in the new plot: 淡入动画  </span>
+</span><span class='line'>      <span class="n">boundLinePlot</span><span class="p">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>    
+</span><span class='line'>      <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">fadeInAnimation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="n">animationWithKeyPath</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;opacity&quot;</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">fadeInAnimation</span><span class="p">.</span><span class="n">duration</span>            <span class="o">=</span> <span class="mf">3.0f</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">fadeInAnimation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">fadeInAnimation</span><span class="p">.</span><span class="n">fillMode</span>            <span class="o">=</span> <span class="n">kCAFillModeForwards</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">fadeInAnimation</span><span class="p">.</span><span class="n">toValue</span>             <span class="o">=</span> <span class="p">[</span><span class="n">NSNumber</span> <span class="n">numberWithFloat</span><span class="o">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">boundLinePlot</span> <span class="n">addAnimation</span><span class="o">:</span><span class="n">fadeInAnimation</span> <span class="n">forKey</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;shadowOffset&quot;</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">graph</span> <span class="n">addPlot</span><span class="o">:</span><span class="n">boundLinePlot</span><span class="p">];</span>    
+</span><span class='line'>      <span class="c1">//手势添加  </span>
+</span><span class='line'>      <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">panGr</span><span class="o">=</span><span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span><span class="n">initWithTarget</span><span class="o">:</span><span class="n">self</span> <span class="n">action</span><span class="o">:</span><span class="err">@</span><span class="n">selector</span><span class="p">(</span><span class="n">viewPan</span><span class="o">:</span><span class="p">)];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">hostView</span> <span class="n">addGestureRecognizer</span><span class="o">:</span><span class="n">panGr</span><span class="p">];</span>
+</span><span class='line'>      <span class="p">[</span><span class="n">panGr</span> <span class="n">release</span><span class="p">];</span>
+</span><span class='line'>      <span class="c1">//NSString *str=[self.engine runJS:@&quot;var str=&#39;&#39;;for(var i=0;i&lt;2;i++){str= str + &#39;\\n&#39; + i + &#39; :Hello&#39; + &#39;, World!&#39;;}&quot;];  </span>
+</span><span class='line'>      <span class="c1">//NSLog(@&quot;%@&quot;,str);        </span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>这样一个初步的折现图便绘制完毕啦。数据源委托和数据标签的实现如下：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="c1">// 添加数据标签  </span>
+</span><span class='line'>  <span class="o">-</span><span class="p">(</span> <span class="n">CPTLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">dataLabelForPlot</span><span class="o">:</span><span class="p">(</span> <span class="n">CPTPlot</span> <span class="o">*</span><span class="p">)</span><span class="n">plot</span> <span class="n">recordIndex</span><span class="o">:</span><span class="p">(</span> <span class="n">NSUInteger</span> <span class="p">)</span><span class="n">index</span>  <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 定义一个白色的 TextStyle  </span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">CPTMutableTextStyle</span> <span class="o">*</span><span class="n">whiteText</span> <span class="o">=</span> <span class="n">nil</span> <span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">whiteText</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">whiteText</span> <span class="o">=</span> <span class="p">[[</span> <span class="n">CPTMutableTextStyle</span> <span class="n">alloc</span> <span class="p">]</span> <span class="n">init</span> <span class="p">];</span>
+</span><span class='line'>        <span class="n">whiteText</span><span class="p">.</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="n">CPTColor</span> <span class="n">colorWithComponentRed</span><span class="o">:</span><span class="mi">152</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">green</span><span class="o">:</span><span class="mi">251</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">blue</span><span class="o">:</span><span class="mi">152</span><span class="o">/</span><span class="mf">255.0</span> <span class="n">alpha</span><span class="o">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// 定义一个 TextLayer  </span>
+</span><span class='line'>    <span class="n">CPTTextLayer</span> <span class="o">*</span><span class="n">newLayer</span> <span class="o">=</span> <span class="n">nil</span> <span class="p">;</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span> <span class="n">identifier</span><span class="o">=</span><span class="p">(</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)[</span><span class="n">plot</span> <span class="n">identifier</span><span class="p">];</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">([</span><span class="n">identifier</span> <span class="n">isEqualToString</span> <span class="o">:</span> <span class="err">@</span><span class="s">&quot;Blue Plot&quot;</span> <span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">newLayer</span><span class="o">=</span><span class="p">[[[</span><span class="n">CPTTextLayer</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithText</span><span class="o">:</span><span class="p">[[[</span><span class="n">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initWithFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;%0.1f&quot;</span><span class="p">,[[[</span><span class="n">points</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="n">index</span><span class="p">]</span> <span class="n">objectForKey</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;y&quot;</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">]]</span> <span class="n">autorelease</span><span class="p">]</span> <span class="n">style</span><span class="o">:</span><span class="n">whiteText</span><span class="p">]</span> <span class="n">autorelease</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">newLayer</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">//散点数据源委托实现  </span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">numberOfRecordsForPlot</span><span class="o">:</span><span class="p">(</span><span class="n">CPTPlot</span> <span class="o">*</span><span class="p">)</span><span class="n">plot</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">points</span> <span class="n">count</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">-</span><span class="p">(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="n">numberForPlot</span><span class="o">:</span><span class="p">(</span><span class="n">CPTPlot</span> <span class="o">*</span><span class="p">)</span><span class="n">plot</span> <span class="n">field</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="n">fieldEnum</span> <span class="n">recordIndex</span><span class="o">:</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">)</span> <span class="n">index</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSString</span> <span class="o">*</span><span class="n">key</span><span class="o">=</span><span class="p">(</span><span class="n">fieldEnum</span><span class="o">==</span><span class="n">CPTScatterPlotFieldX</span><span class="o">?</span><span class="err">@</span><span class="s">&quot;x&quot;</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSNumber</span> <span class="o">*</span><span class="n">num</span><span class="o">=</span><span class="p">[[</span><span class="n">points</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="n">index</span><span class="p">]</span> <span class="n">valueForKey</span><span class="o">:</span><span class="n">key</span><span class="p">];</span>
+</span><span class='line'>   <span class="c1">//NSLog(@&quot;key:%@,num:%@&quot;,key,num);  </span>
+</span><span class='line'>    <span class="k">return</span>  <span class="n">num</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>可以在代码里看到我实现了对页面的手势监听，以便实现折线图拖动的效果，具体方法如下：</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewPan</span><span class="o">:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">tapGr</span>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">CGPoint</span> <span class="n">now</span><span class="o">=</span><span class="p">[</span><span class="n">tapGr</span> <span class="n">locationInView</span><span class="o">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//手势变化并且接近折点旁边  </span>
+</span><span class='line'>    <span class="k">if</span><span class="p">([</span><span class="n">tapGr</span> <span class="n">state</span><span class="p">]</span><span class="o">==</span><span class="n">UIGestureRecognizerStateChanged</span><span class="o">&amp;&amp;</span><span class="p">[</span><span class="n">self</span> <span class="n">isNearByThePoint</span><span class="o">:</span><span class="n">now</span><span class="p">]){</span>
+</span><span class='line'>        <span class="n">CGPoint</span> <span class="n">coordinate</span><span class="o">=</span><span class="p">[</span><span class="n">self</span> <span class="n">CoordinateTransformRealToAbstract</span><span class="o">:</span><span class="n">now</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">points</span> <span class="n">removeAllObjects</span><span class="p">];</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">reverseDic</span> <span class="n">removeAllObjects</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSUInteger</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">NUM</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>            <span class="n">id</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">NSNumber</span> <span class="n">numberWithFloat</span><span class="o">:</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">id</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">NSNumber</span> <span class="n">numberWithFloat</span><span class="o">:</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">coordinate</span><span class="p">.</span><span class="n">y</span><span class="p">];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">reverseDic</span> <span class="n">setObject</span><span class="o">:</span><span class="n">y</span> <span class="n">forKey</span><span class="o">:</span><span class="p">[</span><span class="n">NSString</span> <span class="n">stringWithFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;%.0f&quot;</span><span class="p">,[</span><span class="n">x</span> <span class="n">floatValue</span><span class="p">]]];</span>
+</span><span class='line'>            <span class="p">[</span><span class="n">points</span> <span class="n">addObject</span><span class="o">:</span><span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">dictionaryWithObjectsAndKeys</span><span class="o">:</span><span class="n">x</span><span class="p">,</span><span class="err">@</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="err">@</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="n">nil</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">graph</span> <span class="n">reloadData</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//判断手指触摸点是否在折点旁边  </span>
+</span><span class='line'>  <span class="o">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isNearByThePoint</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">p</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">//从手指触摸点的实际坐标得到抽象坐标  </span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">abstractCoordinate</span><span class="o">=</span><span class="p">[</span><span class="n">self</span> <span class="n">CoordinateTransformRealToAbstract</span><span class="o">:</span><span class="n">p</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//获取临近坐标点  </span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">acX</span><span class="o">=</span><span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">abstractCoordinate</span><span class="p">.</span><span class="n">x</span><span class="o">+</span><span class="mf">0.5</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//判断临近坐标点是否存在折点，存在则取出  </span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">acY</span><span class="o">=</span><span class="p">[[</span><span class="n">reverseDic</span> <span class="n">objectForKey</span><span class="o">:</span><span class="p">[</span><span class="n">NSString</span> <span class="n">stringWithFormat</span><span class="o">:</span><span class="err">@</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="n">acX</span><span class="p">]]</span> <span class="n">floatValue</span><span class="p">];</span>
+</span><span class='line'>    <span class="c1">//构造临近坐标折点，并转化为实际屏幕坐标点  </span>
+</span><span class='line'>    <span class="n">CGPoint</span> <span class="n">temp</span><span class="o">=</span><span class="p">[</span><span class="n">self</span> <span class="n">CoordinateTransformAbstractToReal</span><span class="o">:</span><span class="n">CGPointMake</span><span class="p">([[</span><span class="n">NSNumber</span> <span class="n">numberWithInt</span><span class="o">:</span><span class="n">acX</span><span class="p">]</span> <span class="n">floatValue</span><span class="p">],</span> <span class="n">acY</span><span class="p">)];</span>
+</span><span class='line'>    <span class="c1">//计算临近坐标点与手指触摸点的距离  </span>
+</span><span class='line'>    <span class="kt">double</span> <span class="n">distance</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pow</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="o">-</span><span class="n">temp</span><span class="p">.</span><span class="n">x</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">pow</span><span class="p">((</span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="o">-</span><span class="n">temp</span><span class="p">.</span><span class="n">y</span><span class="p">),</span><span class="mi">2</span><span class="p">));</span>
+</span><span class='line'>    <span class="c1">//NSLog(@&quot;%f&quot;,distance);  </span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">distance</span><span class="o">&gt;</span><span class="mi">25</span><span class="o">?</span><span class="n">NO</span><span class="o">:</span><span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//空间坐标转换:实际坐标转化自定义坐标  </span>
+</span><span class='line'>  <span class="o">-</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">CoordinateTransformRealToAbstract</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">{</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">viewWidth</span><span class="o">=</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">viewHeight</span><span class="o">=</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">coordinateX</span><span class="o">=</span><span class="p">(</span><span class="n">XRANGELENGTH</span><span class="o">*</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">viewWidth</span><span class="o">+</span><span class="n">XRANGEBEGIN</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">coordinateY</span><span class="o">=</span><span class="n">YRANGELENGTH</span><span class="o">-</span><span class="p">((</span><span class="n">YRANGELENGTH</span><span class="o">*</span><span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">viewHeight</span><span class="o">-</span><span class="n">GRAPAHBOTTOMPAD</span><span class="p">))</span><span class="o">+</span><span class="n">YRANGEBEGIN</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nf">CGPointMake</span><span class="p">(</span><span class="n">coordinateX</span><span class="p">,</span><span class="n">coordinateY</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">//空间坐标转换:自定义坐标转化实际坐标  </span>
+</span><span class='line'>  <span class="o">-</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">CoordinateTransformAbstractToReal</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">{</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">viewWidth</span><span class="o">=</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">viewHeight</span><span class="o">=</span><span class="n">hostView</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">coordinateX</span><span class="o">=</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="o">-</span><span class="n">XRANGEBEGIN</span><span class="p">)</span><span class="o">*</span><span class="n">viewWidth</span><span class="o">/</span><span class="n">XRANGELENGTH</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">float</span> <span class="n">coordinateY</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="o">-</span><span class="n">YRANGEBEGIN</span><span class="o">-</span><span class="n">YRANGELENGTH</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">viewHeight</span><span class="o">-</span><span class="n">GRAPAHBOTTOMPAD</span><span class="p">)</span><span class="o">/</span><span class="n">YRANGELENGTH</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nf">CGPointMake</span><span class="p">(</span><span class="n">coordinateX</span><span class="p">,</span><span class="n">coordinateY</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">gestureRecognizer</span><span class="o">:</span><span class="p">(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">gestureRecognizer</span> <span class="n">shouldRecognizeSimultaneouslyWithGestureRecognizer</span><span class="o">:</span><span class="p">(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">otherGestureRecognizer</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是一些常量的定义</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define NUM 10  </span>
+</span><span class='line'><span class="c1">//绘图空间与底部距离  </span>
+</span><span class='line'><span class="cp">#define GRAPAHBOTTOMPAD 80.0f  </span>
+</span><span class='line'><span class="c1">//x轴起点  </span>
+</span><span class='line'><span class="cp">#define XRANGEBEGIN 0.0  </span>
+</span><span class='line'><span class="c1">//x轴在屏幕可视范围内的范围  </span>
+</span><span class='line'><span class="cp">#define XRANGELENGTH 5.0  </span>
+</span><span class='line'><span class="c1">//y轴起点  </span>
+</span><span class='line'><span class="cp">#define YRANGEBEGIN 0.0  </span>
+</span><span class='line'><span class="c1">//y轴在屏幕可视范围内的范围  </span>
+</span><span class='line'><span class="cp">#define YRANGELENGTH 100.0  </span>
+</span><span class='line'><span class="c1">//x轴屏幕范围内大坐标间距  </span>
+</span><span class='line'><span class="cp">#define XINTERVALLENGTH 1.0  </span>
+</span><span class='line'><span class="c1">//x轴坐标的原点（y轴将在此与x轴相交）  </span>
+</span><span class='line'><span class="cp">#define XORTHOGONALCOORDINATE 10.0  </span>
+</span><span class='line'><span class="c1">//x轴每两个大坐标间小坐标个数  </span>
+</span><span class='line'><span class="cp">#define XTICKSPERINTERVAL 2  </span>
+</span><span class='line'><span class="cp">#define YINTERVALLENGTH 1.0  </span>
+</span><span class='line'><span class="cp">#define YORTHOGONALCOORDINATE 1.0  </span>
+</span><span class='line'><span class="cp">#define YTICKSPERINTERVAL 0 </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好了，这便是iphone上怎样绘制个折线图并实现拖动效果，其实是个很简陋的例子，离真正能用还有很长的一段路要走，但先贴在这里留个记号，也许你会看到中间有些js引擎的影子，这个留在下一章再讲吧。</p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/20130607110518093_zps1865da13.png" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[但生不期遇]]></title>
+    <link href="http://sonnewilling.com/blog/2013/03/13/dan-sheng-bu-qi-yu/"/>
+    <updated>2013-03-13T17:44:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2013/03/13/dan-sheng-bu-qi-yu</id>
+    <content type="html"><![CDATA[<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0689_zps05bab755.jpg" alt="image" /></p>
+
+<p>ABC徒步的最后一天，中午两点多吃过饭，东边的山头已经乌云笼罩，看那风向估计要不了多久便会追上我们的脚步。</p>
+
+<p>跟Kim在Tadapani分手后，Jun和我加速下撤，想在雨前赶到下一个落脚的地方，Ghandruk。海拔已经下至2000多米，早上见到的雪山已经隐在了重重的密林之后，脚下乱石丛生，偶有小溪截路直下，虽稍有湿滑，但比之上午的结冰雪路已经幸福很多，也算可以迈步前行了。</p>
+
+<!--more-->
+
+
+<blockquote><p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0643_zpsa6b4a487.jpg" alt="image" />
+<em><em>包车去樟木 大雪封路</em></em></p></blockquote>
+
+<p>天色本就昏暗，加之树影婆娑，偌大的树林只有我们两个匆匆的身影，前几天刚看完霍比特人，感觉竟也有些相似于穿越那片妖精的森林，耳边只有衣服摩擦的声音沙沙作响。</p>
+
+<p>正沉浸其中时，天公大概尚嫌不美竟送来了大礼。啪嗒啪嗒的声音出现在了冲锋衣上。午饭过后因为看天色不妙便早将一切事物塞入包中，罩上了防雨罩，身上披了稍微防些水的冲锋衣便直奔而下。所以说突然出现这些声音并没有多大的惊慌，也有些许的期待，看了半个多月的白雪皑皑，给洒家来场酣畅的大雨也不失乐趣。</p>
+
+<p>蓦地，感觉头顶一阵生疼，定了下神发下原来下的并不是雨，而是颗颗饱满的冰爆栗子，哈哈。如此更妙，本来还有点担心被淋成落汤鸡或者原就泥泞的道路不堪下脚，如此一来更是不必担心。</p>
+
+<p>听着耳边噼噼啪啪的声音，十分感叹天公真是待洒家不薄，份份奇景都生怕落下，毫不羞涩地一丝不挂着给洒家看个够。</p>
+
+<p>跟北哥他们在加德满都分道扬镳洒家独自上路。他们走15的珠峰徒步线路，起点的卢卡拉还要坐小飞机才能抵达，陆路并不抵达，而我既没有这些时间也无力支付昂贵的机票便选择了7天abc徒步线路，去看尼泊尔有名Annapurna雪山，还有传说已久的鱼尾峰，之所以说尼泊尔有名是因为刚刚和北哥交流了下心得，我们纷纷表示尼泊尔的雪山跟西藏的上比起来算个屁啊。估计一是鬼佬进不了西藏，二是来到尼泊尔可以切切实实感受一番当土豪的感觉。</p>
+
+<blockquote><p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0660_zps693c277b.jpg" alt="image" />
+<em><em>尼币 这辈子还木有拿过这么多钱呢</em></em></p></blockquote>
+
+<p>一份不错的牛排只要RMB 35元而已，那份感觉无与伦比，想来如果是欧洲人过来，用简单的汇率换算的话那将是10倍的无与伦比。徒步过程中，那种半山的小别墅，出门阳台便可以享受雪山美景，只需7元便安心入住。</p>
+
+<p>尼泊尔的公路十分的操蛋，从加德满都到abc徒步线路的起点博卡拉不过200公里，愣是开了7,8个小时才将将到达，不过中间停车两次已算仁义。想我们刚从樟木过关，乘大巴去只有100公里之隔的加德满都，他妈的也是开了5个多小时才到，中间还不停车，让第一次坐这鸟车的我们深受憋尿之苦，加之车厢拥挤气味芳香可口，同行中有个妹子吐了两次，而坐我后面上车结识的两个成都的妹子更是开车3个小时后便表示想要去厕所…..其中痛苦不想知道，好彩我手中有个大号水壶，想着洒家要实在不行，拼着脸面不要也要尿上一尿，大不了喊一句” I’m Japanese” 嘛。</p>
+
+<p>早上7点出发，大约下午2点多来到博卡拉，跟两个四川的哥儿们合伙住进了家叫四川峨眉山饭店的中国旅馆。老板原来是在山东一家工厂当尼泊尔翻译的，后来便留在了这里娶妻生子。听着他指着脚下的地说，尼泊尔土地都是私人无限期，门前这半边的路和这两栋房子的地皮都是自己买下了的，竟也有些许的嫉妒在里面。</p>
+
+<p>三人洗了个热水澡便在博卡拉逛了开来。加德满都因为地处谷地，人口聚集的缘故，大概是全国污染最严重的地方，整天乌烟瘴气，而博卡拉则好了很多。出门便是一片清澈的湖水，雅兴所致泛舟其上，自得其乐。</p>
+
+<p>这里还有很棒的摩托车可以出租，大概50元一天。看到很多鬼佬带个头盔成双入对地骑着摩托，像模像样，也很想尝试一番。</p>
+
+<p>划了下小船便到了饭点，其中一人说要去吃西餐，无奈本屌实在烂泥扶不上墙，路过家中国餐馆时死活迈不开腿，吾大中华食物何其美好，咖喱饭尽皆可去死也。</p>
+
+<p>晚上吃饭又过来了两个妹子，一个上海，一个深圳，还真是凑巧。五人一桌点了几个菜一起吃也算不上很贵，每人平均下来也就30左右。但本人已经相当心满意足，几天的空腹感终于一扫而光。</p>
+
+<p>我因为急着赶路，想在第二天一早办好登山证环保证什么的便直奔徒步地点，而四川来的两个哥儿们还在心悸于刚刚的大巴汽车，想着休息多一天再进山。那两个结伴的妹子则已经在这里修整了一天，也是准备着明天出发。但相关证件她们一早办好，第二天八点便可以直接开拔，我则要多耽搁两个小时，那天差不多12点才到达Nayapul开始正式徒步。</p>
+
+<p>晚上睡觉时已经十分庆幸没有和那两个哥儿们同行，因为这两人的鼾声实在沁人心脾，睡至半夜竟也给活活震醒。偷偷起来拿出酒店的浴巾盖在两人头上竟有莫大的效果，哈哈，于此说知诸君共勉。</p>
+
+<p>从Nayapul开始正式徒步已过正午，比正常的徒步规划晚了两个多小时，所以自己有点着急赶路，在第一个路口便拐错了方向，喵的还特地问了下坐在半坡上的当地人，日他一个劲的说yes，yes。爬至半腰又过来位妇女，不放心又问了一遍才指明正路，越过溪水踏入正途。</p>
+
+<p>前行几步便遇着了刚刚在下车地碰见的两名韩国好同志，他们便是可爱的Kim与Jun了。因为生怕再次迷路，便迫不及待得与他们沟通起来，想着熟悉一下还能有个照应，待知道他们前面还有三个同行的韩国妹子后更是打定主意他们是可靠的伴侣。</p>
+
+<p>第一天的景物无甚可言，因为海拔较低，所以一路爬坡往上，累个半死自然也不会有什么好的兴致去欣赏美景。尤其那两个韩国同胞爬得很快，各种赶超鬼佬，想着不能太给国人丢脸什么也只能咬牙跟住。倒也真是神速，将将三个小时便到了第一天的休息点，但他们还不知足，想要再往上一点，去Ullie住宿，那又是两个小时的爬坡台阶。问我要不要跟来，那个诱惑的摇头终没能跨过自尊的门槛给摇出来。顺带一提，这里的摇头表示yes，他们习俗而已，我没有学习的兴趣。</p>
+
+<p>如此往上不到一个小时便见到了之前一起吃中餐的妹子，她们也打算加把劲去到Ullie住宿，勇气着实可嘉。其实主要是那个自称去过很多地方的上海妹子，很喜欢自吹自己是老驴之类什么的，相当死要面子，那天吃饭便听着头大。妈的，你妹的老驴买4张地图花了2800卢比，洒家这厢200一张还嫌贵讲到150才买进。怪不得现在中国好多地方旅游越来越贵，想起上次洒家在喀纳斯和蔡力吃的大亏气就不打一处来，一张馕都要10块，害我们从乌鲁木齐做了一宿的车去到那里对着湖水啃了两天的馕，啥都不敢买，操。我问司机说为毛物价局的没人管，他说管是有管，就是有些内地的过来声称是来消费的，单找贵的吃，让那些开店的宰着宰着就上了瘾。</p>
+
+<p>晚上住店时那家的小妹妹相当可爱，5,6岁的样子，已经带上了小耳环，眼睛大大黑黑的，坐在厨房的门边拿着水彩笔图来图去。晚上吃饭试了下韩国哥儿们带来的泡菜罐头，还不错的味道。睡觉不提，无人打鼾真舒服。</p>
+
+<blockquote><p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/IMAG0753_zps45ff5793.jpg" alt="image" />
+<em><em>是不是</em></em></p></blockquote>
+
+<p>就这样一路行来，渐渐感觉跟之前的骑车有异曲同工之妙。其实前面也说过，俺们是从大我西藏哉过来的，这边的名山大川什么的其实也就了了，更何况徒步爬山累得半死不活也没啥心情去欣赏美景。所以一天最快乐的时间反倒是抵达住宿点，洗个热水澡，或是躺在床上看看小说睡个慵懒的下午觉，或是蹲在旅社门口抱杯奶茶调戏下过往的徒步者说句“那木四代”之类的话，大概类似于藏语那边的“扎西德勒”。至于雪景什么的也就了了，更喜欢晚上天黑后一群人围坐炉边听背夫向导讲来来往往有趣的故事，增长见识还能练习听力一举两得。听多了之后也能鼓起勇气跟身边的外国妹子搭讪一下，纵有时候词不达意，连比带猜倒也不失洒家英语四级的风范。等关起门来，跟两个韩国同志用英语沟通还更加自得其乐，都是半斤八两，谁也不嫌谁，听懂算完。</p>
+
+<blockquote><p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0906_zps0c763bb1.jpg" alt="image" />
+<em><em>与国际友人小酌 哈哈</em></em></p></blockquote>
+
+<p>让我想起之前的骑车岁月。跟北哥在川藏线的时候，也是赏景到吐，最快乐的莫过于洗个热水澡便去网吧泡着，伸展着酸软的双腿，偶尔看些不健康的网页，此乐何极。当然，鉴于西藏的网吧水平，难免有时候会出现一人上网十人围观的场景，虽蔚然成景，但倘若自己便是那万花丛中一点绿个中滋味便难以启齿了。这时候我们便会手捧瓜子蹲坐路边牙子上，咳咳呸呸一下午，美其名曰闲看庭前花开花落，漫随天外云卷云舒。</p>
+
+<p>很多人向往骑车徒步悠然行之，听听歌看看景什么的。其实不然，但凡这种人力行走的路线，如果不是真的狠下心来啥都带齐吃穿住自理的话大体上都会找本前人写的攻略按着上面的路线行走。他们一般都会规划好一天的行程，一般在哪里住宿都是有定论的。这天一旦上路，一般脑海中便会存留着目的地的印象，不知不觉中总会想着去到达那个地方。纵使刚开始可能天气凉爽，身体轻松，听听小歌看看靓景。大体到了中午日悬高头，饥肠辘辘，偶尔路过家饭店，满身臭汗地填饱肚皮后匆匆上路，那才是真正的骑行徒步。此时mp3中的歌曲已经幻化成单调的曲线，身边的景色也成了一幅幅可以随手扯烂的纸张，可以说逐渐进入了一种麻木的中心，心中无所思。但也正是这种放空的感觉可以帮助自己忘记疲惫，以一种更持久的耐力抵达终点。而终当自己抵达当天的目的地，热水浇头，酒足饭饱后便如电脑重启，对刚刚的麻木恍若隔世，伸个懒腰才发现又重新做回了文艺青年的自己，又开始着手酝酿下小清新的情感，或者如北哥与我去网吧放松一番。其实大致感觉是一样的，这时候的享受想来不是什么思想境界审美品位决定的，而只是种单纯的身体极度疲惫后得到放松舒张带来的极致的满足感，这时候也许你做任何事情都是美的，都是好的，你眼中的世界似乎是用雨刷重新梳理过一样灿烂夺目，爱上每一寸土地。我不知道别人如何，总归洒家大体上的享受便来源于此，述说于此，权当交流。</p>
+
+<p>说回徒步的最后一天，因为冰雹的缘故，下午4点的样子Jun和我没能赶到Ghandruk，而是在据此半小时路程的小镇喝茶暖身。不多久，那几个韩国妹子也赶至于此。五人围坐炉边烤鞋烤袜子很是有趣。之前初中的时候也有几个韩国的女同学，其实细细听来她们用韩语对话，特别是有些结尾的时候声音特别拉长的颤音很是可爱。Jun建议我们今晚就住在这里，明早我可以早点下山，而他想晚点出发并不着急。因为我预定了第二天下午博卡拉的滑翔伞，要中午前回到博卡拉。据说从Ghandruk下撤至Nayapul需要3个小时，坐车回去博卡拉又是两个小时。而Jun则打算走另外一条路线下撤，因为时间上他比较充裕。而且看他跟妹子热火朝天的样子，妥妥今晚留宿于此无疑。</p>
+
+<p>待雨势减小至最后打住，已经快六点，天暗淡了下来。我还是鼓起了勇气跟Jun说了再见。相处了几天，突然地告别真当有些不舍，而且又不在同一个国家，恐怕此地一别真当后会遥遥无期。相拥而别，回头的不是好汉，哈哈。</p>
+
+<p>独自下山时太阳已将近落山，因为大雨的缘故一片泥泞，而且漫山之上只有我一个人的影子，其他人大体都留在了之前的小镇。路上竟还出现过两次岔路，好彩在一片泥土中将指示牌翻出可以依稀认得路径继续往前。其实山腰俯瞰，遥远处各个方向都有村庄，唯不知何处才是正确的落脚点，走错村落的话还不如第二天从刚刚那里出发来的保险。走在路上也一直动摇惊心，但想着既然已经出来了，再走回头路实在说不上体面。就这样硬着头皮勉强在天色完全暗淡前安然抵达了Ghandruk，住进店的那一刻又是一种新的体验。那天旅社里只有我一人入住。</p>
+
+<p>早上7点多爬起来，吃过旅店的春卷便赶路下山。天气正凉爽，日头还被掩在山的另一面没有漏出来。耳里听着狮子王的主题曲，很精致的感情从心中浮现。毫无理由的快乐充满心间，没有丝毫的动机。我想当深爱一个人的时候大体也是这种感觉吧，但那时的我心中并没有具体的对象，只是这种单纯的感情溢出心间，快要跳出嗓子，整个人都充满着活力，恨不得对见到的每一个人都大声说一句“那木四代”，我想在那一天我体验了真正的快乐，不单单是那一天给我的，而是那些天的经历，遇到的每一个人，交流过的每一件事情，享受过的每一丝慵懒。快乐的事物慢慢积累，最终碰到了引子在心中迸发，我几乎是连蹦带跳着下到了山底结束了在尼泊尔的徒步之行。</p>
+
+<blockquote><p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0513_zps144fc2a0.jpg" alt="image" />
+<em><em>拉萨茶馆的厨房</em></em></p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0883_zps56125d57.jpg" alt="image" />
+<em><em>尼泊尔小旅馆的厨房 两边的大娘长得很像啊</em></em></p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0509_zps262883c0.jpg" alt="image" />
+<em><em>两毛一杯 钱放桌子上倒茶的大娘自己找</em></em></p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0508_zps19b6d064.jpg" alt="image" />
+<em><em>拉萨本土斗地主，炸金花技术非同小可，此种茶馆功不可没</em></em></p>
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0898_zpsf8e779d9.jpg" alt="image" />
+<em><em>据说是世界上最便宜的跳伞 500一次 预购从速 真的很爽</em></em></p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[包子]]></title>
+    <link href="http://sonnewilling.com/blog/2012/11/09/bao-zi/"/>
+    <updated>2012-11-09T09:27:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/11/09/bao-zi</id>
+    <content type="html"><![CDATA[<p><img height="500px" width="750px" src="http://i1276.photobucket.com/albums/y462/staffpicks/Underwater/Mix-Pack-8135.jpg" border="0" alt="underwater photo:  Mix-Pack-8135.jpg"/></p>
+
+<blockquote><h4>你是个包子，</h4>
+
+<h4>充满诱惑的包子。</h4>
+
+<h4>我深深地爱着你，</h4>
+
+<h4>在我的脊梁根处，</h4>
+
+<h4>在我的血液浓处。</h4></blockquote>
+
+<!--more-->
+
+
+<blockquote><h4>可有一天你跟我说，</h4>
+
+<h4>“我要减肥！”</h4>
+
+<h4>我喉间咕咕噜噜，</h4>
+
+<h4>没有作答。</h4>
+
+<h4>你说，</h4>
+
+<h4>继续爱我吧，我还有美丽的花褶，</h4>
+
+<h4>继续爱我吧，我将有苗条的身段，</h4>
+
+<h4>继续爱我吧，我会有轻灵的舞步。</h4>
+
+<h4>喝！呸。</h4>
+
+<h4>你他妈是个肉包子，</h4>
+
+<h4>我是一条狗。</h4></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[java设置编码读写文件笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2012/11/01/javashe-zhi-bian-ma-du-xie-wen-jian-bi-ji/"/>
+    <updated>2012-11-01T16:04:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/11/01/javashe-zhi-bian-ma-du-xie-wen-jian-bi-ji</id>
+    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">try</span><span class="o">{</span>
+</span><span class='line'>                <span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">url</span><span class="o">),</span><span class="s">&quot;UTF-8&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">StringBuffer</span> <span class="n">str</span><span class="o">=</span><span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">while</span><span class="o">((</span><span class="n">data</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())!=</span><span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>                <span class="o">{</span>
+</span><span class='line'>                    <span class="n">str</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">data</span><span class="o">+</span><span class="s">&quot;\n&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">Test</span> <span class="n">test</span><span class="o">=</span><span class="k">new</span> <span class="n">Test</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">test</span><span class="o">.</span><span class="na">ece</span><span class="o">(</span><span class="n">str</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'>            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+</span><span class='line'>                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ece</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">){</span>
+</span><span class='line'>            <span class="k">try</span><span class="o">{</span>
+</span><span class='line'>                <span class="n">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedWriter</span><span class="o">(</span>
+</span><span class='line'>                        <span class="k">new</span> <span class="nf">OutputStreamWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">url</span><span class="o">,</span><span class="kc">false</span><span class="o">),</span><span class="s">&quot;UTF-8&quot;</span><span class="o">));</span>
+</span><span class='line'>                <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+</span><span class='line'>                <span class="n">bw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">bw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+</span><span class='line'>                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ajax对象数组传参方式]]></title>
+    <link href="http://sonnewilling.com/blog/2012/10/11/ajaxdui-xiang-shu-zu-chuan-can-fang-shi/"/>
+    <updated>2012-10-11T15:53:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/10/11/ajaxdui-xiang-shu-zu-chuan-can-fang-shi</id>
+    <content type="html"><![CDATA[<p>项目中一个页面需要的功能是动态添加信息列表，传至后台添加数据库。用的方式是ajax+struts2，因为struts本身的特性，在ajax的data里直接写数组名java后台是无法正常接收到的，最简单的理解便是它无法智能的一一匹配数组里的每一个值，所以我们在前台开始发action请求前便要组装好容易接收的数据格式。</p>
+
+<p>最简单的方法是直接拼接字符串，后台split出来，但有时候用的不是简单的字符串数组而是对象数组，这时候就需要一些其它方法了。</p>
+
+<!--more-->
+
+
+<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/1349941967_9520_zpsbbaf2803.png" alt="image" /></p>
+
+<p>如上图所示，每次提交是权限一个对象，然后关于资源对象是动态添加与删除的，很明显，这就需要一个对象数组来装这些东西</p>
+
+<p>前台页面的动态添加是这样的：</p>
+
+<script src="https://gist.github.com/wanax/6752390.js"></script>
+
+
+<p></p>
+
+<p>然后就是对对象数组的拼装与发送了</p>
+
+<script src="https://gist.github.com/wanax/6752394.js"></script>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[胡言]]></title>
+    <link href="http://sonnewilling.com/blog/2012/08/23/hu-yan/"/>
+    <updated>2012-08-23T17:55:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/08/23/hu-yan</id>
+    <content type="html"><![CDATA[<p><img src="http://i424.photobucket.com/albums/pp326/xoxomayra94/HDR/hdrp4.jpg" alt="image" /></p>
+
+<p>拱门里还是一样的景色，马扎蒲扇三五成群，树荫石桌四人一组，走时是这个样子，每次回来仿若只是离开了一小会儿。</p>
+
+<p>跟姥爷一起坐在门口乘凉，身旁放着几盆蚊怕草，类似于薄荷的气味若有若无。姥爷说这是今年刚栽上的，驱蚊。姥姥在院子里洗衣服蚊子也少咬了，面有得色。</p>
+
+<!--more-->
+
+
+<p>门口右侧一圈小小的花圃，被姥爷精心收拾着，记得很小的时候给姥爷带来了很多地雷花的种子，因为那一颗颗小小的黑色种子纹路像极了地雷，开了后就有点像喇叭花，现在也少见踪影，屋里姥姥忙碌的声音却依旧清晰熟稔，屋里屋外。</p>
+
+<p>盘腿坐在石凳上，另一幅画面慢慢印开，路向天地相交处，日落两山并联间，牧子驱犊遥遥望，脚下的轮子嗡嗡作响。好大个暑假，且留个念想。</p>
+
+<p>考试结束就开始实习，历年都是假期一到便往外跑，这个夏天却是看着朋友一个个散场撤席，独自一人的宿舍说很开心那是鬼信。还好尚有两三个酒肉哥儿们，无聊散散心游个泳也算得过且过。</p>
+
+<p>有个舍友临走扔了盒小蛋糕尚且不错，好大一盒引人注意第二天就吃完了。蔡力7月初走时也在桌上放了一包糖，昨天惊觉宿舍蚂蚁成群溯本逐源才发现了那包被他开口快两个月的糖，蔡力是个讲究的人，他用这种内涵缓慢的方式不经意间提醒着他的存在。开玩笑的，操，回来洒家找你算总账。</p>
+
+<p>一大早起来跑去楼下看厚厚一叠的明信片，天南海北发现了几个骑长途的哥儿们，看样子也是到了该到的地儿，不免一阵发愣。知道没有一张是自己的，但还是看得欢畅。</p>
+
+<p> 深山花开 龙竹笋剥 拉着风的手 在黑夜里一起跳舞</p>
+
+<p>人拥有此生此世是不够的，他还需要一个诗意的世界。</p>
+
+<p>爱荒凉的美，不在乎壮观与秀丽，你给我个突兀，给我个渺小，给我个存在便足以了。</p>
+
+<p>一种精神上的毒药的感觉，心里的某个部分似乎被深深地勾住了，离开不能。</p>
+
+<p>一想到那些残破的路，千年不变的山，独自的存在便又是一阵无法割舍的痛。</p>
+
+<p>只是一把钥匙，通往的何方并不明了，但总知道前面的路已在脚下。</p>
+
+<p>每每想来都是心悸，对我来说便是一个圣地。见多了世态更向往那单调的村庄，给我一份宁静，拥有自己的灵魂，洗干净了所有的一切，只剩下蓝蓝的天，白白的云，一种美好便在于此，谁又能一起体会呢？</p>
+
+<p>草木青青，远来友人，山花绽笑，明月开怀。</p>
+
+<p>但求一种简单干净的生活，便是此才是最贵重物品。</p>
+
+<p>心中无所思，古老而又羞涩的梦，千年来的进化失去了这种无法用价值尺度衡量的东西。现在想要寻找却要退回人类一直努力终结的东西，笑话吗？总会有自省的人，便够了，各有分工，千千世界。一花一世界，一叶一菩提。</p>
+
+<p>你着迷的东西是那些能让你苦逼良久在即将放弃的时候突然一泻千里从而带来那么一瞬间快感的东西。</p>
+
+<p>扯了这么多，点题一句：洒家23，来点福利吧</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[6个有用的MySQL语句(转)]]></title>
+    <link href="http://sonnewilling.com/blog/2012/06/28/6ge-you-yong-de-mysqlyu-ju-zhuan/"/>
+    <updated>2012-06-28T01:55:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/06/28/6ge-you-yong-de-mysqlyu-ju-zhuan</id>
+    <content type="html"><![CDATA[<h3>1. 计算年数</h3>
+
+<blockquote><p>你想通过生日来计算这个人有几岁了。</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> 
+</span><span class='line'><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">FROM_DAYS</span><span class="p">(</span><span class="n">TO_DAYS</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="o">-</span> <span class="n">TO_DAYS</span><span class="p">(</span><span class="o">@</span><span class="n">dateofbirth</span><span class="p">)),</span> <span class="s1">&#39;%Y&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">+</span> <span class="mi">0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<!--more-->
+
+
+<h3>2. 两个时间的差</h3>
+
+<blockquote><p>取得两个 datetime 值的差。假设 dt1 和 dt2 是 datetime 类型，其格式为 ‘yyyy-mm-dd hh:mm:ss’，那么它们之间所差的秒数为：</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">UNIX_TIMESTAMP</span><span class="p">(</span>
+</span><span class='line'> <span class="n">dt2</span> <span class="p">)</span> <span class="o">-</span> <span class="n">UNIX_TIMESTAMP</span><span class="p">(</span> <span class="n">dt1</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>除以60就是所差的分钟数，除以3600就是所差的小时数，再除以24就是所差的天数。</p>
+
+<h3>3. 显示某一列出现过N次的值</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">id</span> <span class="k">FROM</span> <span class="n">tbl</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">N</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. 计算两个日子间的工作日</h3>
+
+<blockquote><p>所谓工作日就是除出周六周日和节假日。</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">calendar</span> <span class="k">WHERE</span> <span class="n">d</span> <span class="k">BETWEEN</span> <span class="k">Start</span> <span class="k">AND</span> <span class="n">Stop</span>  <span class="k">AND</span> <span class="n">DAYOFWEEK</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">IN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span> <span class="k">AND</span> <span class="n">holiday</span><span class="o">=</span><span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5. 查找表中的主键</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">k</span><span class="p">.</span><span class="k">column_name</span> <span class="k">FROM</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">table_constraints</span> <span class="n">t</span> <span class="k">JOIN</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">key_column_usage</span> <span class="n">k</span> <span class="k">USING</span>  <span class="p">(</span><span class="k">constraint_name</span><span class="p">,</span><span class="n">table_schema</span><span class="p">,</span><span class="k">table_name</span><span class="p">)</span> <span class="k">WHERE</span> <span class="n">t</span><span class="p">.</span><span class="n">constraint_type</span><span class="o">=</span><span class="s1">&#39;PRIMARY</span>
+</span><span class='line'><span class="s1"> KEY&#39;</span> <span class="k">AND</span> <span class="n">t</span><span class="p">.</span><span class="n">table_schema</span><span class="o">=</span><span class="s1">&#39;db&#39;</span> <span class="k">AND</span> <span class="n">t</span><span class="p">.</span><span class="k">table_name</span><span class="o">=</span><span class="n">tbl</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. 查看你的数库有多大</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">table_schema</span> <span class="k">AS</span> <span class="s1">&#39;Db Name&#39;</span><span class="p">,</span>  <span class="n">Round</span><span class="p">(</span><span class="k">Sum</span><span class="p">(</span> <span class="n">data_length</span> <span class="o">+</span> <span class="n">index_length</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Db Size (MB)&#39;</span><span class="p">,</span>  <span class="n">Round</span><span class="p">(</span> <span class="k">Sum</span><span class="p">(</span> <span class="n">data_free</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span> <span class="p">)</span> <span class="k">AS</span> <span class="s1">&#39;Free Space (MB)&#39;</span> <span class="k">FROM</span> <span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">table_schema</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>转自<a href="http://coolshell.cn/articles/3433.html">这里</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如此而已]]></title>
+    <link href="http://sonnewilling.com/blog/2012/03/15/ru-ci-er-yi/"/>
+    <updated>2012-03-15T19:00:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/03/15/ru-ci-er-yi</id>
+    <content type="html"><![CDATA[<p> 2000年的石佛来到2012告诉我们他也有战斧式的梦，海布里跪吻的国王远赴加泰罗尼亚劈棘未竟的功勋，风华滚滚，手中新酿的美酒回荡在酒樽。开始的激情万丈至于后来的云淡风轻，曾经的高亢嘹亮不知觉中融入生活，成为意识的一分子，甚或连自己都不曾注意何时可以如此地如水流淌。告诉自己我们在等，等到不能再等，至于沧海桑田，握笔的手都在颤抖，依旧可以写下自己的最爱。便也可能是在此时突然一泻千里，那么一瞬的快感摊开来是一刻一划的尺度，每一个凿痕都无比熟悉而又慢慢模糊，沉沉地呼出一口浊气，仰鼻深吸，胸中吐纳的却是天地。</p>
+
+<p> <!--more--></p>
+
+<p>用深爱只是起个了头，剩下的是让我们一起坚持。</p>
+
+<p>高原天路上一撮撮的藏民半蹲着，遵从着自己的教义将国道上的虫子拾起抛在路傍，不至于被来往的车辆碾死，自有一股充实从手足间隐隐透露。还记得路过一个藏民女孩时正巧她抬头，互相笑了下，黑红朝气健康的脸明媚的笑，有那么一瞬间觉得现实很远，真实地感觉到自己只是个无关的过客，他们与此间的山水才是亘古不变。或是磕长头，千里山路，一生一次，全家的祈福，磕个把年头，有年老体弱死在路上的，也有年龄还不及我大的，毫不经事。羡慕他们的朝圣之路是如此的明晰，在手上膝上，用一起一伏代替了我所有的追求与摸索。相伴的一个女孩徒步墨脱，随行的人路遇本地人说她年纪小小多么厉害，对方只是淡淡的回应他家的女娃自小便在这条路上背送生活必需品。那满怀的骄傲便轻易地化作惊愕付之东流。</p>
+
+<p>一个深夜到了克拉玛依，找到家20元一人的小旅馆匆匆入住，那时正值喀什杀人南疆暴动，见到少数民族总不免惊慌。偏生半夜有人来敲门开门一看正是个回族汉子无疑，用那种独特的新疆普通话问我有没有刀，一身冷汗忙说没有，后又解释说在喝酒，想割开矿泉水瓶做酒杯，才转身拿给他。不过一会儿就还了回来，看我也一身的脏旧以为我同是来这里打工赚钱，用那新疆普通话很是郑重的跟我说“好好挣钱 好好活着”，家里人平时的几多苦口婆心都不及这一句来的彻头彻尾。</p>
+
+<p>回来坐的是绿皮的硬座，55个小时3000+km，才170元。听说之前开过一趟特快，因为贵没人坐所以才又用回这列1086.因为来回这条线的都是些河南河北山东的民工，去新疆农忙时摘棉花，早上6点日出晚上9点日落，干满白天便是200。互相聊着的都是些家里的农活或是哪里的小工钱高一点。私下一算，若想早点成家，需要父子二人打工三四年攒钱再向亲朋好友借贷才能够数，而借贷的钱财又是需要父子二人外出打工两三年才能偿还。</p>
+
+<p>细细想来，这片土地上，有谁不是奔着那”好好挣钱 好好活着”而努力着呢，各有各自的道路罢了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Struts+jquery+ajax简单整合示例]]></title>
+    <link href="http://sonnewilling.com/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/"/>
+    <updated>2012-02-23T21:28:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li</id>
+    <content type="html"><![CDATA[<p>jsp文件：</p>
+
+<script src="https://gist.github.com/wanax/6752399.js"></script>
+
+
+
+
+<!--more-->
+
+
+<p>           <br/>
+或者：</p>
+
+<script src="https://gist.github.com/wanax/6752402.js"></script>
+
+
+<p></p>
+
+<p>html部分：</p>
+
+<script src="https://gist.github.com/wanax/6752404.js"></script>
+
+
+<p></p>
+
+<p>struts代码：</p>
+
+<script src="https://gist.github.com/wanax/6752407.js"></script>
+
+
+<p>java代码：</p>
+
+<script src="https://gist.github.com/wanax/6752410.js"></script>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[垂直发布—Httpclient模拟登陆获取页面信息]]></title>
+    <link href="http://sonnewilling.com/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi/"/>
+    <updated>2012-02-13T18:24:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi</id>
+    <content type="html"><![CDATA[<p>过年回了趟老家，回来后寒假还有好大一截，闲着也是没事就这两天初步了解了下垂直发布的东西，收获一点点吧，感觉离预期还差很远。趁着还有印象写下来，步步为营呗。网上搜索，看到很多模拟登录都是用Httpclient的，另外一个是HttpURLConnection。
+HttpURLConnection是java的标准类，HttpClient 是 Apache Jakarta Common 下的子项目，用来提供支持 HTTP 协议的客户端编程工具包，并且它支持 HTTP 协议最新的版本和建议。因为是初学，就图着简单易用的目的选择了Httpclient，感觉还是挺容易上手的，不过这两天遇到的问题也不少。</p>
+
+<!--more-->
+
+
+<p>既然是模拟正规的登录，那首先要抓包，通过一次正常的登录来获取表单提交的信息，既而自己在后台把相应的参数填好发出。</p>
+
+<p>网上的抓包工具不少，刚开始也下了好几个，像Wireshark，SmartSniff都是好多人推荐的。开始用的Wireshark，确实好多功能，还有过滤什么的，但贪图方便用着用着就转去SmartSniff了。就是准备登录时点一下开始键，然后登录，再停止抓包，挨个找一下这段时间的TCP，根据登录网址，很容易就找到目标信息了。</p>
+
+<p>就像这样
+<img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/100001114023512_zpsa214f4b2.jpg" alt="image" /></p>
+
+<p>可以看到蓝色字的最后一行就是该网站正常登录的表单提交信息了。顺便一提，上面的蓝色是浏览器发送的请求，下面的粉色则是服务器返回来的数据，一般情况下HTTP/1.1 200就表示登录正常了，这是一个判定标准。</p>
+
+<p>因为开始4.x网上用的人不多，出的时间不久的缘故吧，所以搜到的信息很多时候都是3.x的写法，自己也就照葫芦画瓢了，后来看到说4.x基本上是重写的，跟之前的3.x有很大不同，所以第二天又重新用4.x试了一遍，写法上稍微复杂了点，但方式都差不多感觉。</p>
+
+<p>这里我是用的biketo网站做的小白鼠，平常喜欢骑下单车再估计这网站也不会做得很有技术难度估计能好模拟一点就用这个了，哈哈。</p>
+
+<script src="https://gist.github.com/wanax/6752363.js"></script>
+
+
+<p>首先正常登录时，发送的post是这个</p>
+
+<script src="https://gist.github.com/wanax/6752367.js"></script>
+
+
+<p>然后就是模拟</p>
+
+<script src="https://gist.github.com/wanax/6752368.js"></script>
+
+
+<p>这里要注意一下</p>
+
+<p>client.getParams().setParameter(HttpMethodParams.USER_AGENT
+的那行代码，因为我们是用的java来发的，不是浏览器，所以默认的user-agent是Jakarta Commons-HttpClient/3.0.1，很多服务器看到这个就直接不鸟你了，不过biketo嘛，没有这层过滤，呵呵。但一般情况下还是要伪装成浏览器的信息，这样才容易得手~
+这个样子发出的包便是</p>
+
+<script src="https://gist.github.com/wanax/6752370.js"></script>
+
+
+<p>对比之下会发现比正常的浏览器似乎少了很多信息，转了一篇文章写得很详细，大家有兴趣自己看下吧<a href="http://blog.csdn.net/mxiaochi/article/details/7252582">http://blog.csdn.net/mxiaochi/article/details/7252582</a>
+post是请求，get便是验证下登录有没有成功，找一个只有登录才能访问的页面放进GetMethod 里，发送请求，然后outprint出来，贴到记事本里用浏览器打开就可以验证一下啦
+这是同样功能4.x的代码，有兴趣也可以试一下</p>
+
+<script src="https://gist.github.com/wanax/6752373.js"></script>
+
+
+<p>前面注释的一大段就是模仿3.x中缺少的那些浏览器信息了，可以根据正常登录抓回来的信息自己慢慢匹配。
+刚刚说的这些都是些很简单的东西，仔细看看不到一天就可以大概掌握了，下面的就是些自己遇到的问题。
+我第二个尝试的是一个房地产的网站，发现它的页面是会自动跳转的，再请求的话则会退回登录页面很是苦恼。</p>
+
+<script src="https://gist.github.com/wanax/6752376.js"></script>
+
+
+<p>抓包是这样的</p>
+
+<script src="https://gist.github.com/wanax/6752381.js"></script>
+
+
+<p>可以看到是能正常取回cookie的，但当我尝试get去别的页面的时候都被弹到登录页面了，可是我已经是带上cookie访问的了，不知道这有没有扯上网站安全之类的，这方面没什么经验</p>
+
+<script src="https://gist.github.com/wanax/6752384.js"></script>
+
+
+<p>或是用session？个人猜测。</p>
+]]></content>
+  </entry>
+  
+</feed>

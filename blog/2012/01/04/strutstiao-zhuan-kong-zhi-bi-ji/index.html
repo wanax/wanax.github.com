@@ -1,0 +1,205 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>struts跳转控制笔记 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="Struts跳转控制笔记 当namespace="/login"时 === 子路目中：有login/ no action mapped for 无login/ no result defined 根目录中： no result defined no action mapped for &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2012/01/04/strutstiao-zhuan-kong-zhi-bi-ji/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (14)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (3)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (17)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Struts跳转控制笔记</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>当<code>namespace="/login"</code>时</h3>
+
+<p>===</p>
+
+<p>子路目中：有<code>login/</code>   <strong>no action mapped for</strong></p>
+
+<p>无<code>login/</code>   <strong>no result defined</strong></p>
+
+<p>根目录中：    <strong>no result defined</strong></p>
+
+<p><strong>no action mapped for</strong></p>
+
+<!--more-->
+
+
+<h3>当<code>namespace="/"</code>时</h3>
+
+<p>===</p>
+
+<p>子目录中：      <strong>可跳转，无样式，URL重复发送</strong></p>
+
+<p><strong>no result defined</strong></p>
+
+<p>根目录中：    <strong>no result defined</strong></p>
+
+<p>跳转成功</p>
+
+<p>结果跳转位置为“namespace+result”</p>
+
+<p>===</p>
+
+<h3>struts.xml 匹配action方式：</h3>
+
+<p>===
+1.当各目录jsp页面发送action时，系统首先在其加上所在目录                                               名，与namespace匹配。</p>
+
+<p><code>namespace=“/”</code>与不写有区别，不写则匹配所有，写等同于<code>“/test”</code>之类，<code>“/”</code>表示根目录</p>
+
+<p>故当<code>namespace=“/test”</code>时，根目录的action应写<code>test/*.action，所发出的全称即"test/*.action"</code>，即可找到对应struts，但服务器会记录信息，使URL叠加，不推荐使用。</p>
+
+<p>另：同子目录下发<code>action="*.action"，会自动加上对应文件名，即"test/*action"</code>，可与namespace匹配。</p>
+
+<p>故总体来说，推荐使用重定向的方式，不论再哪级目录下，均返回根目录对应配置文件填写action</p>
+
+<p>ex.   二级目录下，可写成<code>"../../test/test/*action"</code>重新定向。</p>
+
+<p>在匹配过程中有时候结果返回页面会发现css全部无法加载，此为因为重定向后URL改变，对应不上原来的css加载路径，此时应应变对应尝试各种更改action的发送URL。</p>
+
+<p>result 前加<code>/</code> 表返回根目录，再依具体位置写目录</p>
+
+<p>通配符的使用 ex. <code>action="jump*"    result=/test{1}/test{1}Success.jsp</code></p>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[陋室]]></title>
   <link href="http://sonnewilling.com/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-03-12T11:11:35+08:00</updated>
+  <updated>2014-03-12T17:09:13+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[UNIX下Socket工具包libunp.a编译笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/"/>
+    <updated>2014-03-12T16:23:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji</id>
+    <content type="html"><![CDATA[<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Execute the following from the src/ directory:
+</span><span class='line'>
+</span><span class='line'>    ./configure    # try to figure out all implementation differences
+</span><span class='line'>
+</span><span class='line'>    cd lib         # build the basic library that all programs need
+</span><span class='line'>    make           # use "gmake" everywhere on BSD/OS systems
+</span><span class='line'>
+</span><span class='line'>    cd ../libfree  # continue building the basic library
+</span><span class='line'>    make
+</span><span class='line'>
+</span><span class='line'>    cd ../libroute # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>    make           # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>
+</span><span class='line'>    cd ../libxti   # only if your system supports XTI
+</span><span class='line'>    make           # only if your system supports XTI
+</span><span class='line'>
+</span><span class='line'>    cd ../intro    # build and test a basic client program
+</span><span class='line'>    make daytimetcpcli
+</span><span class='line'>    ./daytimetcpcli 127.0.0.1
+</span><span class='line'>
+</span><span class='line'>If all that works, you're all set to start compiling individual programs.
+</span><span class='line'>
+</span><span class='line'>Notice that all the source code assumes tabs every 4 columns, not 8.</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<p>2.开始蛮兴奋地在sublime上敲，觉得脱离了IDE后怎么看怎么高大上，但慢慢发现每更改了服务端客户端的程序后，想要运行测试要在三个终端窗口敲五次命令才可以，对于习惯了一个快捷键编译运行的我实在是一场灾难，果断还是要把服务端的开发迁移到eclipse上才是上上之道。因为不熟悉Makefile的语法，对于编译的配置又是一场灾难，折腾了好久才日出来。</p>
+
+<p>首先要配置-L选项，定位于lib所在文件路径</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/workingspace/Demo/src/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>unp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/src/lib</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS应用发布流程]]></title>
@@ -2214,80 +2296,6 @@
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[垂直发布—Httpclient模拟登陆获取页面信息]]></title>
-    <link href="http://sonnewilling.com/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi/"/>
-    <updated>2012-02-13T18:24:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi</id>
-    <content type="html"><![CDATA[<p>过年回了趟老家，回来后寒假还有好大一截，闲着也是没事就这两天初步了解了下垂直发布的东西，收获一点点吧，感觉离预期还差很远。趁着还有印象写下来，步步为营呗。网上搜索，看到很多模拟登录都是用Httpclient的，另外一个是HttpURLConnection。
-HttpURLConnection是java的标准类，HttpClient 是 Apache Jakarta Common 下的子项目，用来提供支持 HTTP 协议的客户端编程工具包，并且它支持 HTTP 协议最新的版本和建议。因为是初学，就图着简单易用的目的选择了Httpclient，感觉还是挺容易上手的，不过这两天遇到的问题也不少。</p>
-
-<!--more-->
-
-
-<p>既然是模拟正规的登录，那首先要抓包，通过一次正常的登录来获取表单提交的信息，既而自己在后台把相应的参数填好发出。</p>
-
-<p>网上的抓包工具不少，刚开始也下了好几个，像Wireshark，SmartSniff都是好多人推荐的。开始用的Wireshark，确实好多功能，还有过滤什么的，但贪图方便用着用着就转去SmartSniff了。就是准备登录时点一下开始键，然后登录，再停止抓包，挨个找一下这段时间的TCP，根据登录网址，很容易就找到目标信息了。</p>
-
-<p>就像这样
-<img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/100001114023512_zpsa214f4b2.jpg" alt="image" /></p>
-
-<p>可以看到蓝色字的最后一行就是该网站正常登录的表单提交信息了。顺便一提，上面的蓝色是浏览器发送的请求，下面的粉色则是服务器返回来的数据，一般情况下HTTP/1.1 200就表示登录正常了，这是一个判定标准。</p>
-
-<p>因为开始4.x网上用的人不多，出的时间不久的缘故吧，所以搜到的信息很多时候都是3.x的写法，自己也就照葫芦画瓢了，后来看到说4.x基本上是重写的，跟之前的3.x有很大不同，所以第二天又重新用4.x试了一遍，写法上稍微复杂了点，但方式都差不多感觉。</p>
-
-<p>这里我是用的biketo网站做的小白鼠，平常喜欢骑下单车再估计这网站也不会做得很有技术难度估计能好模拟一点就用这个了，哈哈。</p>
-
-<script src="https://gist.github.com/wanax/6752363.js"></script>
-
-
-<p>首先正常登录时，发送的post是这个</p>
-
-<script src="https://gist.github.com/wanax/6752367.js"></script>
-
-
-<p>然后就是模拟</p>
-
-<script src="https://gist.github.com/wanax/6752368.js"></script>
-
-
-<p>这里要注意一下</p>
-
-<p>client.getParams().setParameter(HttpMethodParams.USER_AGENT
-的那行代码，因为我们是用的java来发的，不是浏览器，所以默认的user-agent是Jakarta Commons-HttpClient/3.0.1，很多服务器看到这个就直接不鸟你了，不过biketo嘛，没有这层过滤，呵呵。但一般情况下还是要伪装成浏览器的信息，这样才容易得手~
-这个样子发出的包便是</p>
-
-<script src="https://gist.github.com/wanax/6752370.js"></script>
-
-
-<p>对比之下会发现比正常的浏览器似乎少了很多信息，转了一篇文章写得很详细，大家有兴趣自己看下吧<a href="http://blog.csdn.net/mxiaochi/article/details/7252582">http://blog.csdn.net/mxiaochi/article/details/7252582</a>
-post是请求，get便是验证下登录有没有成功，找一个只有登录才能访问的页面放进GetMethod 里，发送请求，然后outprint出来，贴到记事本里用浏览器打开就可以验证一下啦
-这是同样功能4.x的代码，有兴趣也可以试一下</p>
-
-<script src="https://gist.github.com/wanax/6752373.js"></script>
-
-
-<p>前面注释的一大段就是模仿3.x中缺少的那些浏览器信息了，可以根据正常登录抓回来的信息自己慢慢匹配。
-刚刚说的这些都是些很简单的东西，仔细看看不到一天就可以大概掌握了，下面的就是些自己遇到的问题。
-我第二个尝试的是一个房地产的网站，发现它的页面是会自动跳转的，再请求的话则会退回登录页面很是苦恼。</p>
-
-<script src="https://gist.github.com/wanax/6752376.js"></script>
-
-
-<p>抓包是这样的</p>
-
-<script src="https://gist.github.com/wanax/6752381.js"></script>
-
-
-<p>可以看到是能正常取回cookie的，但当我尝试get去别的页面的时候都被弹到登录页面了，可是我已经是带上cookie访问的了，不知道这有没有扯上网站安全之类的，这方面没什么经验</p>
-
-<script src="https://gist.github.com/wanax/6752384.js"></script>
-
-
-<p>或是用session？个人猜测。</p>
 ]]></content>
   </entry>
   

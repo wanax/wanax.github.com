@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Mar 1st, 2014 Tec iOS应用发布流程 概述 整个发布流程有四个关键词，Certificates，Identifiers，Devices与Provisioning Profiles. 它们的相互关系如下图所示， 简单说来便是用户身份验证书（Certificates）， &hellip;">
+	<meta name="description" content="Mar 12th, 2014 Tec UNIX下Socket工具包libunp.a编译笔记 1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,7 +72,7 @@
     <li class='category'><a href='/blog/categories/life/'>Life (14)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (3)</a></li>
-<li class='category'><a href='/blog/categories/tec/'>Tec (17)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (18)</a></li>
 
   </ul>
 </section>
@@ -110,6 +110,90 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-12T16:23:00+08:00" data-updated="true" itemprop="datePublished">Mar 12<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/" itemprop="url">UNIX下Socket工具包libunp.a编译笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Execute the following from the src/ directory:
+</span><span class='line'>
+</span><span class='line'>    ./configure    # try to figure out all implementation differences
+</span><span class='line'>
+</span><span class='line'>    cd lib         # build the basic library that all programs need
+</span><span class='line'>    make           # use "gmake" everywhere on BSD/OS systems
+</span><span class='line'>
+</span><span class='line'>    cd ../libfree  # continue building the basic library
+</span><span class='line'>    make
+</span><span class='line'>
+</span><span class='line'>    cd ../libroute # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>    make           # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>
+</span><span class='line'>    cd ../libxti   # only if your system supports XTI
+</span><span class='line'>    make           # only if your system supports XTI
+</span><span class='line'>
+</span><span class='line'>    cd ../intro    # build and test a basic client program
+</span><span class='line'>    make daytimetcpcli
+</span><span class='line'>    ./daytimetcpcli 127.0.0.1
+</span><span class='line'>
+</span><span class='line'>If all that works, you're all set to start compiling individual programs.
+</span><span class='line'>
+</span><span class='line'>Notice that all the source code assumes tabs every 4 columns, not 8.</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -578,44 +662,6 @@
 <p>  
 		
 		<a href="/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-07T11:47:00+08:00" data-updated="true" itemprop="datePublished">Jun 7<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong/" itemprop="url">iOS上js引擎的使用</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p> 如上篇文章所述ios折线图绘制，公司开发需要要用到一些字符串转公式的需求。自己实在有点惧自己写语法书啥的听公司大牛说可以使用js引擎试试，于是就抱着试试的态度调研了一把，感觉还不错。</p>
-
-<p>这次试用了两个js引擎，一个是javascriptcore，这个比较方便可以直接引入便使用，另一个是google的v8引擎，这个有点麻烦要先编译通过才行，搞了好一阵才派上用场~倒是学到了好多新知识，哈哈。</p>
-
-
-		
-		<a href="/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

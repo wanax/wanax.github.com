@@ -1,0 +1,228 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>UNIX下Socket工具包libunp.a编译笔记 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="UNIX下Socket工具包libunp.a编译笔记 1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (14)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (3)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (18)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">UNIX下Socket工具包libunp.a编译笔记</h1>
+	<div class="entry-content" itemprop="articleBody"><p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Execute the following from the src/ directory:
+</span><span class='line'>
+</span><span class='line'>    ./configure    # try to figure out all implementation differences
+</span><span class='line'>
+</span><span class='line'>    cd lib         # build the basic library that all programs need
+</span><span class='line'>    make           # use "gmake" everywhere on BSD/OS systems
+</span><span class='line'>
+</span><span class='line'>    cd ../libfree  # continue building the basic library
+</span><span class='line'>    make
+</span><span class='line'>
+</span><span class='line'>    cd ../libroute # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>    make           # only if your system supports 4.4BSD style routing sockets
+</span><span class='line'>
+</span><span class='line'>    cd ../libxti   # only if your system supports XTI
+</span><span class='line'>    make           # only if your system supports XTI
+</span><span class='line'>
+</span><span class='line'>    cd ../intro    # build and test a basic client program
+</span><span class='line'>    make daytimetcpcli
+</span><span class='line'>    ./daytimetcpcli 127.0.0.1
+</span><span class='line'>
+</span><span class='line'>If all that works, you're all set to start compiling individual programs.
+</span><span class='line'>
+</span><span class='line'>Notice that all the source code assumes tabs every 4 columns, not 8.</span></code></pre></td></tr></table></div></figure>
+
+
+<!--more-->
+
+
+<p>2.开始蛮兴奋地在sublime上敲，觉得脱离了IDE后怎么看怎么高大上，但慢慢发现每更改了服务端客户端的程序后，想要运行测试要在三个终端窗口敲五次命令才可以，对于习惯了一个快捷键编译运行的我实在是一场灾难，果断还是要把服务端的开发迁移到eclipse上才是上上之道。因为不熟悉Makefile的语法，对于编译的配置又是一场灾难，折腾了好久才日出来。</p>
+
+<p>首先要配置-L选项，定位于lib所在文件路径</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/workingspace/Demo/src/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>unp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/src/lib</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

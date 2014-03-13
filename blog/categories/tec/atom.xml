@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-03-13T11:42:15+08:00</updated>
+  <updated>2014-03-13T16:46:09+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -14,37 +14,198 @@
 
   
   <entry>
+    <title type="html"><![CDATA[GLib编译笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2014/03/13/glibbian-yi-bi-ji/"/>
+    <updated>2014-03-13T15:38:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/03/13/glibbian-yi-bi-ji</id>
+    <content type="html"><![CDATA[<h3>缘起</h3>
+
+<p>最近做的一个项目是使用C写的，随着项目的深入发现需要通过不同的数据结构来完成需求，自己简单地去编写已经不能满足要求且在健壮性方面也存在着隐患，于是就琢磨着在网上找找看看有没有什么现成的C工具包来用，就这样，发现了GLib。</p>
+
+<p>先来看下维基上的介绍：</p>
+
+<blockquote><p>GLib是一个跨平台的、用C语言编写的库，起初是GTK+的一部分，但到了GTK+第二版，开发者决定把跟图形界面无关的代码分开，这些代码于是就组装成了GLib。GLib提供了多种高级的数据结构，如内存块、双向和单向链表、哈希表、动态字符串等。</p></blockquote>
+
+<p>感觉功能刚好满足需要，类似于C++中的STL，果断搞起。</p>
+
+<!--more-->
+
+
+<h3>1.下载</h3>
+
+<p>从网上搜索GLib找到了这里<a href="http://www.linuxfromscratch.org/blfs/view/svn/general/glib2.html">Linux From Scratch</a>，下载它的压缩包。</p>
+
+<p>这个网站也把具体的编译安装方式写得很明白。</p>
+
+<blockquote><h3>GLib Dependencies</h3>
+
+<h4>Required</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html">libffi-3.0.13</a> and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/python2.html">Python-2.7.6</a></p>
+
+<h4>Recommended</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html">PCRE-8.34</a>(built with Unicode properties)</p>
+
+<h4>Optional</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/postlfs/attr.html">attr-2.4.47</a>, <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/dbus.html">D-Bus-1.8.0</a> (required to run the tests), and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/gtk-doc.html">GTK-Doc-1.20</a></p>
+
+<h4>Additional Runtime Dependencies</h4>
+
+<p>Quoted directly from the INSTALL file: “Some of the mimetype-related functionality in GIO requires the update-mime-database and update-desktop-database utilities”, which are part of <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/shared-mime-info.html">shared-mime-info-1.2</a> and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/desktop-file-utils.html">desktop-file-utils-0.22</a>, respectively.</p></blockquote>
+
+<p>就是说想要安装GLib的话最起码得先把Required和Recommended里的东西装完才行。</p>
+
+<h3>2.编译</h3>
+
+<p>安装环境配好后就可以正式安装了，顺着那个网页往下走就能看到具体的方法：</p>
+
+<p><code>c
+./configure --prefix=/usr --with-pcre=system &amp;&amp; make
+</code>
+再然后</p>
+
+<p><code>c
+sudo make install
+</code>
+GLib在gcc里的使用是借助了一个叫pkg-configure的工具，这玩意儿的作用这位哥儿们说得很详细了，看他的介绍吧：<a href="http://www.chenjunlu.com/2011/03/understanding-pkg-config-tool/">理解 pkg-config 工具</a></p>
+
+<p>其实定位到<code>/usr/lib/pkgconfigure</code>后会发现它里面放了很多你自己安装的库的.pc的配置文件，用vim随便打开一个发现它的内容是这样的：</p>
+
+<p><code>c
+   prefix=/usr
+   exec_prefix=${prefix}
+   libdir=${exec_prefix}/lib
+   includedir=${prefix}/include
+&amp;
+   glib_genmarshal=glib-genmarshal
+   gobject_query=gobject-query
+   glib_mkenums=glib-mkenums
+&amp;
+   Name: GLib
+   Description: C Utility Library
+   Version: 2.38.2
+   Requires.private: libpcre
+   Libs: -L${libdir} -lglib-2.0 -lintl
+   Libs.private:   -lpcre  -lintl  -liconv
+   Cflags: -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include
+</code>
+看一下就明白了，基本上就是帮你写了一堆编译选项，免得到时候自己编译的时候要敲一坨，而且在不同的电脑上编译的时候也可以动态的调整路径，不用一遍遍的去改Makefile。</p>
+
+<p>比如说自己编译一个使用了GLib的文件，可以这样敲：</p>
+
+<p><code>c
+gcc `pkg-config --cflags --libs glib-2.0`  hello.c -o hello
+</code></p>
+
+<p>–cflags 参数可以给出在编译时所需要的选项，而 –libs 参数可以给出连接时的选项。</p>
+
+<p>当然如果不使用pkg-configure的话也可以类似这样子：</p>
+
+<p><code>c
+gcc  -L/usr/lib -I/usr/lib/glib/include/glib-2.0 hello.c -o hello -liconv -lresolv -lpcre -lintl -lglib-2.0
+</code>
+所以基本上还是简化了很多操作的。</p>
+
+<h3>3.测试使用</h3>
+
+<p>测试一下GLib中哈希表的使用吧：</p>
+
+<p>```c</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;glib.h></h1>
+
+<p>int main(){</p>
+
+<pre><code>    printf("Glib version: %u.%u.%u\n\n",glib_major_version,glib_minor_version,glib_micro_version);
+</code></pre>
+
+<p>&amp;</p>
+
+<pre><code>    GHashTable* hash = g_hash_table_new(g_str_hash, g_str_equal);
+    g_hash_table_insert(hash, "Virginia", "Richmond");
+    g_hash_table_insert(hash, "Texas", "Austin");
+    g_hash_table_insert(hash, "Ohio", "Columbus");
+</code></pre>
+
+<p>&amp;</p>
+
+<pre><code>    printf("There are %d keys in the hash\n",g_hash_table_size(hash));
+    printf("The capital of Texas is %s\n",g_hash_table_lookup(hash, "Texas"));
+    gboolean found = g_hash_table_remove(hash, "Virginia");
+    printf("The value 'Virginia' was %sfound and removed\n", found ? "" : "not ");
+</code></pre>
+
+<p>&amp;</p>
+
+<pre><code>    g_hash_table_destroy(hash);
+    return 0;
+</code></pre>
+
+<p>}
+```
+可以打印如下信息：</p>
+
+<blockquote><p>Glib version: 2.38.2</p>
+
+<p>There are 3 keys in the hash</p>
+
+<p>The capital of Texas is Austin</p>
+
+<p>The value &lsquo;Virginia&rsquo; was found and removed</p></blockquote>
+
+<h3>4.搭配Eclipse</h3>
+
+<p>嫌敲命令行麻烦的话也可以配到Eclipse上用。现在在Eclipse上有了pkg-configure的插件，可以对GLib直接勾选使用，但我安装后没有起到效果，不知道哪里出了问题<a href="https://code.google.com/p/pkg-config-support-for-eclipse-cdt/">pkg-config-support-for-eclipse-cdt</a>。但反正原理已经知道了，索性自己配一下也就妥了。</p>
+
+<p>选中工程，在Project里找到Properties进入到下图的界面：</p>
+
+<p><img src="/images/tec/GLib/eclipsecon.png" alt="image" /></p>
+
+<p>在Libraries里配置GLib库的位置和名字，在Includes里配置GLib头文件的位置，我的头文件在这里</p>
+
+<p><code>c
+/usr/include/glib-2.0
+</code>
+其实按照教程正常安装的话基本上都会在这个位置，这样的话就可以用Eclipse在GLib里爽起来了~</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[UNIX下Socket工具包libunp.a编译笔记]]></title>
     <link href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/"/>
     <updated>2014-03-12T16:23:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji</id>
     <content type="html"><![CDATA[<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
 
-<p>```
-Execute the following from the src/ directory:</p>
-
-<pre><code>./configure    # try to figure out all implementation differences
-
+<p>```c
+Execute the following from the src/ directory:
+&amp;
+./configure    # try to figure out all implementation differences
 cd lib         # build the basic library that all programs need
-make           # use "gmake" everywhere on BSD/OS systems
-
+make           # use &ldquo;gmake&rdquo; everywhere on BSD/OS systems
+&amp;
 cd ../libfree  # continue building the basic library
 make
-
+&amp;
 cd ../libroute # only if your system supports 4.4BSD style routing sockets
 make           # only if your system supports 4.4BSD style routing sockets
+&amp;
+cd ../libxti   # only if your system supports XTI</p>
 
-cd ../libxti   # only if your system supports XTI
-make           # only if your system supports XTI
-
-cd ../intro    # build and test a basic client program
-make daytimetcpcli
-./daytimetcpcli 127.0.0.1
+<pre><code>make           # only if your system supports XTI
 </code></pre>
 
-<p>If all that works, you&rsquo;re all set to start compiling individual programs.</p>
-
-<p>Notice that all the source code assumes tabs every 4 columns, not 8.
+<p>cd ../intro    # build and test a basic client program
+make daytimetcpcli
+&amp;
+./daytimetcpcli 127.0.0.1
+&amp;
+If all that works, you&rsquo;re all set to start compiling individual programs.
+Notice that all the source code assumes tabs every 4 columns, not 8.
 ```</p>
 
 <!--more-->
@@ -54,12 +215,12 @@ make daytimetcpcli
 
 <p>首先要配置-L选项，定位于lib所在文件路径</p>
 
-<p><code>
+<p><code>c
 /Users/workingspace/Demo/src/
 </code>
 再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了,另外还要添加resolv，pthread这两个库</p>
 
-<p><code>
+<p><code>c
 unp
 resolv
 pthread
@@ -67,7 +228,7 @@ pthread
 
 <p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
 
-<p><code>
+<p><code>c
 /Users/src/lib
 </code>
 这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
@@ -498,209 +659,6 @@ rake new_post["title"]
 <p>使用上面几条命令生成与发布博客，中间的三条git命令是把博客的源码放到source的分支上，以便在不同的电脑上编辑博客。</p>
 
 <p>参见<a href="http://octopress.org/docs/blogging/">Blogging Basics</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UICollectionView与CXPhotoBrowser配合使用示例]]></title>
-    <link href="http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li/"/>
-    <updated>2013-10-31T15:56:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li</id>
-    <content type="html"><![CDATA[<p>UICollection是在iOS6.0中新加的功能，用于图片的集中展示，大概就是图片墙的意思。基本的使用类似于UITableView，也是设置代理，数据源，对单个的Cell可以自行定制样式。稍有不同的是在UITableView中整体样式的设置只有两种，一种是Group和Plain，而在UICollection中则有较多的选择方案，具体的实现方式需要编码人员对UICollectionViewFlowLayout自行调整。</p>
-
-<p>开发的App中有用到这种功能，结合一个台湾哥儿们Chris Xu的开源插件CXPhotoBrower，可以达到比较好的展示图片的效果。</p>
-
-<p>具体效果图如下：</p>
-
-<p><img src="/images/tec/uicollectionImg.png" alt="image" /></p>
-
-<p><img src="/images/tec/cxphotobrowserImg.png" alt="image" /></p>
-
-<p>现在开始一步步搭建吧。</p>
-
-<!--more-->
-
-
-<h3>一.备齐原料</h3>
-
-<p>UICollection是系统自带的，这个不用关心，CXPhotoBrowser需要自行下载引入。建议使用CocoaPods进行配置，<code>pod 'CXPhotoBrowser'</code>即可，没有用过的话那进入下面的页面按指引搭建吧。</p>
-
-<blockquote><p><a href="https://github.com/ChrisXu1221/CXPhotoBrowser">https://github.com/ChrisXu1221/CXPhotoBrowser</a></p></blockquote>
-
-<h3>二.UICollection的使用</h3>
-
-<h4>1.新建一个UICollectionViewController的VC</h4>
-
-<h4>2.初始化配置UICollectionViewFlowLayout，内嵌于UICollectionViewController中对CollectionCell进行样式管理。</h4>
-
-<p>```objc</p>
-
-<pre><code>UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-/*
-对四方边界与cell之间的距离进行设置，也可以通过代理设置
-*/
-[flowLayout setItemSize:CGSizeMake(163, 309)];
-flowLayout.sectionInset = UIEdgeInsetsMake(10,15,5,15);
-[flowLayout setMinimumLineSpacing:5.0];
-[flowLayout setMinimumInteritemSpacing:5.0];
-[flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-//使用自定义的CollectionCell，出队列，与UITableView的思路相近
-[self.collectionView registerNib:[UINib nibWithNibName:@"PicCollectionCell" bundle:nil] forCellWithReuseIdentifier:GraphExcCellIdentifier];
-[self.collectionView setBackgroundColor:[Utiles colorWithHexString:@"#5b4d41"]];
-self.collectionView.delegate = self;
-self.collectionView.dataSource = self;
-//使用开源插件进行下拉分页的功能，读者自行谷歌
-[self.collectionView addInfiniteScrollingWithActionHandler:^{
-    [self addPics:@"" reset:NO];
-}];
-self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-</code></pre>
-
-<p>```</p>
-
-<h4>3.CollectionCell的创建</h4>
-
-<p>使用nib创建Cell，过程类似于tableCell，不再赘述了。</p>
-
-<h4>4.Delegate与DataSource的设置</h4>
-
-<p>```objc
-&ndash;(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{</p>
-
-<pre><code>return [self.images count];
-</code></pre>
-
-<p>}
-&ndash;(UICollectionViewCell <em>)collectionView:(UICollectionView </em>)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{</p>
-
-<pre><code>FinanPicCollectCell *cell = (FinanPicCollectCell *)[collectionView dequeueReusableCellWithReuseIdentifier:GraphExcCellIdentifier forIndexPath:indexPath];
-id model=[self.images objectAtIndex:indexPath.row];
-//使用SDWebImage进行图片加载
-[cell.imageView setImageWithURL:[NSURL URLWithString:[model objectForKey:@"smallImage"]]
-               placeholderImage:[UIImage imageNamed:@"LOADING.png"]];
-return cell;
-</code></pre>
-
-<p>}
-/<em>
-等同于
-[flowLayout setMinimumLineSpacing:5.0];
-[flowLayout setMinimumInteritemSpacing:5.0];
-但可针对每个Cell单独定制
-</em>/
-&ndash; (CGFloat)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{</p>
-
-<pre><code>return 10.0;
-</code></pre>
-
-<p>}
-&ndash; (CGFloat)collectionView:(UICollectionView <em>)collectionView layout:(UICollectionViewLayout</em>)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{</p>
-
-<pre><code>return 2.0;
-</code></pre>
-
-<p>}
-```</p>
-
-<h3>至此，一个基本的UICollection便简单的搭建完毕了。下面使用CXPhotoBrowser实现图片的单张浏览功能，支持左右切换与捏合放大缩小。</h3>
-
-<h3>三.CXPhotoBrowser的使用</h3>
-
-<p>此插件也是使用数据源代理的思路实现的，我们在载入UICollection的同时也一起对CX进行数据源的设置，另外实现两个代理方法，一个是点击单张图片获取index一遍进行此图片的放大浏览，另一个是在单张浏览功能里左右滑动时获取前后图片的index用于最上面信息栏的展示。
-```objc
-//pragma mark &ndash;
-//pragma mark CXPhotoBrowserDelegate
-//点击图片弹出详细页面
-&ndash; (void)collectionView:(UICollectionView <em>)collectionView didSelectItemAtIndexPath:(NSIndexPath </em>)indexPath{</p>
-
-<pre><code>[self.browser setInitialPageIndex:indexPath.row];
-[self presentViewController:self.browser animated:YES completion:^{
-}];
-</code></pre>
-
-<p>}
-//左右切换视图事件
-&ndash; (void)photoBrowser:(CXPhotoBrowser *)photoBrowser didChangedToPageAtIndex:(NSUInteger)index{</p>
-
-<pre><code>[self.imageTitleLabel setText:[NSString stringWithFormat:@"%d/%d",(index+1),[self.images count]]];
-</code></pre>
-
-<p>}
-//pragma mark &ndash; CXPhotoBrowserDataSource
-&ndash; (NSUInteger)numberOfPhotosInPhotoBrowser:(CXPhotoBrowser *)photoBrowser
-{</p>
-
-<pre><code>return [self.photoDataSource count];
-</code></pre>
-
-<p>}
-&ndash; (id <CXPhotoProtocol>)photoBrowser:(CXPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{</p>
-
-<pre><code>if (index &lt; self.photoDataSource.count)
-    return [self.photoDataSource objectAtIndex:index];
-return nil;
-</code></pre>
-
-<p>}
-//对上方信息栏进行设置
-&ndash; (CXBrowserNavBarView <em>)browserNavigationBarViewOfOfPhotoBrowser:(CXPhotoBrowser </em>)photoBrowser withSize:(CGSize)size
-{</p>
-
-<pre><code>CGRect frame;
-frame.origin = CGPointZero;
-frame.size = size;
-if (!navBarView)
-{
-    navBarView = [[CXBrowserNavBarView alloc] initWithFrame:frame];       
-    [navBarView setBackgroundColor:[UIColor clearColor]];       
-    UIView *bkgView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, size.width, size.height)];
-    [bkgView setBackgroundColor:[UIColor blackColor]];
-    bkgView.alpha = 0.2;
-    bkgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [navBarView addSubview:bkgView];        
-    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doneButton.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
-    [doneButton setTitle:NSLocalizedString(@"返回",@"Dismiss button title") forState:UIControlStateNormal];
-    [doneButton setFrame:CGRectMake(size.width - 60, 5, 50, 30)];
-    [doneButton addTarget:self action:@selector(photoBrowserDidTapDoneButton:) forControlEvents:UIControlEventTouchUpInside];
-    [doneButton.layer setMasksToBounds:YES];
-    [doneButton.layer setCornerRadius:4.0];
-    [doneButton.layer setBorderWidth:1.0];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 1, 1, 1, 1 });
-    [doneButton.layer setBorderColor:colorref];
-    doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    [navBarView addSubview:doneButton];        
-    self.imageTitleLabel = [[UILabel alloc] init];
-    [self.imageTitleLabel setFrame:CGRectMake((size.width - 60)/2,0, 60, 40)];
-    //[self.imageTitleLabel setCenter:navBarView.center];
-    [self.imageTitleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.imageTitleLabel setFont:[UIFont boldSystemFontOfSize:20.]];
-    [self.imageTitleLabel setTextColor:[UIColor whiteColor]];
-    [self.imageTitleLabel setBackgroundColor:[UIColor clearColor]];
-    [self.imageTitleLabel setText:@""];
-    self.imageTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
-    [self.imageTitleLabel setTag:BROWSER_TITLE_LBL_TAG];
-    [navBarView addSubview:self.imageTitleLabel];
-}    
-return navBarView;
-</code></pre>
-
-<p>}
-//pragma mark &ndash; PhotBrower Actions
-&ndash; (void)photoBrowserDidTapDoneButton:(UIButton *)sender
-{</p>
-
-<pre><code>[self dismissViewControllerAnimated:YES completion:nil];
-</code></pre>
-
-<p>}
-```</p>
-
-<h3>至此一个简答的图片墙加详细浏览的功能便做完了，欢迎交流新的想法。</h3>
 ]]></content>
   </entry>
   

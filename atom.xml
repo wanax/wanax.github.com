@@ -4,7 +4,7 @@
   <title><![CDATA[陋室]]></title>
   <link href="http://sonnewilling.com/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-03-13T11:42:15+08:00</updated>
+  <updated>2014-03-13T16:46:09+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -14,13 +14,204 @@
 
   
   <entry>
+    <title type="html"><![CDATA[GLib编译笔记]]></title>
+    <link href="http://sonnewilling.com/blog/2014/03/13/glibbian-yi-bi-ji/"/>
+    <updated>2014-03-13T15:38:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/03/13/glibbian-yi-bi-ji</id>
+    <content type="html"><![CDATA[<h3>缘起</h3>
+
+<p>最近做的一个项目是使用C写的，随着项目的深入发现需要通过不同的数据结构来完成需求，自己简单地去编写已经不能满足要求且在健壮性方面也存在着隐患，于是就琢磨着在网上找找看看有没有什么现成的C工具包来用，就这样，发现了GLib。</p>
+
+<p>先来看下维基上的介绍：</p>
+
+<blockquote><p>GLib是一个跨平台的、用C语言编写的库，起初是GTK+的一部分，但到了GTK+第二版，开发者决定把跟图形界面无关的代码分开，这些代码于是就组装成了GLib。GLib提供了多种高级的数据结构，如内存块、双向和单向链表、哈希表、动态字符串等。</p></blockquote>
+
+<p>感觉功能刚好满足需要，类似于C++中的STL，果断搞起。</p>
+
+<!--more-->
+
+
+<h3>1.下载</h3>
+
+<p>从网上搜索GLib找到了这里<a href="http://www.linuxfromscratch.org/blfs/view/svn/general/glib2.html">Linux From Scratch</a>，下载它的压缩包。</p>
+
+<p>这个网站也把具体的编译安装方式写得很明白。</p>
+
+<blockquote><h3>GLib Dependencies</h3>
+
+<h4>Required</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html">libffi-3.0.13</a> and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/python2.html">Python-2.7.6</a></p>
+
+<h4>Recommended</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html">PCRE-8.34</a>(built with Unicode properties)</p>
+
+<h4>Optional</h4>
+
+<p><a href="http://www.linuxfromscratch.org/blfs/view/svn/postlfs/attr.html">attr-2.4.47</a>, <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/dbus.html">D-Bus-1.8.0</a> (required to run the tests), and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/gtk-doc.html">GTK-Doc-1.20</a></p>
+
+<h4>Additional Runtime Dependencies</h4>
+
+<p>Quoted directly from the INSTALL file: “Some of the mimetype-related functionality in GIO requires the update-mime-database and update-desktop-database utilities”, which are part of <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/shared-mime-info.html">shared-mime-info-1.2</a> and <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/desktop-file-utils.html">desktop-file-utils-0.22</a>, respectively.</p></blockquote>
+
+<p>就是说想要安装GLib的话最起码得先把Required和Recommended里的东西装完才行。</p>
+
+<h3>2.编译</h3>
+
+<p>安装环境配好后就可以正式安装了，顺着那个网页往下走就能看到具体的方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">configure</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span> <span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">pcre</span><span class="o">=</span><span class="n">system</span> <span class="o">&amp;&amp;</span> <span class="n">make</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再然后</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>GLib在gcc里的使用是借助了一个叫pkg-configure的工具，这玩意儿的作用这位哥儿们说得很详细了，看他的介绍吧：<a href="http://www.chenjunlu.com/2011/03/understanding-pkg-config-tool/">理解 pkg-config 工具</a></p>
+
+<p>其实定位到<code>/usr/lib/pkgconfigure</code>后会发现它里面放了很多你自己安装的库的.pc的配置文件，用vim随便打开一个发现它的内容是这样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'>   <span class="n">prefix</span><span class="o">=/</span><span class="n">usr</span>
+</span><span class='line'>   <span class="n">exec_prefix</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">prefix</span><span class="p">}</span>
+</span><span class='line'>   <span class="n">libdir</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">exec_prefix</span><span class="p">}</span><span class="o">/</span><span class="n">lib</span>
+</span><span class='line'>   <span class="n">includedir</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">prefix</span><span class="p">}</span><span class="o">/</span><span class="n">include</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'>   <span class="n">glib_genmarshal</span><span class="o">=</span><span class="n">glib</span><span class="o">-</span><span class="n">genmarshal</span>
+</span><span class='line'>   <span class="n">gobject_query</span><span class="o">=</span><span class="n">gobject</span><span class="o">-</span><span class="n">query</span>
+</span><span class='line'>   <span class="n">glib_mkenums</span><span class="o">=</span><span class="n">glib</span><span class="o">-</span><span class="n">mkenums</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'>   <span class="nl">Name:</span> <span class="n">GLib</span>
+</span><span class='line'>   <span class="nl">Description:</span> <span class="n">C</span> <span class="n">Utility</span> <span class="n">Library</span>
+</span><span class='line'>   <span class="nl">Version:</span> <span class="mf">2.38.2</span>
+</span><span class='line'>   <span class="n">Requires</span><span class="p">.</span><span class="n">private</span><span class="o">:</span> <span class="n">libpcre</span>
+</span><span class='line'>   <span class="nl">Libs:</span> <span class="o">-</span><span class="n">L</span><span class="err">$</span><span class="p">{</span><span class="n">libdir</span><span class="p">}</span> <span class="o">-</span><span class="n">lglib</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">lintl</span>
+</span><span class='line'>   <span class="n">Libs</span><span class="p">.</span><span class="n">private</span><span class="o">:</span>   <span class="o">-</span><span class="n">lpcre</span>  <span class="o">-</span><span class="n">lintl</span>  <span class="o">-</span><span class="n">liconv</span>
+</span><span class='line'>   <span class="nl">Cflags:</span> <span class="o">-</span><span class="n">I</span><span class="err">$</span><span class="p">{</span><span class="n">includedir</span><span class="p">}</span><span class="o">/</span><span class="n">glib</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">-</span><span class="n">I</span><span class="err">$</span><span class="p">{</span><span class="n">libdir</span><span class="p">}</span><span class="o">/</span><span class="n">glib</span><span class="o">-</span><span class="mf">2.0</span><span class="o">/</span><span class="n">include</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看一下就明白了，基本上就是帮你写了一堆编译选项，免得到时候自己编译的时候要敲一坨，而且在不同的电脑上编译的时候也可以动态的调整路径，不用一遍遍的去改Makefile。</p>
+
+<p>比如说自己编译一个使用了GLib的文件，可以这样敲：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">gcc</span> <span class="err">`</span><span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">cflags</span> <span class="o">--</span><span class="n">libs</span> <span class="n">glib</span><span class="o">-</span><span class="mf">2.0</span><span class="err">`</span>  <span class="n">hello</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">hello</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>–cflags 参数可以给出在编译时所需要的选项，而 –libs 参数可以给出连接时的选项。</p>
+
+<p>当然如果不使用pkg-configure的话也可以类似这样子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">gcc</span>  <span class="o">-</span><span class="n">L</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span> <span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">glib</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">glib</span><span class="o">-</span><span class="mf">2.0</span> <span class="n">hello</span><span class="p">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">hello</span> <span class="o">-</span><span class="n">liconv</span> <span class="o">-</span><span class="n">lresolv</span> <span class="o">-</span><span class="n">lpcre</span> <span class="o">-</span><span class="n">lintl</span> <span class="o">-</span><span class="n">lglib</span><span class="o">-</span><span class="mf">2.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以基本上还是简化了很多操作的。</p>
+
+<h3>3.测试使用</h3>
+
+<p>测试一下GLib中哈希表的使用吧：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;glib.h&gt;</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span><span class='line'>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Glib version: %u.%u.%u</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">glib_major_version</span><span class="p">,</span><span class="n">glib_minor_version</span><span class="p">,</span><span class="n">glib_micro_version</span><span class="p">);</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'>      <span class="n">GHashTable</span><span class="o">*</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">g_hash_table_new</span><span class="p">(</span><span class="n">g_str_hash</span><span class="p">,</span> <span class="n">g_str_equal</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">g_hash_table_insert</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="s">&quot;Virginia&quot;</span><span class="p">,</span> <span class="s">&quot;Richmond&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">g_hash_table_insert</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="s">&quot;Texas&quot;</span><span class="p">,</span> <span class="s">&quot;Austin&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">g_hash_table_insert</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="s">&quot;Ohio&quot;</span><span class="p">,</span> <span class="s">&quot;Columbus&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;There are %d keys in the hash</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">g_hash_table_size</span><span class="p">(</span><span class="n">hash</span><span class="p">));</span>
+</span><span class='line'>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;The capital of Texas is %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">g_hash_table_lookup</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="s">&quot;Texas&quot;</span><span class="p">));</span>
+</span><span class='line'>      <span class="n">gboolean</span> <span class="n">found</span> <span class="o">=</span> <span class="n">g_hash_table_remove</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="s">&quot;Virginia&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">printf</span><span class="p">(</span><span class="s">&quot;The value &#39;Virginia&#39; was %sfound and removed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">found</span> <span class="o">?</span> <span class="s">&quot;&quot;</span> <span class="o">:</span> <span class="s">&quot;not &quot;</span><span class="p">);</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'>      <span class="n">g_hash_table_destroy</span><span class="p">(</span><span class="n">hash</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以打印如下信息：</p>
+
+<blockquote><p>Glib version: 2.38.2</p>
+
+<p>There are 3 keys in the hash</p>
+
+<p>The capital of Texas is Austin</p>
+
+<p>The value &lsquo;Virginia&rsquo; was found and removed</p></blockquote>
+
+<h3>4.搭配Eclipse</h3>
+
+<p>嫌敲命令行麻烦的话也可以配到Eclipse上用。现在在Eclipse上有了pkg-configure的插件，可以对GLib直接勾选使用，但我安装后没有起到效果，不知道哪里出了问题<a href="https://code.google.com/p/pkg-config-support-for-eclipse-cdt/">pkg-config-support-for-eclipse-cdt</a>。但反正原理已经知道了，索性自己配一下也就妥了。</p>
+
+<p>选中工程，在Project里找到Properties进入到下图的界面：</p>
+
+<p><img src="http://sonnewilling.com/images/tec/GLib/eclipsecon.png" alt="image" /></p>
+
+<p>在Libraries里配置GLib库的位置和名字，在Includes里配置GLib头文件的位置，我的头文件在这里</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">glib</span><span class="o">-</span><span class="mf">2.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实按照教程正常安装的话基本上都会在这个位置，这样的话就可以用Eclipse在GLib里爽起来了~</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[UNIX下Socket工具包libunp.a编译笔记]]></title>
     <link href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/"/>
     <updated>2014-03-12T16:23:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji</id>
     <content type="html"><![CDATA[<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -41,31 +232,28 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Execute the following from the src/ directory:
-</span><span class='line'>
-</span><span class='line'>    ./configure    # try to figure out all implementation differences
-</span><span class='line'>
-</span><span class='line'>    cd lib         # build the basic library that all programs need
-</span><span class='line'>    make           # use "gmake" everywhere on BSD/OS systems
-</span><span class='line'>
-</span><span class='line'>    cd ../libfree  # continue building the basic library
-</span><span class='line'>    make
-</span><span class='line'>
-</span><span class='line'>    cd ../libroute # only if your system supports 4.4BSD style routing sockets
-</span><span class='line'>    make           # only if your system supports 4.4BSD style routing sockets
-</span><span class='line'>
-</span><span class='line'>    cd ../libxti   # only if your system supports XTI
-</span><span class='line'>    make           # only if your system supports XTI
-</span><span class='line'>
-</span><span class='line'>    cd ../intro    # build and test a basic client program
-</span><span class='line'>    make daytimetcpcli
-</span><span class='line'>    ./daytimetcpcli 127.0.0.1
-</span><span class='line'>
-</span><span class='line'>If all that works, you're all set to start compiling individual programs.
-</span><span class='line'>
-</span><span class='line'>Notice that all the source code assumes tabs every 4 columns, not 8.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Execute</span> <span class="n">the</span> <span class="n">following</span> <span class="n">from</span> <span class="n">the</span> <span class="n">src</span><span class="o">/</span> <span class="n">directory</span><span class="o">:</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">configure</span>    <span class="err">#</span> <span class="n">try</span> <span class="n">to</span> <span class="n">figure</span> <span class="n">out</span> <span class="n">all</span> <span class="n">implementation</span> <span class="n">differences</span>
+</span><span class='line'><span class="n">cd</span> <span class="n">lib</span>         <span class="err">#</span> <span class="n">build</span> <span class="n">the</span> <span class="n">basic</span> <span class="n">library</span> <span class="n">that</span> <span class="n">all</span> <span class="n">programs</span> <span class="n">need</span>
+</span><span class='line'><span class="n">make</span>           <span class="err">#</span> <span class="n">use</span> <span class="s">&quot;gmake&quot;</span> <span class="n">everywhere</span> <span class="n">on</span> <span class="n">BSD</span><span class="o">/</span><span class="n">OS</span> <span class="n">systems</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libfree</span>  <span class="err">#</span> <span class="k">continue</span> <span class="n">building</span> <span class="n">the</span> <span class="n">basic</span> <span class="n">library</span>
+</span><span class='line'><span class="n">make</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libroute</span> <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="mf">4.4</span><span class="n">BSD</span> <span class="n">style</span> <span class="n">routing</span> <span class="n">sockets</span>
+</span><span class='line'><span class="n">make</span>           <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="mf">4.4</span><span class="n">BSD</span> <span class="n">style</span> <span class="n">routing</span> <span class="n">sockets</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libxti</span>   <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="n">XTI</span>
+</span><span class='line'>    <span class="n">make</span>           <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="n">XTI</span>
+</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">intro</span>    <span class="err">#</span> <span class="n">build</span> <span class="n">and</span> <span class="n">test</span> <span class="n">a</span> <span class="n">basic</span> <span class="n">client</span> <span class="n">program</span>
+</span><span class='line'><span class="n">make</span> <span class="n">daytimetcpcli</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">daytimetcpcli</span> <span class="mf">127.0.0.1</span>
+</span><span class='line'><span class="o">&amp;</span>
+</span><span class='line'><span class="n">If</span> <span class="n">all</span> <span class="n">that</span> <span class="n">works</span><span class="p">,</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">re</span> <span class="n">all</span> <span class="n">set</span> <span class="n">to</span> <span class="n">start</span> <span class="n">compiling</span> <span class="n">individual</span> <span class="n">programs</span><span class="p">.</span>
+</span><span class='line'><span class="n">Notice</span> <span class="n">that</span> <span class="n">all</span> <span class="n">the</span> <span class="n">source</span> <span class="n">code</span> <span class="n">assumes</span> <span class="n">tabs</span> <span class="n">every</span> <span class="mi">4</span> <span class="n">columns</span><span class="p">,</span> <span class="n">not</span> <span class="mf">8.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <!--more-->
@@ -75,24 +263,27 @@
 
 <p>首先要配置-L选项，定位于lib所在文件路径</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/workingspace/Demo/src/</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">workingspace</span><span class="o">/</span><span class="n">Demo</span><span class="o">/</span><span class="n">src</span><span class="o">/</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了,另外还要添加resolv，pthread这两个库</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>unp
-</span><span class='line'>resolv
-</span><span class='line'>pthread</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">unp</span>
+</span><span class='line'><span class="n">resolv</span>
+</span><span class='line'><span class="n">pthread</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/src/lib</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">lib</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
@@ -2256,50 +2447,6 @@
 <p>回来坐的是绿皮的硬座，55个小时3000+km，才170元。听说之前开过一趟特快，因为贵没人坐所以才又用回这列1086.因为来回这条线的都是些河南河北山东的民工，去新疆农忙时摘棉花，早上6点日出晚上9点日落，干满白天便是200。互相聊着的都是些家里的农活或是哪里的小工钱高一点。私下一算，若想早点成家，需要父子二人打工三四年攒钱再向亲朋好友借贷才能够数，而借贷的钱财又是需要父子二人外出打工两三年才能偿还。</p>
 
 <p>细细想来，这片土地上，有谁不是奔着那”好好挣钱 好好活着”而努力着呢，各有各自的道路罢了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Struts+jquery+ajax简单整合示例]]></title>
-    <link href="http://sonnewilling.com/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/"/>
-    <updated>2012-02-23T21:28:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li</id>
-    <content type="html"><![CDATA[<p>jsp文件：</p>
-
-<script src="https://gist.github.com/wanax/6752399.js"></script>
-
-
-
-
-<!--more-->
-
-
-<p>           <br/>
-或者：</p>
-
-<script src="https://gist.github.com/wanax/6752402.js"></script>
-
-
-<p></p>
-
-<p>html部分：</p>
-
-<script src="https://gist.github.com/wanax/6752404.js"></script>
-
-
-<p></p>
-
-<p>struts代码：</p>
-
-<script src="https://gist.github.com/wanax/6752407.js"></script>
-
-
-<p>java代码：</p>
-
-<script src="https://gist.github.com/wanax/6752410.js"></script>
-
-
-
 ]]></content>
   </entry>
   

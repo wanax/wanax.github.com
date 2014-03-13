@@ -171,10 +171,14 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>/Users/workingspace/Demo/src/</span></code></pre></td></tr></table></div></figure>
 
 
-<p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了</p>
+<p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了,另外还要添加resolv，pthread这两个库</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>unp</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>unp
+</span><span class='line'>resolv
+</span><span class='line'>pthread</span></code></pre></td></tr></table></div></figure>
 
 
 <p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>

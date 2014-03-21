@@ -201,8 +201,20 @@
         <lastmod>2014-03-13T16:45:52+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/
+        </loc>
+        <lastmod>2014-03-21T14:41:02+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/
+        </loc>
+        <lastmod>2014-03-21T15:59:14+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://sonnewilling.com/blog/archives/</loc>
-        <lastmod>2014-03-13T16:45:52+08:00</lastmod>
+        <lastmod>2014-03-21T15:59:14+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/blog/categories/</loc>
@@ -210,7 +222,7 @@
     </url>
     <url>
         <loc>http://sonnewilling.com/</loc>
-        <lastmod>2014-03-13T16:45:52+08:00</lastmod>
+        <lastmod>2014-03-21T15:59:14+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/robots.txt</loc>

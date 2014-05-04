@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-04-08T13:46:42+08:00</updated>
+  <updated>2014-05-04T11:57:32+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,292 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android USB Host通信]]></title>
+    <link href="http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin/"/>
+    <updated>2014-04-30T11:18:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin</id>
+    <content type="html"><![CDATA[<h2>开了个头</h2>
+
+<p>一部Android手机加上一块Arduino的板子通过USB通信可以实现很多有趣的东西。</p>
+
+<p>2011年Google推出Android开放配件协议AOA及配件开发工具包ADK提供了Android USB或蓝牙进行通信的API，为基于Android系统的智能设备控制外设提供了条件。利用Android，系统可以连接从家用电器到重型机械、机器人等多种设备 <a href="http://www.chinaaet.com/article/216691">原文</a>。</p>
+
+<!-- more -->
+
+
+<p>想来这便是Android的魅力所在，开源的Linux系统给了任何人实现自己的梦想的可能。无需再依靠大的厂商提供的一套套完整的服务。仅仅通过自己的想象力配以几块平淡无奇的板子，便能实现一些之前看起来很高大上的东西。</p>
+
+<h2>利其器</h2>
+
+<p>1.Android-<a href="http://developer.android.com/sdk/index.html">ADT</a></p>
+
+<p>Android的简单开发依赖于工具包SDK和开发工具IDE的使用。Google为我们提供的ADT打包了完善的开发工具：</p>
+
+<blockquote><p>Eclipse + ADT plugin</p>
+
+<p>Android SDK Tools</p>
+
+<p>Android Platform-tools</p>
+
+<p>The latest Android platform</p>
+
+<p>The latest Android system image for the emulator</p></blockquote>
+
+<p>这里还不得不提的是一个关于Android模拟器的问题。用过eclipse的都知道，上面自带的模拟器速度奇慢，尤其当适应了iPhone开发后对其更是不能忍受。这里有一篇文章便是专门讲解了下为毛Android的模拟器这么慢-<a href="http://stackoverflow.com/questions/1584617/simulator-or-emulator-what-is-the-difference">Simulator or Emulator</a>。</p>
+
+<p>然后便发现了这个神器-<a href="http://www.genymotion.com/">Genymotion</a>，感觉这玩意儿比苹果的模拟器还快。</p>
+
+<p>2.<a href="http://www.arduino.cc/">Arduino</a></p>
+
+<p>这个板子还是蛮便宜又好用的，官网的文档也全，基本跟着读一遍就知道大体的开发的流程了，提供的IDE有点坑，只能设为9号字体，倒是可以调大，调大的话光标根本对不上&hellip;</p>
+
+<p><img src="/images/tec/androidusb/arduino.png" alt="image" /></p>
+
+<p>示例的代码做了个简单的读数据的功能，每次读一行然后原样返回。</p>
+
+<p>开头的setup那里设置了<a href="http://en.wikipedia.org/wiki/Baud">波特率</a>，大体上波特率跟每秒发送的信息量有关。手上的这块板子经过简单的测试，有如下数据：</p>
+
+<blockquote><p>波特率为9600时，每次可以携带129个字节，间隔极限在150ms</p>
+
+<p>波特率为14400时，每次可以携带191个字节，间隔极限在260ms</p></blockquote>
+
+<p>个人推测大概越好的板子每次能携带的信息量越大且时间间隔越短吧，即所谓的可以支持很高的波特率。</p>
+
+<p>有了上面这两套东西基本上就可以开始USB通信了。</p>
+
+<h2>幕前</h2>
+
+<p>关于详细的实现Google的教程上有个快速简易的介绍，一般跟着做是可以实现效果的-<a href="http://developer.android.com/guide/topics/connectivity/usb/index.html">USB Host and Accessory</a>。稍微了解过Android开发的看着玩意儿没啥问题。基本上就是在<code>manifest</code>里对指定的activity配置下权限就妥了，它还提供了一个<code>device_filter</code>的xml文件，可以过滤指定的USB设备。</p>
+
+<p>因为要在Andorid上做开发然后测试与Arduino，所以免不了要先往Android上写程序再让这俩东西连接，老是这样往复的在几台设备间插拔效率太低，Google提供给我们的解决方案是让Android通过Wifi连电脑，然后Android与Arduino一直连着线就妥了。</p>
+
+<p>照着试了几遍，别人的电脑一连就妥，我的死活不行，也不知是不是苹果机的缘故。无奈实在没有插来插去的兴趣，所以又研究了下Genymotion，因为它是依托在VirtualBox上的，总觉得可以一搞。</p>
+
+<p>多次尝试后发现，可以先将Arduino板插上电脑，如下图会出现这个设备，添加虚拟机对它的过滤，这之后把板子拔下来再插回去的话虚拟机也即Android模拟器便可以接收到Arduino板子的信号了。想要对板子连电脑烧程序的话，则反过来，先取消对板子的过滤，插拔一次便连上电脑了。</p>
+
+<p><img src="/images/tec/androidusb/usbbox.png" alt="image" /></p>
+
+<p>具体的实现大体分为四步：<a href="http://developer.android.com/guide/topics/connectivity/usb/index.html">USB Host and Accessory</a></p>
+
+<h4>一，Obtaining permission to communicate with a device</h4>
+
+<p>先实例化一个<code>UsbManager</code>，通过它来获取USB连接的权限。</p>
+
+<p>```java
+UsbManager mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+private static final String ACTION_USB_PERMISSION =</p>
+
+<pre><code>"com.android.example.USB_PERMISSION";
+</code></pre>
+
+<p>mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+registerReceiver(mUsbReceiver, filter);
+UsbDevice device;
+mUsbManager.requestPermission(device, mPermissionIntent);
+<code>
+权限获取：
+</code>java
+private static final String ACTION_USB_PERMISSION =</p>
+
+<pre><code>"com.android.example.USB_PERMISSION";
+</code></pre>
+
+<p>private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {</p>
+
+<pre><code>public void onReceive(Context context, Intent intent) {
+    String action = intent.getAction();
+    if (ACTION_USB_PERMISSION.equals(action)) {
+        synchronized (this) {
+            UsbDevice device = (UsbDevice)intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+            if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                if(device != null){
+                  //call method to set up device communication
+               }
+            } 
+            else {
+                Log.d(TAG, "permission denied for device " + device);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>};
+```</p>
+
+<h4>二，Enumerating devices</h4>
+
+<p>```java
+HashMap&lt;String, UsbDevice> deviceList = manager.getDeviceList();
+Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
+while(deviceIterator.hasNext()){</p>
+
+<pre><code>UsbDevice device = deviceIterator.next()
+//your code
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>三，Communicating with a device</h4>
+
+<p><code>java
+private Byte[] bytes
+private static int TIMEOUT = 0;
+private boolean forceClaim = true;
+UsbInterface intf = device.getInterface(0);
+UsbEndpoint endpoint = intf.getEndpoint(0);
+UsbDeviceConnection connection = mUsbManager.openDevice(device);
+connection.claimInterface(intf, forceClaim);
+connection.bulkTransfer(endpoint, bytes, bytes.length, TIMEOUT); //do in another thread
+</code></p>
+
+<h4>四，Terminating communication with a device</h4>
+
+<p>```java
+BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {</p>
+
+<pre><code>public void onReceive(Context context, Intent intent) {
+    String action = intent.getAction(); 
+  if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(action)) {
+        UsbDevice device = (UsbDevice)intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+        if (device != null) {
+            // call your method that cleans up and closes communication with the device
+        }
+    }
+}
+</code></pre>
+
+<p>};
+```</p>
+
+<p>需要注意的是两者间的通讯都是以Byte形式完成的，所以作为在接收与发送的时候需要注意相关的转码工作，而且我这边实现的是一行行的读取，所以发送的时候会隐式地拼接上<code>\n</code>。</p>
+
+<p>发送时的转码：</p>
+
+<p>```java
+private String changeEscapeSequence(String in) {</p>
+
+<pre><code>String out = new String();
+try {
+    out = unescapeJava(in);
+} catch (IOException e) {
+    return "";
+}
+out = out + "\n";
+return out;
+</code></pre>
+
+<p>} <br/>
+private String unescapeJava(String str) throws IOException {</p>
+
+<pre><code> if (str == null) {
+     return "";
+ }
+ int sz = str.length();
+ StringBuffer unicode = new StringBuffer(4);
+ StringBuilder strout = new StringBuilder();
+ boolean hadSlash = false;
+ boolean inUnicode = false;
+ for (int i = 0; i &lt; sz; i++) {
+     char ch = str.charAt(i);
+     if (inUnicode) {
+         // if in unicode, then we're reading unicode
+         // values in somehow
+         unicode.append(ch);
+         if (unicode.length() == 4) {
+             // unicode now contains the four hex digits
+             // which represents our unicode character
+             try {
+                 int value = Integer.parseInt(unicode.toString(), 16);
+                 strout.append((char) value);
+                 unicode.setLength(0);
+                 inUnicode = false;
+                 hadSlash = false;
+             } catch (NumberFormatException nfe) {
+                 // throw new NestableRuntimeException("Unable to parse unicode value: " + unicode, nfe);
+                 throw new IOException("Unable to parse unicode value: " + unicode, nfe);
+             }
+         }
+         continue;
+     }
+     if (hadSlash) {
+         // handle an escaped value
+         hadSlash = false;
+         switch (ch) {
+             case '\\':
+                 strout.append('\\');
+                 break;
+             case '\'':
+                 strout.append('\'');
+                 break;
+             case '\"':
+                 strout.append('"');
+                 break;
+             case 'r':
+                 strout.append('\r');
+                 break;
+             case 'f':
+                 strout.append('\f');
+                 break;
+             case 't':
+                 strout.append('\t');
+                 break;
+             case 'n':
+                 strout.append('\n');
+                 break;
+             case 'b':
+                 strout.append('\b');
+                 break;
+             case 'u':
+                 {
+                     // uh-oh, we're in unicode country....
+                     inUnicode = true;
+                     break;
+                 }
+             default :
+                 strout.append(ch);
+                 break;
+         }
+         continue;
+     } else if (ch == '\\') {
+         hadSlash = true;
+         continue;
+     }
+     strout.append(ch);
+ }
+ if (hadSlash) {
+     // then we're in the weird case of a \ at the end of the
+     // string, let's output it anyway.
+     strout.append('\\');
+ }
+ return new String(strout.toString());
+</code></pre>
+
+<p>}
+```</p>
+
+<p>接收时的转码：</p>
+
+<p>```java
+void setSerialDataToTextView(int disp, byte[] rbuf, int len, String sCr, String sLf) {</p>
+
+<pre><code>for (int i = 0; i &lt; len; ++i) {
+    mText.append((char) rbuf[i]);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>正主</h2>
+
+<p>其实最后在各种测试的时候没有用Google的这个原始流程，在网上发现了一份比较完整的USB通讯示例流程-<a href="https://github.com/ksksue/Android-USB-Serial-Monitor-Lite">Android-USB-Serial-Monitor-Lite</a>，直接用它提供的各种工具做的测试&hellip;我的测试代码在这里<a href="https://github.com/wanax/android_usb_test">android_usb_test</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UNIX下的Socket通信-TCP/IP基本概念]]></title>
@@ -570,106 +856,6 @@ pthread
 /Users/src/lib
 </code>
 这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS应用发布流程]]></title>
-    <link href="http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng/"/>
-    <updated>2014-03-01T17:20:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng</id>
-    <content type="html"><![CDATA[<h3>概述</h3>
-
-<p>整个发布流程有四个关键词，<em>Certificates</em>，<em>Identifiers</em>，<em>Devices</em>与<em>Provisioning Profiles</em>.</p>
-
-<p>它们的相互关系如下图所示，</p>
-
-<p><img src="/images/tec/IOSPub/pic_1.png" alt="image" /></p>
-
-<p>简单说来便是用户身份验证书（Certificates），App应用身份ID（Identifiers），可用于开发的Devices三者合一生成一份Provisioning Profile，并将此profile下载到本机双击安装后就自然可以在xcode中找到了(注意左上角的“GooGuu”在配置发布时应将Target与Project的设置调未相同选项，以避免发布失败)。</p>
-
-<!--more-->
-
-
-<p><img src="/images/tec/IOSPub/pic_3.png" alt="image" /></p>
-
-<h3>步骤分解</h3>
-
-<h4>一.Certificates证书申请</h4>
-
-<p>付费申请到开发者账号后首先要做的便是使用它来生成一个开发或者发布的证书，这个证书是App发布的起点，有了它便表明你是名已经被苹果公司认证过的开发人员并有权力发布自己开发的App到AppStore上去。</p>
-
-<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
-
-<p>证书申请的步骤这位姐姐讲解地很详细了，不需要再一一赘述，看到第J步&mdash;<em>下载证书，双击安装</em>便可以停一下，先来看Identifier。</p>
-
-<h4>二.Identifiers-App ID的申请</h4>
-
-<p>Certificates是表明你开发者身份的东西，花了近100的大洋肯定不可能只满足用来开发一款App，而是会进行多方面的尝试，这时候就需要通过App ID来对我们开发出的各种应用进行唯一的标示。</p>
-
-<p>可以简单的理解为Certificates的苹果公司给你的身份证，而App ID是你给自己开发的App的一个身份证。</p>
-
-<p><img src="/images/tec/IOSPub/pic_4.png" alt="image" /></p>
-
-<h4>三.Devices的用处</h4>
-
-<p>开发的App可以在Xcode自带的模拟器下运行调试，想要进行真机测试的话则需要用到Devices的配置选项了。</p>
-
-<p>当你将外置设备连入苹果电脑，进入Xcode的Window->Organizer->Devices中便会发现自己的设备名称：</p>
-
-<p><img src="/images/tec/IOSPub/pic_5.png" alt="image" /></p>
-
-<p>现在的Xcode已经集成了添加Device的功能，点击连接后的设备名称，你会在右边的窗口中发现诸如“添加该设备到开发机”之类的选项。</p>
-
-<p><img src="/images/tec/IOSPub/pic_6.png" alt="image" /></p>
-
-<p>之后到Device里简单的验证一下便可以了，你会发现自己的设备序列号已经添加到了该列表里面。</p>
-
-<p>这个Devices列表按照第二张图的样子看应该是会在最后跟AppID与Certificate打包在一起来生成Profile文件，这样开发者身份信息，App的身份信息，可用测试的设备信息都可以随时的调用。</p>
-
-<h4>四.Provisioning Profiles的生成与使用</h4>
-
-<p>还是继续从第K步&mdash;<em>生成证书对应的provision File</em> 看刚刚那位姐姐的讲解吧。</p>
-
-<p><a href="http://my.oschina.net/joanfen/blog/133624">iOS开发者申请发布证书</a></p>
-
-<h3>发布</h3>
-
-<p>这样一步步下来，一份完成的Profile便拿在了手上，分为Development和Distribution两种，分别用于开发与发布的使用。</p>
-
-<p>还不清楚的话可以看下这位哥儿们的讲解，更加的专业与细致。</p>
-
-<p><a href="http://www.cnblogs.com/cywin888/p/3263027.html">关于Certificate、Provisioning Profile、App ID的介绍及其之间的关系</a></p>
-
-<p>接下来还剩下两步工作，一个是本地二进制文件的打包验证，一个是苹果网站的新App申请或者旧App版本更新的申请。</p>
-
-<h4>1.苹果网站上的相关工作</h4>
-
-<p>我们去到<a href="https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa">App Product</a>这里，在网站上对App进行配置。</p>
-
-<p>大致可以理解为通知苹果公司我将会有一个App通过Xcode进行上传，你要注意接收啊之类云云。</p>
-
-<p>如果之前已经有旧的版本了那很简单，进入“Manage Your Apps”的页面，点击你要更新的App进入一个新的页面，里面有个Button叫“Add Version”点击进入，有一个流程页面，唯一需要注意的是<em>填写的新的版本号需要跟本地项目的Target->General的下图位置处的版本号填写相同</em>，不然在最后打包完毕验证时会发生错误导致无法提交。</p>
-
-<p><img src="/images/tec/IOSPub/pic_10.png" alt="image" /></p>
-
-<p><img src="/images/tec/IOSPub/pic_9.png" alt="image" /></p>
-
-<p>如果是第一次发布App则稍微有点麻烦，具体的还是参见刚刚那位姐姐的文章吧&hellip;</p>
-
-<p><a href="http://my.oschina.net/joanfen/blog/133642">iOS 发布应用程序到App Store</a></p>
-
-<h4>2.本地Xcode的相关工作</h4>
-
-<p>将发布设备调节到下图的位置，前提是没有外置的设备连在苹果机上，其实连上也无所谓，只是文字显示不一样。</p>
-
-<p><img src="/images/tec/IOSPub/pic_7.png" alt="image" /></p>
-
-<p>然后点击Product->Archive来静待二进制文件的生成吧。</p>
-
-<p>生成后会自动跳转到Window->Organizer->Archives，然后分别对打包好的App进行验证与最后的提交，就是这样了~</p>
-
-<p><img src="/images/tec/IOSPub/pic_8.png" alt="image" /></p>
 ]]></content>
   </entry>
   

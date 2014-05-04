@@ -4,7 +4,7 @@
   <title><![CDATA[陋室]]></title>
   <link href="http://sonnewilling.com/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-04-08T13:46:42+08:00</updated>
+  <updated>2014-05-04T11:57:32+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,421 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android USB Host通信]]></title>
+    <link href="http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin/"/>
+    <updated>2014-04-30T11:18:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin</id>
+    <content type="html"><![CDATA[<h2>开了个头</h2>
+
+<p>一部Android手机加上一块Arduino的板子通过USB通信可以实现很多有趣的东西。</p>
+
+<p>2011年Google推出Android开放配件协议AOA及配件开发工具包ADK提供了Android USB或蓝牙进行通信的API，为基于Android系统的智能设备控制外设提供了条件。利用Android，系统可以连接从家用电器到重型机械、机器人等多种设备 <a href="http://www.chinaaet.com/article/216691">原文</a>。</p>
+
+<!-- more -->
+
+
+<p>想来这便是Android的魅力所在，开源的Linux系统给了任何人实现自己的梦想的可能。无需再依靠大的厂商提供的一套套完整的服务。仅仅通过自己的想象力配以几块平淡无奇的板子，便能实现一些之前看起来很高大上的东西。</p>
+
+<h2>利其器</h2>
+
+<p>1.Android-<a href="http://developer.android.com/sdk/index.html">ADT</a></p>
+
+<p>Android的简单开发依赖于工具包SDK和开发工具IDE的使用。Google为我们提供的ADT打包了完善的开发工具：</p>
+
+<blockquote><p>Eclipse + ADT plugin</p>
+
+<p>Android SDK Tools</p>
+
+<p>Android Platform-tools</p>
+
+<p>The latest Android platform</p>
+
+<p>The latest Android system image for the emulator</p></blockquote>
+
+<p>这里还不得不提的是一个关于Android模拟器的问题。用过eclipse的都知道，上面自带的模拟器速度奇慢，尤其当适应了iPhone开发后对其更是不能忍受。这里有一篇文章便是专门讲解了下为毛Android的模拟器这么慢-<a href="http://stackoverflow.com/questions/1584617/simulator-or-emulator-what-is-the-difference">Simulator or Emulator</a>。</p>
+
+<p>然后便发现了这个神器-<a href="http://www.genymotion.com/">Genymotion</a>，感觉这玩意儿比苹果的模拟器还快。</p>
+
+<p>2.<a href="http://www.arduino.cc/">Arduino</a></p>
+
+<p>这个板子还是蛮便宜又好用的，官网的文档也全，基本跟着读一遍就知道大体的开发的流程了，提供的IDE有点坑，只能设为9号字体，倒是可以调大，调大的话光标根本对不上&hellip;</p>
+
+<p><img src="http://sonnewilling.com/images/tec/androidusb/arduino.png" alt="image" /></p>
+
+<p>示例的代码做了个简单的读数据的功能，每次读一行然后原样返回。</p>
+
+<p>开头的setup那里设置了<a href="http://en.wikipedia.org/wiki/Baud">波特率</a>，大体上波特率跟每秒发送的信息量有关。手上的这块板子经过简单的测试，有如下数据：</p>
+
+<blockquote><p>波特率为9600时，每次可以携带129个字节，间隔极限在150ms</p>
+
+<p>波特率为14400时，每次可以携带191个字节，间隔极限在260ms</p></blockquote>
+
+<p>个人推测大概越好的板子每次能携带的信息量越大且时间间隔越短吧，即所谓的可以支持很高的波特率。</p>
+
+<p>有了上面这两套东西基本上就可以开始USB通信了。</p>
+
+<h2>幕前</h2>
+
+<p>关于详细的实现Google的教程上有个快速简易的介绍，一般跟着做是可以实现效果的-<a href="http://developer.android.com/guide/topics/connectivity/usb/index.html">USB Host and Accessory</a>。稍微了解过Android开发的看着玩意儿没啥问题。基本上就是在<code>manifest</code>里对指定的activity配置下权限就妥了，它还提供了一个<code>device_filter</code>的xml文件，可以过滤指定的USB设备。</p>
+
+<p>因为要在Andorid上做开发然后测试与Arduino，所以免不了要先往Android上写程序再让这俩东西连接，老是这样往复的在几台设备间插拔效率太低，Google提供给我们的解决方案是让Android通过Wifi连电脑，然后Android与Arduino一直连着线就妥了。</p>
+
+<p>照着试了几遍，别人的电脑一连就妥，我的死活不行，也不知是不是苹果机的缘故。无奈实在没有插来插去的兴趣，所以又研究了下Genymotion，因为它是依托在VirtualBox上的，总觉得可以一搞。</p>
+
+<p>多次尝试后发现，可以先将Arduino板插上电脑，如下图会出现这个设备，添加虚拟机对它的过滤，这之后把板子拔下来再插回去的话虚拟机也即Android模拟器便可以接收到Arduino板子的信号了。想要对板子连电脑烧程序的话，则反过来，先取消对板子的过滤，插拔一次便连上电脑了。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/androidusb/usbbox.png" alt="image" /></p>
+
+<p>具体的实现大体分为四步：<a href="http://developer.android.com/guide/topics/connectivity/usb/index.html">USB Host and Accessory</a></p>
+
+<h4>一，Obtaining permission to communicate with a device</h4>
+
+<p>先实例化一个<code>UsbManager</code>，通过它来获取USB连接的权限。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">UsbManager</span> <span class="n">mUsbManager</span> <span class="o">=</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">)</span> <span class="n">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">USB_SERVICE</span><span class="o">);</span>
+</span><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span>
+</span><span class='line'>    <span class="s">&quot;com.android.example.USB_PERMISSION&quot;</span><span class="o">;</span>
+</span><span class='line'><span class="n">mPermissionIntent</span> <span class="o">=</span> <span class="n">PendingIntent</span><span class="o">.</span><span class="na">getBroadcast</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'><span class="n">IntentFilter</span> <span class="n">filter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">);</span>
+</span><span class='line'><span class="n">registerReceiver</span><span class="o">(</span><span class="n">mUsbReceiver</span><span class="o">,</span> <span class="n">filter</span><span class="o">);</span>
+</span><span class='line'><span class="n">UsbDevice</span> <span class="n">device</span><span class="o">;</span>
+</span><span class='line'><span class="n">mUsbManager</span><span class="o">.</span><span class="na">requestPermission</span><span class="o">(</span><span class="n">device</span><span class="o">,</span> <span class="n">mPermissionIntent</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>权限获取：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ACTION_USB_PERMISSION</span> <span class="o">=</span>
+</span><span class='line'>    <span class="s">&quot;com.android.example.USB_PERMISSION&quot;</span><span class="o">;</span>
+</span><span class='line'><span class="kd">private</span> <span class="kd">final</span> <span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">ACTION_USB_PERMISSION</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">UsbDevice</span> <span class="n">device</span> <span class="o">=</span> <span class="o">(</span><span class="n">UsbDevice</span><span class="o">)</span><span class="n">intent</span><span class="o">.</span><span class="na">getParcelableExtra</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_DEVICE</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="n">intent</span><span class="o">.</span><span class="na">getBooleanExtra</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_PERMISSION_GRANTED</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">if</span><span class="o">(</span><span class="n">device</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">){</span>
+</span><span class='line'>                      <span class="c1">//call method to set up device communication</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>                <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">&quot;permission denied for device &quot;</span> <span class="o">+</span> <span class="n">device</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>二，Enumerating devices</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">UsbDevice</span><span class="o">&gt;</span> <span class="n">deviceList</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="na">getDeviceList</span><span class="o">();</span>
+</span><span class='line'><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">UsbDevice</span><span class="o">&gt;</span> <span class="n">deviceIterator</span> <span class="o">=</span> <span class="n">deviceList</span><span class="o">.</span><span class="na">values</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'><span class="k">while</span><span class="o">(</span><span class="n">deviceIterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()){</span>
+</span><span class='line'>    <span class="n">UsbDevice</span> <span class="n">device</span> <span class="o">=</span> <span class="n">deviceIterator</span><span class="o">.</span><span class="na">next</span><span class="o">()</span>
+</span><span class='line'>    <span class="c1">//your code</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>三，Communicating with a device</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">Byte</span><span class="o">[]</span> <span class="n">bytes</span>
+</span><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">forceClaim</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'><span class="n">UsbInterface</span> <span class="n">intf</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="na">getInterface</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'><span class="n">UsbEndpoint</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="n">intf</span><span class="o">.</span><span class="na">getEndpoint</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'><span class="n">UsbDeviceConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">mUsbManager</span><span class="o">.</span><span class="na">openDevice</span><span class="o">(</span><span class="n">device</span><span class="o">);</span>
+</span><span class='line'><span class="n">connection</span><span class="o">.</span><span class="na">claimInterface</span><span class="o">(</span><span class="n">intf</span><span class="o">,</span> <span class="n">forceClaim</span><span class="o">);</span>
+</span><span class='line'><span class="n">connection</span><span class="o">.</span><span class="na">bulkTransfer</span><span class="o">(</span><span class="n">endpoint</span><span class="o">,</span> <span class="n">bytes</span><span class="o">,</span> <span class="n">bytes</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">TIMEOUT</span><span class="o">);</span> <span class="c1">//do in another thread</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>四，Terminating communication with a device</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">BroadcastReceiver</span> <span class="n">mUsbReceiver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">ACTION_USB_DEVICE_DETACHED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">UsbDevice</span> <span class="n">device</span> <span class="o">=</span> <span class="o">(</span><span class="n">UsbDevice</span><span class="o">)</span><span class="n">intent</span><span class="o">.</span><span class="na">getParcelableExtra</span><span class="o">(</span><span class="n">UsbManager</span><span class="o">.</span><span class="na">EXTRA_DEVICE</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">device</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// call your method that cleans up and closes communication with the device</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要注意的是两者间的通讯都是以Byte形式完成的，所以作为在接收与发送的时候需要注意相关的转码工作，而且我这边实现的是一行行的读取，所以发送的时候会隐式地拼接上<code>\n</code>。</p>
+
+<p>发送时的转码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">String</span> <span class="nf">changeEscapeSequence</span><span class="o">(</span><span class="n">String</span> <span class="n">in</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">String</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">();</span>
+</span><span class='line'>    <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">out</span> <span class="o">=</span> <span class="n">unescapeJava</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="s">&quot;\n&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">out</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>  
+</span><span class='line'><span class="kd">private</span> <span class="n">String</span> <span class="nf">unescapeJava</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>   <span class="k">if</span> <span class="o">(</span><span class="n">str</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>   <span class="kt">int</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</span><span class='line'>   <span class="n">StringBuffer</span> <span class="n">unicode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>   <span class="n">StringBuilder</span> <span class="n">strout</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span><span class='line'>   <span class="kt">boolean</span> <span class="n">hadSlash</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>   <span class="kt">boolean</span> <span class="n">inUnicode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>   <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sz</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">str</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span><span class='line'>       <span class="k">if</span> <span class="o">(</span><span class="n">inUnicode</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="c1">// if in unicode, then we&#39;re reading unicode</span>
+</span><span class='line'>           <span class="c1">// values in somehow</span>
+</span><span class='line'>           <span class="n">unicode</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+</span><span class='line'>           <span class="k">if</span> <span class="o">(</span><span class="n">unicode</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">4</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>               <span class="c1">// unicode now contains the four hex digits</span>
+</span><span class='line'>               <span class="c1">// which represents our unicode character</span>
+</span><span class='line'>               <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                   <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">unicode</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="mi">16</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">value</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">unicode</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>                   <span class="n">inUnicode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>                   <span class="n">hadSlash</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>               <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NumberFormatException</span> <span class="n">nfe</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                   <span class="c1">// throw new NestableRuntimeException(&quot;Unable to parse unicode value: &quot; + unicode, nfe);</span>
+</span><span class='line'>                   <span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">&quot;Unable to parse unicode value: &quot;</span> <span class="o">+</span> <span class="n">unicode</span><span class="o">,</span> <span class="n">nfe</span><span class="o">);</span>
+</span><span class='line'>               <span class="o">}</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>           <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>       <span class="k">if</span> <span class="o">(</span><span class="n">hadSlash</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="c1">// handle an escaped value</span>
+</span><span class='line'>           <span class="n">hadSlash</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>           <span class="k">switch</span> <span class="o">(</span><span class="n">ch</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;\\&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\\&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;\&#39;&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\&#39;&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;\&quot;&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;&quot;&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;r&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\r&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;f&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\f&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;t&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\t&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;n&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\n&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;b&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\b&#39;</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>               <span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
+</span><span class='line'>                   <span class="o">{</span>
+</span><span class='line'>                       <span class="c1">// uh-oh, we&#39;re in unicode country....</span>
+</span><span class='line'>                       <span class="n">inUnicode</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>                       <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>               <span class="k">default</span> <span class="o">:</span>
+</span><span class='line'>                   <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+</span><span class='line'>                   <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>           <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>       <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">hadSlash</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>           <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>       <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">ch</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>   <span class="k">if</span> <span class="o">(</span><span class="n">hadSlash</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="c1">// then we&#39;re in the weird case of a \ at the end of the</span>
+</span><span class='line'>       <span class="c1">// string, let&#39;s output it anyway.</span>
+</span><span class='line'>       <span class="n">strout</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="sc">&#39;\\&#39;</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>   <span class="k">return</span> <span class="k">new</span> <span class="nf">String</span><span class="o">(</span><span class="n">strout</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接收时的转码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">setSerialDataToTextView</span><span class="o">(</span><span class="kt">int</span> <span class="n">disp</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">rbuf</span><span class="o">,</span> <span class="kt">int</span> <span class="n">len</span><span class="o">,</span> <span class="n">String</span> <span class="n">sCr</span><span class="o">,</span> <span class="n">String</span> <span class="n">sLf</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">mText</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">rbuf</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>正主</h2>
+
+<p>其实最后在各种测试的时候没有用Google的这个原始流程，在网上发现了一份比较完整的USB通讯示例流程-<a href="https://github.com/ksksue/Android-USB-Serial-Monitor-Lite">Android-USB-Serial-Monitor-Lite</a>，直接用它提供的各种工具做的测试&hellip;我的测试代码在这里<a href="https://github.com/wanax/android_usb_test">android_usb_test</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UNIX下的Socket通信-TCP/IP基本概念]]></title>
@@ -2663,56 +3078,6 @@
 
 <script src="https://gist.github.com/wanax/6752394.js"></script>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[胡言]]></title>
-    <link href="http://sonnewilling.com/blog/2012/08/23/hu-yan/"/>
-    <updated>2012-08-23T17:55:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2012/08/23/hu-yan</id>
-    <content type="html"><![CDATA[<p><img src="http://i424.photobucket.com/albums/pp326/xoxomayra94/HDR/hdrp4.jpg" alt="image" /></p>
-
-<p>拱门里还是一样的景色，马扎蒲扇三五成群，树荫石桌四人一组，走时是这个样子，每次回来仿若只是离开了一小会儿。</p>
-
-<p>跟姥爷一起坐在门口乘凉，身旁放着几盆蚊怕草，类似于薄荷的气味若有若无。姥爷说这是今年刚栽上的，驱蚊。姥姥在院子里洗衣服蚊子也少咬了，面有得色。</p>
-
-<!--more-->
-
-
-<p>门口右侧一圈小小的花圃，被姥爷精心收拾着，记得很小的时候给姥爷带来了很多地雷花的种子，因为那一颗颗小小的黑色种子纹路像极了地雷，开了后就有点像喇叭花，现在也少见踪影，屋里姥姥忙碌的声音却依旧清晰熟稔，屋里屋外。</p>
-
-<p>盘腿坐在石凳上，另一幅画面慢慢印开，路向天地相交处，日落两山并联间，牧子驱犊遥遥望，脚下的轮子嗡嗡作响。好大个暑假，且留个念想。</p>
-
-<p>考试结束就开始实习，历年都是假期一到便往外跑，这个夏天却是看着朋友一个个散场撤席，独自一人的宿舍说很开心那是鬼信。还好尚有两三个酒肉哥儿们，无聊散散心游个泳也算得过且过。</p>
-
-<p>有个舍友临走扔了盒小蛋糕尚且不错，好大一盒引人注意第二天就吃完了。蔡力7月初走时也在桌上放了一包糖，昨天惊觉宿舍蚂蚁成群溯本逐源才发现了那包被他开口快两个月的糖，蔡力是个讲究的人，他用这种内涵缓慢的方式不经意间提醒着他的存在。开玩笑的，操，回来洒家找你算总账。</p>
-
-<p>一大早起来跑去楼下看厚厚一叠的明信片，天南海北发现了几个骑长途的哥儿们，看样子也是到了该到的地儿，不免一阵发愣。知道没有一张是自己的，但还是看得欢畅。</p>
-
-<p> 深山花开 龙竹笋剥 拉着风的手 在黑夜里一起跳舞</p>
-
-<p>人拥有此生此世是不够的，他还需要一个诗意的世界。</p>
-
-<p>爱荒凉的美，不在乎壮观与秀丽，你给我个突兀，给我个渺小，给我个存在便足以了。</p>
-
-<p>一种精神上的毒药的感觉，心里的某个部分似乎被深深地勾住了，离开不能。</p>
-
-<p>一想到那些残破的路，千年不变的山，独自的存在便又是一阵无法割舍的痛。</p>
-
-<p>只是一把钥匙，通往的何方并不明了，但总知道前面的路已在脚下。</p>
-
-<p>每每想来都是心悸，对我来说便是一个圣地。见多了世态更向往那单调的村庄，给我一份宁静，拥有自己的灵魂，洗干净了所有的一切，只剩下蓝蓝的天，白白的云，一种美好便在于此，谁又能一起体会呢？</p>
-
-<p>草木青青，远来友人，山花绽笑，明月开怀。</p>
-
-<p>但求一种简单干净的生活，便是此才是最贵重物品。</p>
-
-<p>心中无所思，古老而又羞涩的梦，千年来的进化失去了这种无法用价值尺度衡量的东西。现在想要寻找却要退回人类一直努力终结的东西，笑话吗？总会有自省的人，便够了，各有分工，千千世界。一花一世界，一叶一菩提。</p>
-
-<p>你着迷的东西是那些能让你苦逼良久在即将放弃的时候突然一泻千里从而带来那么一瞬间快感的东西。</p>
-
-<p>扯了这么多，点题一句：洒家23，来点福利吧</p>
 ]]></content>
   </entry>
   

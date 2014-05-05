@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-05-04T11:57:32+08:00</updated>
+  <updated>2014-05-05T17:58:52+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,257 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[基于C的Socket聊天服务器]]></title>
+    <link href="http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/"/>
+    <updated>2014-05-05T16:26:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi</id>
+    <content type="html"><![CDATA[<p>前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。</p>
+
+<h2>一，工具类</h2>
+
+<h3>1.GLib</h3>
+
+<h4>GHashTable</h4>
+
+<p>这里基本的数据结构如哈希表之类的使用了GLib来做主角，另外它的GString也很好用，可以很方便的初始化与格式化字符串，个人感觉比C风格的字符串要好用一些。</p>
+
+<p>GLib哈希表支持各种不同的结构，如果觉得<code>int</code>,<code>string</code>不够用可以直接使用指针，对于我来说已经相当足够。</p>
+
+<p><code>c
+GHashTable *user_to_bev_map = g_hash_table_new(g_direct_hash,g_direct_equal);
+g_hash_table_insert(user_to_bev_map, GINT_TO_POINTER(u_id), GINT_TO_POINTER(bev));
+struct bufferevent *bev = g_hash_table_lookup(user_to_bev_map,GINT_TO_POINTER(to_id));
+</code></p>
+
+<p><code>g_direct_hash</code>,<code>g_direct_equal</code>代表初始化的类型，详细的介绍如下:</p>
+
+<blockquote><p>Hash values returned by hash_func are used to determine where keys are stored within the GHashTable data structure.</p>
+
+<p>The <code>g_direct_hash()</code>, <code>g_int_hash()</code>, <code>g_int64_hash()</code>, <code>g_double_hash()</code> and <code>g_str_hash()</code> functions are provided for some common types of keys.</p>
+
+<p>If hash_func is NULL, g_direct_hash() is used.</p></blockquote>
+
+<!-- more -->
+
+
+<h4>GString</h4>
+
+<p>相比于C风格的字符串需要定长初始化，拼接赋值之类的，GString提供的字符串要人性化很多，还内置了长度的属性，可以很方便的调用。</p>
+
+<p><code>c
+GString *sql = g_string_sized_new(0);
+g_string_printf(sql,"INSERT INTO table (id, type) VALUES (%s, %s);",id,type);
+g_string_erase(sql, 0, sql-&gt;len);
+g_string_free(sql,1);
+</code></p>
+
+<p>还可以很方便的重复使用，但不要忘记最后的释放，关于释放函数的第二个参数是这样说明的：</p>
+
+<blockquote><p>If free_segment is TRUE it also frees the character data. If it&rsquo;s FALSE, the caller gains ownership of the buffer and must free it after use with g_free().</p></blockquote>
+
+<p>还有个常用的函数是<code>g_strsplit</code>，可以对字符进行分割,第三个参数表明需要分出几个来，0的话则一直切分到最后。</p>
+
+<p>```c</p>
+
+<pre><code>gchar **p = g_strsplit(line,",",0);
+dispatch_request(source_id-&gt;str, p[3], p[0], p[2], p[1], p[4]);
+g_strfreev(p);
+</code></pre>
+
+<p>```</p>
+
+<p>当然，关于GLib还有很多有用的东西，用Dash下个文档慢慢翻着看一遍相信会很有收获的。</p>
+
+<h3>2.Mysql</h3>
+
+<p>有服务的地方就有数据库，对于这种简易的小服务，Mysql是必不可少的。</p>
+
+<p>针对Mysql封了三个简单的函数方便调用：</p>
+
+<p>```c</p>
+
+<pre><code>MYSQL *db_connect(char *url, char *user_name, char *pwd, char *table_name) {
+    MYSQL *conn_ptr;
+    conn_ptr = mysql_init(NULL);
+    if (!conn_ptr) {
+        printf("mysql_init failed\n");
+        return NULL;
+    }
+    conn_ptr = mysql_real_connect(conn_ptr, url, user_name, pwd, table_name, 0, NULL, 0);
+    mysql_set_character_set(conn_ptr,"utf8");
+    if (conn_ptr) {
+        return conn_ptr;
+    } else {
+        return NULL;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>```c</p>
+
+<pre><code>MYSQL_RES *db_query(MYSQL *conn_ptr, char *sql) {
+    int res = mysql_query(conn_ptr, sql); //查询语句
+    if (res) {
+        printf("error:%s\n",mysql_error(conn_ptr));
+        return NULL;
+    } else {
+        MYSQL_RES *res_ptr = mysql_store_result(conn_ptr);              //取出结果集
+        printf("affected %lu rows\n",(unsigned long)mysql_affected_rows(conn_ptr));
+        return res_ptr;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<p>返回的<code>res_ptr</code>需要手动释放：</p>
+
+<p>```c</p>
+
+<pre><code>mysql_free_result(res);
+</code></pre>
+
+<p>```
+还有一个关闭函数：</p>
+
+<p>```c</p>
+
+<pre><code>void db_close(MYSQL *connfd) {
+    mysql_close(connfd);
+}
+</code></pre>
+
+<p>```
+这样，在服务器起来时建立数据库的连接存为全局变量，每次直接拿来用就好了，下面是一个比较典型的使用场景：</p>
+
+<p>```c</p>
+
+<pre><code>GString *sql = g_string_sized_new(0);
+g_string_printf(sql,"INSERT INTO table (id, type) VALUES (%s, %s);",id,type);
+db_query(conn_ptr, sql-&gt;str);
+g_string_erase(sql, 0, sql-&gt;len);
+g_string_printf(sql,"SELECT uid FROM table WHERE pid = %s",target_id);
+printf("find users sql2:%s\n", sql-&gt;str);
+MYSQL_RES *res = db_query(conn_ptr, sql-&gt;str);
+MYSQL_ROW sqlrow;
+if (res) {
+    while((sqlrow = mysql_fetch_row(res)))  {
+        long to_id = strtol(sqlrow[0], NULL, 10);
+        if (g_hash_table_contains(user_to_bev_map,GINT_TO_POINTER(to_id)) &amp;&amp; strcmp(sqlrow[0],source_id)) {
+            struct bufferevent *bev = g_hash_table_lookup(user_to_bev_map,GINT_TO_POINTER(to_id));
+            evbuffer_add_printf ((struct evbuffer *)bufferevent_get_output(bev), "%s\n",send_msg-&gt;str);
+        }
+    }
+}
+mysql_free_result(res);
+g_string_free(sql,1);
+g_string_free(send_msg,1);
+</code></pre>
+
+<p>```</p>
+
+<h3>3.libevent</h3>
+
+<h4>介绍</h4>
+
+<p>libevent是个好东西，有了它一般的数量级的连接都不在话下了。关于这种大数量的连接是有专门的话题来讨论的-<a href="http://www.kegel.com/c10k.html">C10K</a>。</p>
+
+<p>最开始尝试了多进程多线程，select阻塞之类的方法，最后才找到这里来，也算是按着故事的发展逻辑走了一遍符合剧情尿性吧&hellip;<a href="http://daniel.haxx.se/docs/poll-vs-select.html">这篇文章</a>写得不错，比较有指导性。</p>
+
+<p>关于libevent上手说不上难，狠下心来多读几遍它的<a href="http://www.wangafu.net/~nickm/libevent-book/">Fast portable non-blocking network programming with Libevent</a>弄明白了个大概还是不成问题的。</p>
+
+<p>它的优点是跨平台，可以针对不同的平台的阻塞实现相同的功能。对于我们来说只需要关心event这个东西就好了，至于是UNIX的select，Linux的epoll还是BSD的kqueue那是libevent的事情，它会在底层帮我们选择<a href="http://monkey.org/~provos/libevent/doxygen-2.0.1/">libevent Documentation</a>。</p>
+
+<h4>原理</h4>
+
+<p>原始的socket的连接是我们建立了连接，获得一个套接字，然后对这个套接字进行多路复用的读写。</p>
+
+<p>而现在我们可以使用libevent提供的event将这个套接字包裹起来，针对这个event编写它特定的读写函数。因为libevent是事件驱动的，所以当读写缓冲区达到特定条件时便会自动调用我们事先定义好的函数进行逻辑处理。大大简化了编码人员的工作量，可以让我们将更多的精力集中到逻辑代码的编写上面来（恰恰是最无聊的部分&hellip;），所以这么看来，也算是对程序员傻瓜化了一下吧。</p>
+
+<p>因为对event的读写涉及到缓冲区的东西，需要我们去按字节的读出来，这里libevent也很贴心的又帮我们简化了一下工作。除了event外还提供了<a href="http://www.wangafu.net/~nickm/libevent-book/Ref6_bufferevent.html">bufferevent</a>，看名字便知道这是专门针对读写字符准备的。这是网站上对它的介绍：</p>
+
+<blockquote><p>Most of the time, an application wants to perform some amount of data buffering in addition to just responding to events. When we want to write data, for example, the usual pattern runs something like:
+Decide that we want to write some data to a connection; put that data in a buffer.
+Wait for the connection to become writable
+Write as much of the data as we can
+Remember how much we wrote, and if we still have more data to write, wait for the connection to become writable again.
+This buffered IO pattern is common enough that Libevent provides a generic mechanism for it. A &ldquo;bufferevent&rdquo; consists of an underlying transport (like a socket), a read buffer, and a write buffer. Instead of regular events, which give callbacks when the underlying transport is ready to be read or written, a bufferevent invokes its user-supplied callbacks when it has read or written enough data.</p></blockquote>
+
+<h4>使用</h4>
+
+<p>我们可以将新建的监听套接字绑定在event上帮我们处理后续的事件：</p>
+
+<p>```c</p>
+
+<pre><code>struct event_base *base;
+struct event *listener_event;
+serveListen(&amp;listener);
+evutil_make_socket_nonblocking(listener);
+listener_event = event_new(base, listener, EV_READ|EV_PERSIST, do_accept, (void *)base);
+event_add(listener_event, NULL);
+event_base_dispatch(base);
+</code></pre>
+
+<p>```</p>
+
+<p>当有事件进入时它会主动调用<code>do_accept</code>：</p>
+
+<p>```c
+void do_accept(evutil_socket_t listener, short event, void *arg)
+{</p>
+
+<pre><code> struct event_base *base = arg;
+struct sockaddr_storage ss;
+socklen_t slen = sizeof(ss);
+int fd = accept(listener, (struct sockaddr*)&amp;ss, &amp;slen);
+if (fd &lt; 0) {
+    perror("accept");
+} else if (fd &gt; FD_SETSIZE) {
+    close(fd);
+} else {
+    struct bufferevent *bev;
+    evutil_make_socket_nonblocking(fd);
+    bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
+    bufferevent_setcb(bev, readcb, writecb, errorcb, GINT_TO_POINTER(fd));
+    bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
+    bufferevent_enable(bev, EV_READ|EV_WRITE);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>从上面代码可以看出，我们从<code>accept</code>中接收回一个套接字，并将该套接字绑定在一个<code>bufferevent</code>，设置好相应的读写函数与读写触发的水位线加入到<code>base</code>里便可以从容的等待事件的触发了。</p>
+
+<p>关于水位线，这里也有段详细的描述：</p>
+
+<blockquote><p>Every bufferevent has two data-related callbacks: a read callback and a write callback. By default, the read callback is called whenever any data is read from the underlying transport, and the write callback is called whenever enough data from the output buffer is emptied to the underlying transport. You can override the behavior of these functions by adjusting the read and write &ldquo;watermarks&rdquo; of the bufferevent.</p>
+
+<p>Every bufferevent has four watermarks:</p>
+
+<p><code>Read low-water mark</code></p>
+
+<p>Whenever a read occurs that leaves the bufferevent’s input buffer at this level or higher, the bufferevent’s read callback is invoked. Defaults to 0, so that every read results in the read callback being invoked.</p>
+
+<p><code>Read high-water mark</code></p>
+
+<p>If the bufferevent’s input buffer ever gets to this level, the bufferevent stops reading until enough data is drained from the input buffer to take us below it again. Defaults to unlimited, so that we never stop reading because of the size of the input buffer.</p>
+
+<p><code>Write low-water mark</code></p>
+
+<p>Whenever a write occurs that takes us to this level or below, we invoke the write callback. Defaults to 0, so that a write callback is not invoked unless the output buffer is emptied.</p>
+
+<p><code>Write high-water mark</code></p>
+
+<p>Not used by a bufferevent directly, this watermark can have special meaning when a bufferevent is used as the underlying transport of another bufferevent. See notes on filtering bufferevents below.</p></blockquote>
+
+<p>细读一遍还是蛮获益匪浅的。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android USB Host通信]]></title>
@@ -795,67 +1046,6 @@ gcc  -L/usr/lib -I/usr/lib/glib/include/glib-2.0 hello.c -o hello -liconv -lreso
 /usr/include/glib-2.0
 </code>
 其实按照教程正常安装的话基本上都会在这个位置，这样的话就可以用Eclipse在GLib里爽起来了~</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UNIX下Socket工具包libunp.a编译笔记]]></title>
-    <link href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/"/>
-    <updated>2014-03-12T16:23:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji</id>
-    <content type="html"><![CDATA[<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
-
-<p>```c
-Execute the following from the src/ directory:
-&amp;
-./configure    # try to figure out all implementation differences
-cd lib         # build the basic library that all programs need
-make           # use &ldquo;gmake&rdquo; everywhere on BSD/OS systems
-&amp;
-cd ../libfree  # continue building the basic library
-make
-&amp;
-cd ../libroute # only if your system supports 4.4BSD style routing sockets
-make           # only if your system supports 4.4BSD style routing sockets
-&amp;
-cd ../libxti   # only if your system supports XTI</p>
-
-<pre><code>make           # only if your system supports XTI
-</code></pre>
-
-<p>cd ../intro    # build and test a basic client program
-make daytimetcpcli
-&amp;
-./daytimetcpcli 127.0.0.1
-&amp;
-If all that works, you&rsquo;re all set to start compiling individual programs.
-Notice that all the source code assumes tabs every 4 columns, not 8.
-```</p>
-
-<!--more-->
-
-
-<p>2.开始蛮兴奋地在sublime上敲，觉得脱离了IDE后怎么看怎么高大上，但慢慢发现每更改了服务端客户端的程序后，想要运行测试要在三个终端窗口敲五次命令才可以，对于习惯了一个快捷键编译运行的我实在是一场灾难，果断还是要把服务端的开发迁移到eclipse上才是上上之道。因为不熟悉Makefile的语法，对于编译的配置又是一场灾难，折腾了好久才日出来。</p>
-
-<p>首先要配置-L选项，定位于lib所在文件路径</p>
-
-<p><code>c
-/Users/workingspace/Demo/src/
-</code>
-再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了,另外还要添加resolv，pthread这两个库</p>
-
-<p><code>c
-unp
-resolv
-pthread
-</code></p>
-
-<p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
-
-<p><code>c
-/Users/src/lib
-</code>
-这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
 ]]></content>
   </entry>
   

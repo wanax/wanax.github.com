@@ -8,7 +8,7 @@
 	<title>基于C的Socket聊天服务器 - 陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="基于C的Socket聊天服务器 前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。 一，工具类 1.GLib &hellip;">
+	<meta name="description" content="基于C的Socket聊天服务器 前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。 一，工具类 1. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,7 +115,11 @@
 
 <h2>一，工具类</h2>
 
-<h3>1.GLib</h3>
+<h3>1.libunp.a</h3>
+
+<p>用到的第一个库便是它，因为它是《UNIX网络编程》的示例代码的工具库&hellip;开头写的测试程序基本都是照着示例代码改来改去，自然也是用的一样的函数来实现。觉得对于一般的读写和各种包裹函数都是很有用的。具体的不用细说，还是认真翻书来得实在。</p>
+
+<h3>2.GLib</h3>
 
 <h4>GHashTable</h4>
 
@@ -175,7 +179,7 @@
 
 <p>当然，关于GLib还有很多有用的东西，用Dash下个文档慢慢翻着看一遍相信会很有收获的。</p>
 
-<h3>2.Mysql</h3>
+<h3>3.Mysql</h3>
 
 <p>有服务的地方就有数据库，对于这种简易的小服务，Mysql是必不可少的。</p>
 
@@ -304,7 +308,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>3.libevent</h3>
+<h3>4.libevent</h3>
 
 <h4>介绍</h4>
 
@@ -324,12 +328,19 @@
 
 <p>因为对event的读写涉及到缓冲区的东西，需要我们去按字节的读出来，这里libevent也很贴心的又帮我们简化了一下工作。除了event外还提供了<a href="http://www.wangafu.net/~nickm/libevent-book/Ref6_bufferevent.html">bufferevent</a>，看名字便知道这是专门针对读写字符准备的。这是网站上对它的介绍：</p>
 
-<blockquote><p>Most of the time, an application wants to perform some amount of data buffering in addition to just responding to events. When we want to write data, for example, the usual pattern runs something like:
-Decide that we want to write some data to a connection; put that data in a buffer.
-Wait for the connection to become writable
-Write as much of the data as we can
-Remember how much we wrote, and if we still have more data to write, wait for the connection to become writable again.
-This buffered IO pattern is common enough that Libevent provides a generic mechanism for it. A &ldquo;bufferevent&rdquo; consists of an underlying transport (like a socket), a read buffer, and a write buffer. Instead of regular events, which give callbacks when the underlying transport is ready to be read or written, a bufferevent invokes its user-supplied callbacks when it has read or written enough data.</p></blockquote>
+<blockquote><p>Most of the time, an application wants to perform some amount of data buffering in addition to just responding to events.</p>
+
+<p>When we want to write data, for example, the usual pattern runs something like:</p>
+
+<ul>
+<li><p>Decide that we want to write some data to a connection;</p></li>
+<li><p>Put that data in a buffer.Wait for the connection to become writable;</p></li>
+<li><p>Write as much of the data as we can;</p></li>
+<li><p>Remember how much we wrote, and if we still have more data to write, wait for the connection to become writable again.</p></li>
+</ul>
+
+
+<p>This buffered IO pattern is common enough that Libevent provides a generic mechanism for it. A &ldquo;bufferevent&rdquo; consists of an underlying transport (like a socket), a read buffer, and a write buffer. Instead of regular events, which give callbacks when the underlying transport is ready to be read or written, a bufferevent invokes its user-supplied callbacks when it has read or written enough data.</p></blockquote>
 
 <h4>使用</h4>
 
@@ -403,23 +414,71 @@ This buffered IO pattern is common enough that Libevent provides a generic mecha
 
 <p>Every bufferevent has four watermarks:</p>
 
-<p><code>Read low-water mark</code></p>
+<ul>
+<li><code>Read low-water mark</code></li>
+</ul>
+
 
 <p>Whenever a read occurs that leaves the bufferevent’s input buffer at this level or higher, the bufferevent’s read callback is invoked. Defaults to 0, so that every read results in the read callback being invoked.</p>
 
-<p><code>Read high-water mark</code></p>
+<ul>
+<li><code>Read high-water mark</code></li>
+</ul>
+
 
 <p>If the bufferevent’s input buffer ever gets to this level, the bufferevent stops reading until enough data is drained from the input buffer to take us below it again. Defaults to unlimited, so that we never stop reading because of the size of the input buffer.</p>
 
-<p><code>Write low-water mark</code></p>
+<ul>
+<li><code>Write low-water mark</code></li>
+</ul>
+
 
 <p>Whenever a write occurs that takes us to this level or below, we invoke the write callback. Defaults to 0, so that a write callback is not invoked unless the output buffer is emptied.</p>
 
-<p><code>Write high-water mark</code></p>
+<ul>
+<li><code>Write high-water mark</code></li>
+</ul>
+
 
 <p>Not used by a bufferevent directly, this watermark can have special meaning when a bufferevent is used as the underlying transport of another bufferevent. See notes on filtering bufferevents below.</p></blockquote>
 
-<p>细读一遍还是蛮获益匪浅的。</p>
+<p>细读一遍还是蛮获益匪浅的，大体意思为通过水位线的设置来触发读写的回调函数。</p>
+
+<ul>
+<li><p>对于读取水位，有读低水位与高水位，读低水位默认为0，即当buffer里数据量高于0时便会调用读回调，也就是一有数据便会回调，另一方面，当超过读的高水位时，buffer便会停止接受数据，这个值默认被置为<code>unlimited</code>，所以可以理解为永远不会停止接受数据。</p></li>
+<li><p>对于写入水位，写的低水位表示当写出数据后buffer里剩余的数据量小于该水位时调用写函数，默认为0，即只有buffer被清空后该函数才会被回调。写的高水位比较特殊，一般情况下没有使用。</p></li>
+</ul>
+
+
+<p>对于水位线的设置是通过下面的函数实现的</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">bufferevent_setwatermark</span><span class="p">(</span><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bufev</span><span class="p">,</span> <span class="kt">short</span> <span class="n">events</span><span class="p">,</span><span class="kt">size_t</span> <span class="n">lowmark</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">highmark</span><span class="p">);</span>
+</span><span class='line'><span class="nl">ex:</span><span class="n">bufferevent_setwatermark</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MAX_LINE</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在回调函数里这样获取数据：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">struct</span> <span class="n">evbuffer</span> <span class="o">*</span><span class="n">input</span> <span class="o">=</span> <span class="n">bufferevent_get_input</span><span class="p">(</span><span class="n">bev</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">evbuffer_readln</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="n">EVBUFFER_EOL_LF</span><span class="p">)))</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">gchar</span> <span class="o">**</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">p</span> <span class="o">=</span> <span class="n">g_strsplit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">dispatch_request</span><span class="p">(</span><span class="n">u_data</span><span class="o">-&gt;</span><span class="n">u_id</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+</span><span class='line'>  <span class="n">g_strfreev</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要注意的是，提供的<code>evbuffer_readln</code>可以将接受到的一行数据自动去除<code>\n</code>，方便了我们的后期使用。</p>
 </div>
 
 </article>

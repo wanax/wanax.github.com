@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-05-07T12:02:10+08:00</updated>
+  <updated>2014-05-30T10:10:55+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -314,6 +314,23 @@ if ((line = evbuffer_readln(input, &amp;n, EVBUFFER_EOL_LF))) {
 <p>```</p>
 
 <p>需要注意的是，提供的<code>evbuffer_readln</code>可以将接受到的一行数据自动去除<code>\n</code>，方便了我们的后期使用。</p>
+
+<h2>二，实现思路</h2>
+
+<p>具体的思路因为暂时在需求上不是很复杂所以比较简单。</p>
+
+<p>首先实现了<code>do_accept</code>函数，阻塞接收请求建立连接的<code>socket</code>，当有新的<code>socket</code>进来后使用<code>bufferevent</code>将其包装好，并设置好它的首次读写回调函数。</p>
+
+<p><code>c
+struct bufferevent *bev;
+evutil_make_socket_nonblocking(fd);
+bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
+bufferevent_setcb(bev, readcb, writecb, errorcb, GINT_TO_POINTER(fd));
+bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
+bufferevent_enable(bev, EV_READ|EV_WRITE);
+</code></p>
+
+<p>首次客户端的通信用于标示此次通信的目的，当为登录时，进入<code>reg_client</code>将该用户注册至服务器，并修改其回调函数用于具体的逻辑处理。</p>
 ]]></content>
   </entry>
   

@@ -479,6 +479,29 @@
 
 
 <p>需要注意的是，提供的<code>evbuffer_readln</code>可以将接受到的一行数据自动去除<code>\n</code>，方便了我们的后期使用。</p>
+
+<h2>二，实现思路</h2>
+
+<p>具体的思路因为暂时在需求上不是很复杂所以比较简单。</p>
+
+<p>首先实现了<code>do_accept</code>函数，阻塞接收请求建立连接的<code>socket</code>，当有新的<code>socket</code>进来后使用<code>bufferevent</code>将其包装好，并设置好它的首次读写回调函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span><span class="p">;</span>
+</span><span class='line'><span class="n">evutil_make_socket_nonblocking</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+</span><span class='line'><span class="n">bev</span> <span class="o">=</span> <span class="n">bufferevent_socket_new</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">fd</span><span class="p">,</span> <span class="n">BEV_OPT_CLOSE_ON_FREE</span><span class="p">);</span>
+</span><span class='line'><span class="n">bufferevent_setcb</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">readcb</span><span class="p">,</span> <span class="n">writecb</span><span class="p">,</span> <span class="n">errorcb</span><span class="p">,</span> <span class="n">GINT_TO_POINTER</span><span class="p">(</span><span class="n">fd</span><span class="p">));</span>
+</span><span class='line'><span class="n">bufferevent_setwatermark</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MAX_LINE</span><span class="p">);</span>
+</span><span class='line'><span class="n">bufferevent_enable</span><span class="p">(</span><span class="n">bev</span><span class="p">,</span> <span class="n">EV_READ</span><span class="o">|</span><span class="n">EV_WRITE</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>首次客户端的通信用于标示此次通信的目的，当为登录时，进入<code>reg_client</code>将该用户注册至服务器，并修改其回调函数用于具体的逻辑处理。</p>
 </div>
 
 </article>
@@ -494,6 +517,12 @@
 </div>
 -->
 
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner"><p>
@@ -503,6 +532,22 @@
 
 Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
 			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/';
+        var disqus_url = 'http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

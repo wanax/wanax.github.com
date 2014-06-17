@@ -1,0 +1,237 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>UNIX程序制作成WIN Server笔记 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="UNIX程序制作成WIN Server笔记 初 四五月份折腾完聊天服务器后就放了下来开始做个公司的CMS，重拾PHP的感觉还不错。几年不见多了很多框架，随便挑一个用着也很是方便，感觉现在做应用层的开发真是越来越简单了。各种框架工具一应俱到， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2014/06/14/unixcheng-xu-zhi-zuo-cheng-win-serverbi-ji/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=31767964" charset="UTF-8"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (14)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (3)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (24)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">UNIX程序制作成WIN Server笔记</h1>
+	<div class="entry-content" itemprop="articleBody"><h1>初</h1>
+
+<p>四五月份折腾完聊天服务器后就放了下来开始做个公司的CMS，重拾PHP的感觉还不错。几年不见多了很多框架，随便挑一个用着也很是方便，感觉现在做应用层的开发真是越来越简单了。各种框架工具一应俱到，从UNIX脱离出来重新投入到一键式的开发环境中真有点说不出的幸福。</p>
+
+<p>开始的时候以为编程的世界是个江湖，每个码农都应该朝着绝顶高手的目标不断努力，只有将自己的武功修炼到化境才能算得上功成名就，渐而渐的却发现自己所处的环境跟江湖有不少区别的。也许在自己不知道的层面上还是各种武林高手呼风唤雨，但就现在自己所处的位置却是一个战场无疑。自己的能力与各种框架工具相比就算提升了几倍也是显得那么微不足道。就好比之前写聊天程序时各种尝试，从多进程到多线程，从线程池到多路复用，就自己的能力而言性能是在可观的提升的，心里也有些小得意。直到后面用上了<code>Libevent</code>&hellip;回头看看自己的努力就像天边的浮云，看上去很美而已。</p>
+
+<!--more-->
+
+
+<p>现在的产品开发正朝着越来越高的层次迈进，对于程序员的素质要求也逐步的降低，很多时候小码农真的像战场上的士兵一样，每人一件标准式的兵器往前冲就是了，真正能主导战场走向的反而是居于幕后激昂指点的PM。</p>
+
+<p><code>C++</code>11出了<code>shared_ptr</code>，苹果手里的<code>OC</code>搭配上<code>ARC</code>还尚嫌不足轰轰烈烈来了个<code>Swift</code>，<code>JS</code>不满足于前端的限制整了套<code>NODEJS</code>，<code>Python</code>的<code>Django</code>，<code>PHP</code>的<code>Codeigniter</code>，大学时所学的操作系统，指针，数据结构已经渐渐地离我们远去，能不能说这是一个最好的时代却也是一个最坏的时代呢？</p>
+
+<h1>缘</h1>
+
+<p>公司现在跑的测试服务器装的是WIN SERVER的系统，没道理为了一个小程序重装系统，所以就开始了踩坑遍地的跨平台旅程。</p>
+
+<h1>足下</h1>
+
+<p>首先需要的是确定使用什么工具进行WIN的编译。以为使用的是Mac做的第一次开发，借助了Eclipse+GCC，所以第一想法也是在WIN下使用这一套环境，进行Eclipse+MinGW相信也可以搞定。</p>
+
+<p>在对GLib进行配置的时候还是相对顺利的，其实在自己心里设想的就是把用到的各种库填好相应的头引用，lib引用就足以使用了。只是后面的历程说明老是把事情往简单想早晚会吃大亏的。</p>
+
+<p>在套Libevent就出现了很多问题，而且因为不知道是不是因为年代比较久远且与现在的潮流脱节，在Google上搜来搜去也就那么几篇文章，我在配的时候出现的<code>PROPC_MESSAGE ERROR</code>根本搜不出所以然来。</p>
+
+<p>于是乎在折腾了N个日子后的一个悲观的整个人都不好了的下午，试想着不如直接用<code>Cygwin</code>算了，顶多从新把东西都编译一遍，但最起码这玩意儿咱做过一遍心里还有底。幸运的是下回来<code>Cygwin</code>刚试用了感觉一切良好的时候下班的时间到了。</p>
+
+<p>回家吃饱饭在图书馆空调的沁脾下逐渐平息了青春的躁动决定还是另谋它法，<code>Cygwin</code>一条路走到黑搞不好被炒了鱿鱼都说不准。由此可见下班及时回家是多么的重要。</p>
+
+<p>第二天回来重新来过开始用起<code>VS</code>来。WIN8配上VS，一切感觉都是那么的美好，阳光透过窗子洒在脚上提醒我到了穿拖鞋上班的季节。</p>
+
+<p>GLib的配置依旧十分顺利，还是卡在了Libevent上。对Libevent的编译十分简单，使用VS自带的<code>nmake</code>可以很轻松的将Libevent的三个lib给编译出来。但在引用的过程中总会出现莫名其妙的错误。开始考虑的是x86与x64导致的问题，但分两种情况编译后问题依然存在。卡了快一天后在网上找到了一个配置好的Demo，运行竟然成功了。通过编译参数的详细对比发现在指定运行库的地方需要调整为<code>/MT</code>的模式，具体的原因参见这篇文章<a href="http://msdn.microsoft.com/zh-cn/library/2kzt1wy3.aspx">/MD、/MT、/LD(使用运行库)</a>，有点踏破铁鞋无觅处，得来全不费功夫的感觉。虽然配置好了但还是有点知其然不知其所以然。</p>
+
+<p>接下来便是再接再厉将<code>mysql</code>的库搭好环境便算彻底搞定了。有时候总觉得事情老是在自己最放心的地方峰回路转，其实说白了还是自己的基本功不扎实，觉得简单并不一定了解到了方方面面，也可能自己并不知道其中的重点难点所在而又继续踩坑。对于<code>mysql</code>的配置这点感触尤其深刻。总觉得相当简单手到擒来，结果还是卡了半天，最后才发现自己选择的是x64的版本与工程版本不匹配，更换后终于拨云见日。</p>
+
+<p>整体环境搭出来后才感觉轻松了不少，觉得这事儿终于算是有些眉目了。虽然WIN下面的socket是自己实现的，但还是跟UNIX的API保持一致的。只需在开始的时候来一句<code>WSAStartup</code>就万事大吉了。其它的便是一些接口的细节修改。在VS下面很多如<code>sprintf</code>，<code>fopen</code>的函数会报不安全的错误，建议修改成<code>sprintf_s</code>，<code>fopen_f</code>，懒得修改的话也可以直接对工程进行配置，忽略这个类型的警告。</p>
+
+<p>最后的成功运行让我心中长出一口恶气，正好是周五的下午，收拾东西踢个靓球。</p>
+
+<h1>峰回</h1>
+
+<p>六月初的时候公司换了新的地点，大了不少不说离着也近感觉还是不错的。新地方上班的第一天便是赶紧在Mac上装个WIN8，之前编译的时候对着项目经理的13寸小电脑佝偻的一个多星期，说什么也不能再受罪了。</p>
+
+<p>这年头来个双系统还是真是方便，纯鼠标操作点几下就搞定了。按完以后面对着WIN8高大上的界面不禁手痒，来几盘CS再方便不过。</p>
+
+<p>这里上班有大食堂可以吃，不用像之前那样叫外卖了，不过之前也没怎么吃外卖，开始是炒了菜带来吃，嫌麻烦改成了面包火腿黄瓜鸡蛋，再后来还是嫌麻烦两片面包夹个鸡蛋足矣。新地方试了几天饭堂发现还是面包鸡蛋吃着爽快，唯一值得留恋的是中午吃饭可以遇到两位管理处的小妹妹，长得都还蛮不错的。</p>
+
+<p>正当觉得要脱离苦海的时候boss要求要把exe做成服务，这样开机可以直接启动更方便。没啥好说的，继续耕耘呗。</p>
+
+<p>开始的时候没什么思路，在网上简单的搜索了下发现有个<code>sc</code>的命令可以直接将exe制作成服务，很是开心。结果制作出来的服务跟不启动不了，再仔细一搜发现关于服务的工程需要调用特定的WIN API才行，觉得心里有点毛，不会又要一阵折腾吧。</p>
+
+<p>在VS下面发现可以直接新建c#的服务工程，但又不能直接用c的代码，想着可以将做的项目做成lib再在里面调用，觉得十分可行。为了验证自己这个想法的可行性，背起书包回家吃饭。</p>
+
+<p>第二天再来的时候果然觉得这个方案不是很靠谱，因为不熟悉WIN API而想方设法绕过去看上去很简单，搞不好又是一坨屎出来。静下来琢磨下过程，直接用c来调用的话应该也不会很难，就当学习呗。</p>
+
+<p>大体的了解了下思路，发现没有自己想象的难，大体就是开始的时候初始化一个叫<code>分配表</code>的结构体，在这个结构体可以定义服务的名字和主调用程序，然后调用一个叫dispatch的函数，大体意思是这个dispatch会把当前进程转换为分配表的进程，然后再通过分配表启动一个新的线程，再用这个线程调用我们的主程序。在这个主程序中我们还需要对当前服务的状态进行不同程度的修改，然后把自己写好的程序放进去就行了。另外还需要写一个<code>Handler</code>来接收这个服务的各种返回状态。</p>
+
+<p>需要注意的是启动的服务无法打印信息，需要搭配日志来使用。</p>
+
+<h1>祥</h1>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2014/06/14/unixcheng-xu-zhi-zuo-cheng-win-serverbi-ji/';
+        var disqus_url = 'http://sonnewilling.com/blog/2014/06/14/unixcheng-xu-zhi-zuo-cheng-win-serverbi-ji/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

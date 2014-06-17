@@ -74,6 +74,7 @@
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (3)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (24)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (1)</a></li>
 
   </ul>
 </section>
@@ -169,8 +170,6 @@
 <p>大体的了解了下思路，发现没有自己想象的难，大体就是开始的时候初始化一个叫<code>分配表</code>的结构体，在这个结构体可以定义服务的名字和主调用程序，然后调用一个叫dispatch的函数，大体意思是这个dispatch会把当前进程转换为分配表的进程，然后再通过分配表启动一个新的线程，再用这个线程调用我们的主程序。在这个主程序中我们还需要对当前服务的状态进行不同程度的修改，然后把自己写好的程序放进去就行了。另外还需要写一个<code>Handler</code>来接收这个服务的各种返回状态。</p>
 
 <p>需要注意的是启动的服务无法打印信息，需要搭配日志来使用。</p>
-
-<h1>祥</h1>
 </div>
 
 </article>

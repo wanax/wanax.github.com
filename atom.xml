@@ -4,7 +4,7 @@
   <title><![CDATA[陋室]]></title>
   <link href="http://sonnewilling.com/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-06-17T11:20:09+08:00</updated>
+  <updated>2014-06-17T15:50:19+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[怀抱有时]]></title>
+    <link href="http://sonnewilling.com/blog/2014/06/17/huai-bao-you-shi/"/>
+    <updated>2014-06-17T15:49:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/06/17/huai-bao-you-shi</id>
+    <content type="html"><![CDATA[<p>hrer</p>
+
+<!--more-->
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UNIX程序制作成WIN Server笔记]]></title>
@@ -76,8 +88,6 @@
 <p>大体的了解了下思路，发现没有自己想象的难，大体就是开始的时候初始化一个叫<code>分配表</code>的结构体，在这个结构体可以定义服务的名字和主调用程序，然后调用一个叫dispatch的函数，大体意思是这个dispatch会把当前进程转换为分配表的进程，然后再通过分配表启动一个新的线程，再用这个线程调用我们的主程序。在这个主程序中我们还需要对当前服务的状态进行不同程度的修改，然后把自己写好的程序放进去就行了。另外还需要写一个<code>Handler</code>来接收这个服务的各种返回状态。</p>
 
 <p>需要注意的是启动的服务无法打印信息，需要搭配日志来使用。</p>
-
-<h1>祥</h1>
 ]]></content>
   </entry>
   
@@ -3399,50 +3409,6 @@
 
 <p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/blogsource/ontheroad/IMAG0898_zpsf8e779d9.jpg" alt="image" />
 <em><em>据说是世界上最便宜的跳伞 500一次 预购从速 真的很爽</em></em></p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[包子]]></title>
-    <link href="http://sonnewilling.com/blog/2012/11/09/bao-zi/"/>
-    <updated>2012-11-09T09:27:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2012/11/09/bao-zi</id>
-    <content type="html"><![CDATA[<p><img height="500px" width="750px" src="http://i1276.photobucket.com/albums/y462/staffpicks/Underwater/Mix-Pack-8135.jpg" border="0" alt="underwater photo:  Mix-Pack-8135.jpg"/></p>
-
-<blockquote><h4>你是个包子，</h4>
-
-<h4>充满诱惑的包子。</h4>
-
-<h4>我深深地爱着你，</h4>
-
-<h4>在我的脊梁根处，</h4>
-
-<h4>在我的血液浓处。</h4></blockquote>
-
-<!--more-->
-
-
-<blockquote><h4>可有一天你跟我说，</h4>
-
-<h4>“我要减肥！”</h4>
-
-<h4>我喉间咕咕噜噜，</h4>
-
-<h4>没有作答。</h4>
-
-<h4>你说，</h4>
-
-<h4>继续爱我吧，我还有美丽的花褶，</h4>
-
-<h4>继续爱我吧，我将有苗条的身段，</h4>
-
-<h4>继续爱我吧，我会有轻灵的舞步。</h4>
-
-<h4>喝！呸。</h4>
-
-<h4>你他妈是个肉包子，</h4>
-
-<h4>我是一条狗。</h4></blockquote>
 ]]></content>
   </entry>
   

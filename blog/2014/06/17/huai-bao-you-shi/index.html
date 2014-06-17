@@ -5,10 +5,10 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>struts跳转控制笔记 - 陋室</title>
+	<title>怀抱有时 - 陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Struts跳转控制笔记 当namespace="/login"时 === 子路目中：有login/ no action mapped for 无login/ no result defined 根目录中： no result defined no action mapped for &hellip;">
+	<meta name="description" content=" 怀抱有时 hrer --> Comments Please enable JavaScript to view the comments powered by Disqus. ">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://sonnewilling.com/blog/2012/01/04/strutstiao-zhuan-kong-zhi-bi-ji/">
+	<link rel="canonical" href="http://sonnewilling.com/blog/2014/06/17/huai-bao-you-shi/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -111,58 +111,11 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Struts跳转控制笔记</h1>
-	<div class="entry-content" itemprop="articleBody"><h3>当<code>namespace="/login"</code>时</h3>
-
-<p>===</p>
-
-<p>子路目中：有<code>login/</code>   <strong>no action mapped for</strong></p>
-
-<p>无<code>login/</code>   <strong>no result defined</strong></p>
-
-<p>根目录中：    <strong>no result defined</strong></p>
-
-<p><strong>no action mapped for</strong></p>
+	<h1 class="title" itemprop="name">怀抱有时</h1>
+	<div class="entry-content" itemprop="articleBody"><p>hrer</p>
 
 <!--more-->
 
-
-<h3>当<code>namespace="/"</code>时</h3>
-
-<p>===</p>
-
-<p>子目录中：      <strong>可跳转，无样式，URL重复发送</strong></p>
-
-<p><strong>no result defined</strong></p>
-
-<p>根目录中：    <strong>no result defined</strong></p>
-
-<p>跳转成功</p>
-
-<p>结果跳转位置为“namespace+result”</p>
-
-<p>===</p>
-
-<h3>struts.xml 匹配action方式：</h3>
-
-<p>===
-1.当各目录jsp页面发送action时，系统首先在其加上所在目录                                               名，与namespace匹配。</p>
-
-<p><code>namespace=“/”</code>与不写有区别，不写则匹配所有，写等同于<code>“/test”</code>之类，<code>“/”</code>表示根目录</p>
-
-<p>故当<code>namespace=“/test”</code>时，根目录的action应写<code>test/*.action，所发出的全称即"test/*.action"</code>，即可找到对应struts，但服务器会记录信息，使URL叠加，不推荐使用。</p>
-
-<p>另：同子目录下发<code>action="*.action"，会自动加上对应文件名，即"test/*action"</code>，可与namespace匹配。</p>
-
-<p>故总体来说，推荐使用重定向的方式，不论再哪级目录下，均返回根目录对应配置文件填写action</p>
-
-<p>ex.   二级目录下，可写成<code>"../../test/test/*action"</code>重新定向。</p>
-
-<p>在匹配过程中有时候结果返回页面会发现css全部无法加载，此为因为重定向后URL改变，对应不上原来的css加载路径，此时应应变对应尝试各种更改action的发送URL。</p>
-
-<p>result 前加<code>/</code> 表返回根目录，再依具体位置写目录</p>
-
-<p>通配符的使用 ex. <code>action="jump*"    result=/test{1}/test{1}Success.jsp</code></p>
 </div>
 
 </article>
@@ -199,8 +152,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sonnewilling.com/blog/2012/01/04/strutstiao-zhuan-kong-zhi-bi-ji/';
-        var disqus_url = 'http://sonnewilling.com/blog/2012/01/04/strutstiao-zhuan-kong-zhi-bi-ji/';
+        var disqus_identifier = 'http://sonnewilling.com/blog/2014/06/17/huai-bao-you-shi/';
+        var disqus_url = 'http://sonnewilling.com/blog/2014/06/17/huai-bao-you-shi/';
         var disqus_script = 'embed.js';
       
     (function () {

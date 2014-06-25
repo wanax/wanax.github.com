@@ -148,6 +148,34 @@
 
 <p>就是说想要安装GLib的话最起码得先把Required和Recommended里的东西装完才行。</p>
 
+<p>但在实际安装过程中还需要另外两个工具<a href="http://www.chenjunlu.com/2011/03/understanding-pkg-config-tool/">pkg-config</a>和<a href="http://zh.wikipedia.org/wiki/Gettext">Gettext</a></p>
+
+<p>对于两者皆是去官网下载最新版本的安装包，执行安装命令就可以了。</p>
+
+<p><a href="http://pkgconfig.freedesktop.org/releases/">pkg-config</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">configure</span>  <span class="o">--</span><span class="n">with</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">glib</span>
+</span><span class='line'><span class="n">make</span>
+</span><span class='line'><span class="n">sudo</span>  <span class="n">make</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://www.gnu.org/software/gettext/">Gettext</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="n">configure</span>
+</span><span class='line'><span class="err">$</span> <span class="n">make</span>
+</span><span class='line'><span class="err">$</span> <span class="n">make</span> <span class="n">verify</span>   <span class="err">#</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+</span><span class='line'><span class="err">$</span> <span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>2.编译</h3>
 
 <p>安装环境配好后就可以正式安装了，顺着那个网页往下走就能看到具体的方法：</p>

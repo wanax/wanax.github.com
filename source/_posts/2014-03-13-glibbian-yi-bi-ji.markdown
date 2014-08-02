@@ -36,6 +36,27 @@ Quoted directly from the INSTALL file: “Some of the mimetype-related functiona
 
 就是说想要安装GLib的话最起码得先把Required和Recommended里的东西装完才行。
 
+但在实际安装过程中还需要另外两个工具[pkg-config](http://www.chenjunlu.com/2011/03/understanding-pkg-config-tool/)和[Gettext](http://zh.wikipedia.org/wiki/Gettext)
+
+对于两者皆是去官网下载最新版本的安装包，执行安装命令就可以了。
+
+[pkg-config](http://pkgconfig.freedesktop.org/releases/)
+
+```c
+./configure  --with-internal-glib
+make
+sudo  make install
+```
+
+[Gettext](https://www.gnu.org/software/gettext/)
+
+```c
+$ ./configure
+$ make
+$ make verify   # (optional)
+$ sudo make install
+```
+
 ###2.编译
 
 安装环境配好后就可以正式安装了，顺着那个网页往下走就能看到具体的方法：

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2014-08-02T15:47:27+08:00</updated>
+  <updated>2014-08-12T19:51:08+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,346 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[VC USB 串口通信]]></title>
+    <link href="http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/"/>
+    <updated>2014-08-11T11:03:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin</id>
+    <content type="html"><![CDATA[<h2>楔子</h2>
+
+<p>前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便，Cache倒相对来说可行一些，开多一个服务罢了，其实简单的逻辑自己也能实现。就这样纠结来纠结去的，发现其实现在的服务倒也完全够用，压力测试了下，能撑到1500的并发，想来刚上线估计也最多几百号人能同时聊天就不错了，所以就先研究至此，撑不住了再换，不要过早优化嘛。</p>
+
+<!--more-->
+
+
+<p>就这样决定先找别的事做做，恰好项目里有需要用到Flash的ANE技术来实现Flash与硬件通信，Flash自然不会写，但用VC进行串口通信打包成DLL给Flash调用这个还是可以研究下的。</p>
+
+<p>ANE这里就不再细谈，大体上就是Flash中调用其它语言的一种技术，通过它可以实现一些Flash做不到的东西，比如说底层通信啥的。这里主要讲USB串口通信这一块儿。</p>
+
+<p>串口通信翻了下书发现还是有很多标准的，而现行最流行的就是USB了，所以在网上关于此的资料还是很好找的。</p>
+
+<p>这篇文章的内容主要由三个部分组成：</p>
+
+<ol>
+<li>串口连接的建立与简单阻塞通讯</li>
+<li>通过API调用自动查询当前插入的USB设备并建立连接</li>
+<li>区别于简单阻塞的通讯方式，如重叠IO与事件通知</li>
+</ol>
+
+
+<h2>一，建立连接与阻塞通讯</h2>
+
+<p>在WIN下面，对于串口一类的硬件设备也是认定为文件的一种，所以也可以使用文件的方式来创建打开使用：</p>
+
+<p>```c
+HANDLE h_com = CreateFile((LPCWSTR)&ldquo;COM4&rdquo;,   //设备名</p>
+
+<pre><code>                GENERIC_READ || GENERIC_WRITE, //访问模式，可同时读写
+                0,                             //共享模式，0表示不共享
+                NULL,                          //安全性设置，一般使用NULL
+                OPEN_EXISTING,                 //该参数表示该设备必须存在否则创建失败，串口通讯需此设置
+                FILE_ATTRIBUTE_NORMAL
+                0);
+</code></pre>
+
+<p>```</p>
+
+<p>首先初始化一个句柄<code>h_com</code>，让它指向所要打开设备的串口号，之后对该设备的所有操作均需通过该句柄来执行。</p>
+
+<p>之后便是对此串口的一些基本设置，</p>
+
+<h4><em>超时选项</em></h4>
+
+<p><code>c
+/*设置串口的超时时间，均设为0，表示不使用超时限制*/
+COMMTIMEOUTS  CommTimeouts;
+CommTimeouts.ReadIntervalTimeout = 0;
+CommTimeouts.ReadTotalTimeoutMultiplier = 0;
+CommTimeouts.ReadTotalTimeoutConstant = 0;
+CommTimeouts.WriteTotalTimeoutMultiplier = 0;
+CommTimeouts.WriteTotalTimeoutConstant = 0;
+SetCommTimeouts(h_com, &amp;CommTimeouts);
+</code></p>
+
+<h4><em>DCB参数配置</em></h4>
+
+<p>因为DCB结构体中选项较多，故一般的配置方式是先通过<code>GetCommState</code>获取默认的DCB配置选项，再根据个人需求进行相应的修改。</p>
+
+<p>```c
+/<em>将ANSI字符串转换为UNICODE字符串</em>/
+DWORD dwNum = MultiByteToWideChar(CP_ACP, 0, szDCBparam, -1, NULL, 0);
+wchar_t *pwText = new wchar_t[dwNum];
+if (!MultiByteToWideChar(CP_ACP, 0, szDCBparam, -1, pwText, dwNum))
+{</p>
+
+<pre><code>bIsSuccess = TRUE;
+</code></pre>
+
+<p>}
+/<em>获取当前串口配置参数，并且构造自定义DCB参数</em>/
+bIsSuccess = GetCommState(h_com, &amp;dcb) &amp;&amp; BuildCommDCB(pwText, &amp;dcb);
+/<em>开启RTS flow控制</em>/
+dcb.fRtsControl = RTS_CONTROL_ENABLE;
+dcb.fRtsControl = RTS_CONTROL_ENABLE;
+dcb.fBinary = TRUE;
+dcb.fParity = TRUE;
+dcb.ByteSize = 8;
+dcb.Parity = ODDPARITY;
+dcb.StopBits = ONESTOPBIT;
+delete[] pwText;
+SetCommState(h_com, &amp;dcb);
+```</p>
+
+<h4><em>清空缓冲区</em></h4>
+
+<p>对句柄进行了一系列操作，保险起见清空一下缓冲区。</p>
+
+<p><code>c
+PurgeComm(h_com, PURGE_RXCLEAR | PURGE_TXCLEAR | PURGE_RXABORT | PURGE_TXABORT);
+</code></p>
+
+<p>如此，一个完整的串口句柄就构造完毕了。接下来是进行阻塞读的测试。</p>
+
+<p>首先，我们可以使用<code>ClearCommError</code>这个方法获取当前读缓冲区里的数据大小，通过轮询的方式阻塞在这里，当缓冲区里有数据的时候我们再进行下一步的动作。</p>
+
+<p>```c
+int get_dirty_len() {</p>
+
+<pre><code>DWORD dwError = 0;  
+COMSTAT  comstat;   
+memset(&amp;comstat, 0, sizeof(COMSTAT));
+UINT BytesInQue = 0;
+if (ClearCommError(h_com, &amp;dwError, &amp;comstat)) {
+    BytesInQue = comstat.cbInQue;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>当有数据到来便可以直接读取了：</p>
+
+<p>```c
+while(h_comm->is_working) {</p>
+
+<pre><code>int len = get_dirty_len();
+if (len == 0) {
+    Sleep(SLEEP_TIME_INTERVAL);
+    continue;
+}
+char recv[10];
+int recv_len;
+ReadFile(h_com, recv, len, &amp;recv_len, NULL);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>写与读类似</p>
+
+<p><code>c
+WriteFile(h_com, send, len, &amp;send_len, NULL);
+</code></p>
+
+<p>如上，一个简单的阻塞串口读写Demo便完成了。</p>
+
+<h2>二，检测查询插入的USB设备信息</h2>
+
+<p>因为是Flash直接对DLL调用进行设备连接，所以在C层面需要主动获取连接上的端口名建立连接，并将连接设备的信息返回给Flash调用者，故需要使用另一组工具完成任务。</p>
+
+<p>在WIN下面有一组API可以完成此项功能：</p>
+
+<p><code>c
+SetUpAPI
+</code></p>
+
+<p>摸索<code>setupapi</code>的使用方法着实费了些力气，归结起来主要有两点</p>
+
+<ol>
+<li>英文阅读能力不足，MSDN上面说明的使用方法并没有深刻理解</li>
+<li>整体知识把握不足，摸着石头过河，边试边蒙</li>
+</ol>
+
+
+<p>说到底还是要多看书，多读英文资料，大体结构把握了也知道从何下手，而且国内博客的资源大多抄来抄去，并没有多关注其所以然，代码贴来贴去，试着心烦远不如一点一点学起来得畅快。</p>
+
+<p>言归正传，获取端口信息依旧要从句柄入手。</p>
+
+<h4><em>1.借助API获取某一类设备的相关信息</em></h4>
+
+<p>```c
+HDEVINFO hDevInfo = SetupDiGetClassDevsA(</p>
+
+<pre><code>    (LPGUID)&amp;GUID_DEVCLASS_PORTS,
+    0,
+    0,
+    DIGCF_PRESENT);
+</code></pre>
+
+<p>```</p>
+
+<p>关于<code>LPGUID</code>可以自己初始化，一般的普通设备系统也提供了宏定义，可以看到我这里使用了<code>GUID_DEVCLASS_PORTS</code>，指明需要获取的是<code>PORT</code>（COM端口）一类的设备信息。</p>
+
+<h4><em>2.遍历连接设备，获取设备信息</em></h4>
+
+<p>```c
+char szBuf[MAX_PATH];
+ZeroMemory(szBuf, MAX_PATH);
+int i = 0;
+SP_DEVINFO_DATA   spDevInfoData = { sizeof(SP_DEVINFO_DATA) };
+for (i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &amp;spDevInfoData); i++) {</p>
+
+<pre><code>char *id = (char *)malloc(10 * sizeof(char));
+char *port = (char *)malloc(10 * sizeof(char));
+//get ID
+if (SetupDiGetDeviceInstanceId(hDevInfo, 
+    &amp;spDevInfoData, (PWSTR)szBuf, MAX_PATH, NULL)) {
+    char dest[MAX_PATH];
+    ZeroMemory(dest, MAX_PATH);
+    get_str(szBuf, dest);
+    get_id(dest, id);
+}
+ZeroMemory(szBuf, MAX_PATH);
+//get port
+if (SetupDiGetDeviceRegistryProperty(hDevInfo, 
+    &amp;spDevInfoData, SPDRP_FRIENDLYNAME, NULL, (PBYTE)szBuf, MAX_PATH, NULL)) {
+    char dest[MAX_PATH];
+    ZeroMemory(dest, MAX_PATH);
+    get_str(szBuf, dest);
+    get_com(dest, port);
+}
+strcpy(coms[i], port);
+strcpy(vids[i], id);
+*len = i;
+</code></pre>
+
+<p>}
+```</p>
+
+<p><code>c
+SetupDiEnumDeviceInfo
+</code></p>
+
+<p>这个函数通过<code>Index</code>进行依次查找设备，若设备不存在则返回空终止遍历。</p>
+
+<p>所以在最后我们可以通过初始化的句柄<code>hDevInfo</code>与遍历出来的设备信息<code>spDevInfoData</code>来查找我们想要获取的具体信息。</p>
+
+<h2>三，重叠IO与事件通知</h2>
+
+<h3>重叠IO</h3>
+
+<p>重叠IO解决的是受IO性能的影响不能第一时间将预期的字节数全部读完必须时阻塞等待在<code>ReadFile</code>，待全部数据传输完毕才返回的问题。</p>
+
+<p>简单说来便是假如我想读1000个字节的数据从串口设备，但当前传输速度只有100K/S，那岂不是要在<code>ReadFile</code>上阻塞10s才会返回？正常情况下是这样的，而重叠IO便是解决此一问题的正确方法。</p>
+
+<p>它的大体思路是当主线程第一时间没有从<code>ReadFile</code>中读出预期的字节数后便立即返回<code>FALSE</code>，继续其它操作，另一方面会在后台单开一个线程执行读取操作，真正读取完毕后再返回主线程进行相应的逻辑处理。</p>
+
+<p>下面看详细步骤：</p>
+
+<h4><em>1.句柄设置为可重叠模式</em></h4>
+
+<p>```c
+HANDLE h_com = CreateFileA(port,</p>
+
+<pre><code>    GENERIC_READ | GENERIC_WRITE, 
+    0,                           
+    NULL,                         
+    OPEN_EXISTING,                
+    FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED/*可重叠模式*/,
+    0);
+</code></pre>
+
+<p>```</p>
+
+<h4><em>2.使用可重叠模式进行读取</em></h4>
+
+<p>```c
+DWORD dwRes, deRead;
+char cRecved[100];
+int BytesRead;
+OVERLAPPED ol;
+ol.Offset = 0;
+ol.OffsetHigh = 0;
+ol.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+if (ReadFile(m_hComm, cRecved, len, &amp;BytesRead, &amp;ol)) {</p>
+
+<pre><code>//success!
+</code></pre>
+
+<p>} else { //无法第一时间读出数据</p>
+
+<pre><code>dwRes = WaitForSingleObject(ol.hEvent, 5000);//设置5s超时
+if (dwRes == WAIT_OBJECT_0) {
+    if (!GetOverLappedResult(h_com, &amp;ol, &amp;dwRead, TRUE)) {
+        //操作失败，使用GetLastError获取失败信息
+    } else {
+        //操作成功，数据读出并存入cRecved数组中
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这便是一个可重叠IO的简单示例，可以看出当<code>ReadFile</code>返回<code>FALSE</code>后，我们通过<code>OVERLAPPED</code>结构体获取该操作的事件，并通过<code>WaitForSingleObject</code>来等待异步线程读操作的完成，然后通过<code>GetOverLappedResult</code>验证下最终读取的字节数，便算完成了。</p>
+
+<h3>事件通知</h3>
+
+<p>在一般的通信情景中，大多是有个线程一直等待消息的到来然后进行读取。在开篇的例子中我使用的是简单的睡眠轮询的方式，但在真实地应用场景中这样做显然是不符合实际的，于是便需要使用基于事件通知的方式。</p>
+
+<p>既然是事件监听，那第一步需要做的便是添加事件监听事件，这一步是通过对句柄的设置来完成的：</p>
+
+<p><code>c
+SetCommMask(h_com, EV_RXCHAR | EV_TXEMPTY);
+</code></p>
+
+<p><code>EV_RXCHAR</code>表示一旦有字节到来便触发事件，<code>EV_TXEMPTY</code>表示缓冲区为空的时候触发事件。</p>
+
+<p>接下来便是对此事件进行监听，并在事件到来时将数据读出：</p>
+
+<p>```c</p>
+
+<pre><code>while (is_running) {
+    COMSTAT ComStat;
+    DWORD dwRes, dwMask;
+    ZeroMemory(myChar, 10);
+    OVERLAPPED ol;
+    //创建等待事件
+    ol.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+    WaitCommEvent(h_com, &amp;dwMask, &amp;ol);
+    //对该事件进行等待
+    dwRes = WaitForSingleObject(ol.hEvent, 1000000);
+    if (dwRes == WAIT_OBJECT_0) {
+        if (dwMask &amp; EV_RXCHAR) {
+            rol.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            char str[20];
+            ZeroMemory(str, 20);
+            DWORD dwRead;
+            DWORD dwErrors;
+            COMSTAT Rcs;
+            int i;
+            //获取缓冲区字节数量
+            ClearCommError(h_com, &amp;dwErrors, &amp;Rcs);
+            if (Rcs.cbInQue &gt; 0) {
+                if (ReadFile(h_com, &amp;str, Rcs.cbInQue, &amp;dwRead, &amp;rol)) {
+                    printf("%d-%d-%d\n", Rcs.cbInQue, dwRead, str[0]);
+                }
+                else {
+                    printf("error\n");
+                }
+            }
+        }
+    }
+    PurgeComm(h_com, PURGE_RXCLEAR | PURGE_TXCLEAR | PURGE_RXABORT | PURGE_TXABORT);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>以上便是事件触发式读取的基本使用方法，需要注意的是，事件触发IO可以搭配重叠IO进行使用，以获得更好的效果。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[UNIX程序制作成WIN Server笔记]]></title>
@@ -809,218 +1149,6 @@ void setSerialDataToTextView(int disp, byte[] rbuf, int len, String sCr, String 
 <h2>下一步</h2>
 
 <p>总结了基本套接字函数的使用与TCP/IP的简单概念，下一步将会着手编写一套客户/服务器的通信演示Demo，会考虑实现线程池来提高并发效率。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UNIX下的Socket通信-Socket的连接]]></title>
-    <link href="http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/"/>
-    <updated>2014-03-20T15:55:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie</id>
-    <content type="html"><![CDATA[<h2>一.关于Socket</h2>
-
-<p>如我，刚见这个名词的时候不知所云，因为起点就没找对，首先要在基于对UNIX有所了解的情况下才利于开展工作，便是“一切皆文件”。</p>
-
-<p>在UNIX下，一般的文件可以通过open打开，并返回一个小整数作为标记，后续的操作便是针对这个小整数进行读写。这个小整数被称作<em>描述符</em>，描述符只是引用file的proc结构中一个数组的某个元素的下标而已，它可以代表该文件，但并不是文件本身，我们通过它来与文件建立联系，方便操作。</p>
-
-<p>以此为前提，Socket便是一种特殊的文件，通过<em>socket</em>函数可以创建一个套接字（特殊的文件），它也返回给我们一个小整数，以后所有的函数调用就用该描述符来标示这个套接字。</p>
-
-<p>在UNIX下文件的种类有很多，打开与使用的方式虽然遵循着一定的模式，但也不尽相同。比如想打开一个文本文件需要借助open函数，而且在打开的时候需要告诉open函数该文本的路径位置，以明确打开的目标。</p>
-
-<!--more-->
-
-
-<p>Socket的打开也与之相似，因为它一定程度上可以理解为是一个联网通信的文件，所以如果想要明确打开的目标，肯定不能传送一个本地路径，而要与之相符地传送一个目标IP地址。当然这只是简单的比喻，Socket的建立要比文件要复杂一些，IP地址的设置只是打开过程的一个步骤，因为涉及到了网络的缘故，还需要设置很多参数。毕竟文本文件是自己的，打开的标准关上门来自己做主，怎么方便都好商量。而Socket则不一样，既然是在各种主机间通信，且走的路线均不一样，这就牵扯到了各种配置。</p>
-
-<h2>二.TCP下IPv4的Socket连接</h2>
-
-<h3>1.socket</h3>
-
-<p>让我们来看Socket建立的第一步的函数</p>
-
-<p><code>c
-int socket(int family, int type, int protocol);
-</code></p>
-
-<p>明显的，单是第一步就比open函数多参数。</p>
-
-<p>其中family参数指明协议族，type指明套接字类型，protocol为某个协议的常值类型，或者设为0。</p>
-
-<h4>socket函数的type常值</h4>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th>       type          </th>
-<th>        说明         </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> SOCK_STREAM    </td>
-<td>    字节流套接字   </td>
-</tr>
-<tr>
-<td></td>
-<td> SOCK_DGRAM     </td>
-<td>     数据报套接字  </td>
-</tr>
-<tr>
-<td></td>
-<td>SOCK_SEQPACKET  </td>
-<td>    有序分组套接字 </td>
-</tr>
-<tr>
-<td></td>
-<td>   SOCK_RAW     </td>
-<td>     原始套接字   </td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>socket函数protocol常值</h4>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th>    protocol     </th>
-<th>        说明         </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> IPPROTO_TCP    </td>
-<td>    TCP传输协议   </td>
-</tr>
-<tr>
-<td></td>
-<td> IPPROTO_UDP    </td>
-<td>     UDP传输协议  </td>
-</tr>
-<tr>
-<td></td>
-<td> IPPROTO_SCTP   </td>
-<td>    SCTP传输协议  </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>所以如果</p>
-
-<p><code>c
-sockfd = socket(AF_INET, SOCK_STREAM, 0);
-</code></p>
-
-<p>则表示socket函数创建一个网际（AF_INET）字节流（SOCK_STREAM）套接字。</p>
-
-<h3>2.connect</h3>
-
-<p>第一步的socket函数只是把一些基本的参数设置好并返回了一个描述符，就像安好了电话，但其实并没有开始扯线连接，connect帮我们搞定这一步。</p>
-
-<p><code>c
-int connect(int sockfd, const struct sockaddr *servaddr, socklen_t addrlen);
-</code></p>
-
-<p>socket是由socket返回的套接字描述符，第二个，第三个参数分别是一个指向套接字地址结构的指针和该结构的大小。套接字地址结构必须含有服务器的IP地址和端口号。</p>
-
-<p>关于sockaddr的结构大体如下：</p>
-
-<p>```c
-struct sockaddr_in {</p>
-
-<pre><code>sa_family_t    sin_family; /* address family: AF_INET */
-in_port_t      sin_port;   /* port in network byte order */
-struct in_addr sin_addr;   /* internet address */
-</code></pre>
-
-<p>};
-```</p>
-
-<p>对此结构一般的设置方法如下</p>
-
-<p><code>c
-bzero(&amp;servaddr, sizeof(servaddr));
-servaddr.sin_family = AF_INET;
-servaddr.sin_port = htons(13);//服务器端口
-inet_pton(AF_INET, "192.168.105.105", &amp;servaddr.sin_addr);//服务器地址
-</code></p>
-
-<p>因为具体的连接动作是使用网络字节序的，并不是我们所见到的诸如<code>192.168.105.105:13</code>之类的表达，所以需要htons与inet_pton进行相应的转换。<em>htons()主机到网络短整数，转换二进制端口号</em>，地址转换函数在地址的文本表达式和它们存放在套接字地址结构中的二进制值之间转换。</p>
-
-<p>如果是写一个客户端的请求程序，那么前两个函数就可以满足要求建立了套接字，下一步的动作便是针对该套接字返回的描述符进行相应的读写便可以了。但要是想做一个服务器端的进程具有监听功能的话则还需要另外下面这三个函数。</p>
-
-<h3>3.bind，listen，accept</h3>
-
-<blockquote><p>打个简单的比喻，建立TCP连接就好比一个电话系统。socket函数等同于有电话可用。connect要求我们知道对方的电话号码并拨打它。bind函数是在告诉别人你的电话号码，这样他们可以呼叫你。listen是打开电话振铃，这样当有个外来呼叫到来时，你可以听到。accept则相当于接电话。</p></blockquote>
-
-<p>对于服务器端的socket addr的初始化如下</p>
-
-<p><code>c
-bzero(&amp;servaddr, sizeof(servaddr));
-servaddr.sin_family      = AF_INET;
-servaddr.sin_port        = htons(SERV_PORT);
-servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-</code></p>
-
-<p>它区别于客户端的套接字初始化在于第四行，并没有指定目标IP地址，代之的是一个INADDR_ANY的宏，它可以表示我接收来自任何地址的请求。
-如果想要真正实现这一目的，我们需要调用bind来告知UNIX系统我这个套接字将被用来接收信号：</p>
-
-<p><code>c
-int bind(int sockfd, const stuct sockaddr *myaddr, socklen_t addrlen);
-</code></p>
-
-<p>继而取消电话的静音状态：</p>
-
-<p><code>c
-int listen(int sockfd, int backlog);
-</code></p>
-
-<p>此函数通常应该在调用socket和bind这两个函数之后，并在调用accept之前调用。</p>
-
-<p>关于backlog，是一个设置未完成连接队列与已完成连接队列的参数，这里暂不做细致的探讨了。</p>
-
-<p>最后一步，我们的进程将阻塞于accept的调用中。accept函数由TCP服务器调用，用于从已完成的连接队列头返回下一个已完成连接。关于阻塞函数，看下面这段的讲解：</p>
-
-<blockquote><p>永远阻塞的系统调用是指调用有可能永远无法返回，也可称为慢系统调用（slow system call），多数网络支持函数都属于这一种（accept）。适用于慢系统调用的基本规则是，当阻塞于某个慢系统调用的一个进程捕获某个信号且相应信号处理函数返回时，该系统调用可能返回一个EINTR错误。</p></blockquote>
-
-<p>对于此类错误我们可以通过以下函数进行绕过，</p>
-
-<p>```c
-for ( ; ; ) {</p>
-
-<pre><code>    clilen = sizeof(cliaddr);
-    if ( (connfd = accept(listenfd, (SA *) &amp;cliaddr, &amp;clilen)) &lt; 0) {
-        if (errno == EINTR)
-            continue;       /* back to for() */
-        else
-            err_sys("accept error");
-    }
-}
-</code></pre>
-
-<p>```</p>
-
-<p>以上便是一个服务器端的监听套接字的建立过程。</p>
-
-<h3>4.close，shutdown</h3>
-
-<p>有开就有关，关于套接字的关闭我们一般使用close与shutdown来进行控制。</p>
-
-<p>正如我们前面所述，我们通过描述符对套接字进行操作，描述符不过是对file的一个下标而已，如果有多个进程同时使用描述符，则均可以表示为对此file的一个引用。初始的引用值为1，每当调用fork以派生子进程或对打开操作返回的描述符（或其复制品）调用dup以复制描述符时，该file结构的引用计数就递增。相应的close()使相应描述符的引用计数减1，当该描述符引用计数为0时则引发正常TCP连接终止序列：每个方向上发送一个FIN，每个FIN又由各自的对端确认。如想确实在某个TCP连接上发送FIN，可以改用shutdown。</p>
-
-<h3>5.最后无图无真相:</h3>
-
-<p><img src="/images/tec/Socket/funtime.jpg" alt="image" /></p>
-
-<h2>下一步</h2>
-
-<p>这部分具体介绍了Socket的基本概念与一个客户端和服务端的套接字是怎样一步步建立起来的。但文章中也出现了一些诸如FIN之类的关键字并没有进行详细的解释，在下一章，我会对TCP/IP的一些基本概念进行解释。</p>
 ]]></content>
   </entry>
   

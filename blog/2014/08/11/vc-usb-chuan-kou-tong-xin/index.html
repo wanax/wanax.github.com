@@ -1,0 +1,629 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>VC USB 串口通信 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="VC USB 串口通信 楔子 前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便，Cache倒相对来说可行一些，开多一个服务罢了， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!-- 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'> -->
+	<script src="/javascripts/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=31767964" charset="UTF-8"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (15)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (25)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">VC USB 串口通信</h1>
+	<div class="entry-content" itemprop="articleBody"><h2>楔子</h2>
+
+<p>前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便，Cache倒相对来说可行一些，开多一个服务罢了，其实简单的逻辑自己也能实现。就这样纠结来纠结去的，发现其实现在的服务倒也完全够用，压力测试了下，能撑到1500的并发，想来刚上线估计也最多几百号人能同时聊天就不错了，所以就先研究至此，撑不住了再换，不要过早优化嘛。</p>
+
+<!--more-->
+
+
+<p>就这样决定先找别的事做做，恰好项目里有需要用到Flash的ANE技术来实现Flash与硬件通信，Flash自然不会写，但用VC进行串口通信打包成DLL给Flash调用这个还是可以研究下的。</p>
+
+<p>ANE这里就不再细谈，大体上就是Flash中调用其它语言的一种技术，通过它可以实现一些Flash做不到的东西，比如说底层通信啥的。这里主要讲USB串口通信这一块儿。</p>
+
+<p>串口通信翻了下书发现还是有很多标准的，而现行最流行的就是USB了，所以在网上关于此的资料还是很好找的。</p>
+
+<p>这篇文章的内容主要由三个部分组成：</p>
+
+<ol>
+<li>串口连接的建立与简单阻塞通讯</li>
+<li>通过API调用自动查询当前插入的USB设备并建立连接</li>
+<li>区别于简单阻塞的通讯方式，如重叠IO与事件通知</li>
+</ol>
+
+
+<h2>一，建立连接与阻塞通讯</h2>
+
+<p>在WIN下面，对于串口一类的硬件设备也是认定为文件的一种，所以也可以使用文件的方式来创建打开使用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">HANDLE</span> <span class="n">h_com</span> <span class="o">=</span> <span class="n">CreateFile</span><span class="p">((</span><span class="n">LPCWSTR</span><span class="p">)</span><span class="s">&quot;COM4&quot;</span><span class="p">,</span>   <span class="c1">//设备名</span>
+</span><span class='line'>                  <span class="n">GENERIC_READ</span> <span class="o">||</span> <span class="n">GENERIC_WRITE</span><span class="p">,</span> <span class="c1">//访问模式，可同时读写</span>
+</span><span class='line'>                  <span class="mi">0</span><span class="p">,</span>                             <span class="c1">//共享模式，0表示不共享</span>
+</span><span class='line'>                  <span class="nb">NULL</span><span class="p">,</span>                          <span class="c1">//安全性设置，一般使用NULL</span>
+</span><span class='line'>                  <span class="n">OPEN_EXISTING</span><span class="p">,</span>                 <span class="c1">//该参数表示该设备必须存在否则创建失败，串口通讯需此设置</span>
+</span><span class='line'>                  <span class="n">FILE_ATTRIBUTE_NORMAL</span>
+</span><span class='line'>                  <span class="mi">0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>首先初始化一个句柄<code>h_com</code>，让它指向所要打开设备的串口号，之后对该设备的所有操作均需通过该句柄来执行。</p>
+
+<p>之后便是对此串口的一些基本设置，</p>
+
+<h4><em>超时选项</em></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*设置串口的超时时间，均设为0，表示不使用超时限制*/</span>
+</span><span class='line'><span class="n">COMMTIMEOUTS</span>  <span class="n">CommTimeouts</span><span class="p">;</span>
+</span><span class='line'><span class="n">CommTimeouts</span><span class="p">.</span><span class="n">ReadIntervalTimeout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">CommTimeouts</span><span class="p">.</span><span class="n">ReadTotalTimeoutMultiplier</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">CommTimeouts</span><span class="p">.</span><span class="n">ReadTotalTimeoutConstant</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">CommTimeouts</span><span class="p">.</span><span class="n">WriteTotalTimeoutMultiplier</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">CommTimeouts</span><span class="p">.</span><span class="n">WriteTotalTimeoutConstant</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">SetCommTimeouts</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">CommTimeouts</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><em>DCB参数配置</em></h4>
+
+<p>因为DCB结构体中选项较多，故一般的配置方式是先通过<code>GetCommState</code>获取默认的DCB配置选项，再根据个人需求进行相应的修改。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*将ANSI字符串转换为UNICODE字符串*/</span>
+</span><span class='line'><span class="n">DWORD</span> <span class="n">dwNum</span> <span class="o">=</span> <span class="n">MultiByteToWideChar</span><span class="p">(</span><span class="n">CP_ACP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">szDCBparam</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'><span class="kt">wchar_t</span> <span class="o">*</span><span class="n">pwText</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">wchar_t</span><span class="p">[</span><span class="n">dwNum</span><span class="p">];</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">MultiByteToWideChar</span><span class="p">(</span><span class="n">CP_ACP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">szDCBparam</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pwText</span><span class="p">,</span> <span class="n">dwNum</span><span class="p">))</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">bIsSuccess</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cm">/*获取当前串口配置参数，并且构造自定义DCB参数*/</span>
+</span><span class='line'><span class="n">bIsSuccess</span> <span class="o">=</span> <span class="n">GetCommState</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dcb</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">BuildCommDCB</span><span class="p">(</span><span class="n">pwText</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dcb</span><span class="p">);</span>
+</span><span class='line'><span class="cm">/*开启RTS flow控制*/</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">fRtsControl</span> <span class="o">=</span> <span class="n">RTS_CONTROL_ENABLE</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">fRtsControl</span> <span class="o">=</span> <span class="n">RTS_CONTROL_ENABLE</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">fBinary</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">fParity</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">ByteSize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">Parity</span> <span class="o">=</span> <span class="n">ODDPARITY</span><span class="p">;</span>
+</span><span class='line'><span class="n">dcb</span><span class="p">.</span><span class="n">StopBits</span> <span class="o">=</span> <span class="n">ONESTOPBIT</span><span class="p">;</span>
+</span><span class='line'><span class="n">delete</span><span class="p">[]</span> <span class="n">pwText</span><span class="p">;</span>
+</span><span class='line'><span class="n">SetCommState</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dcb</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><em>清空缓冲区</em></h4>
+
+<p>对句柄进行了一系列操作，保险起见清空一下缓冲区。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">PurgeComm</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="n">PURGE_RXCLEAR</span> <span class="o">|</span> <span class="n">PURGE_TXCLEAR</span> <span class="o">|</span> <span class="n">PURGE_RXABORT</span> <span class="o">|</span> <span class="n">PURGE_TXABORT</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如此，一个完整的串口句柄就构造完毕了。接下来是进行阻塞读的测试。</p>
+
+<p>首先，我们可以使用<code>ClearCommError</code>这个方法获取当前读缓冲区里的数据大小，通过轮询的方式阻塞在这里，当缓冲区里有数据的时候我们再进行下一步的动作。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">int</span> <span class="nf">get_dirty_len</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwError</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">COMSTAT</span>  <span class="n">comstat</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">comstat</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">COMSTAT</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">UINT</span> <span class="n">BytesInQue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">ClearCommError</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dwError</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">comstat</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">BytesInQue</span> <span class="o">=</span> <span class="n">comstat</span><span class="p">.</span><span class="n">cbInQue</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当有数据到来便可以直接读取了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">while</span><span class="p">(</span><span class="n">h_comm</span><span class="o">-&gt;</span><span class="n">is_working</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">get_dirty_len</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">Sleep</span><span class="p">(</span><span class="n">SLEEP_TIME_INTERVAL</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">continue</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="n">recv</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">recv_len</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ReadFile</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="n">recv</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">recv_len</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>写与读类似</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">WriteFile</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="n">send</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">send_len</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上，一个简单的阻塞串口读写Demo便完成了。</p>
+
+<h2>二，检测查询插入的USB设备信息</h2>
+
+<p>因为是Flash直接对DLL调用进行设备连接，所以在C层面需要主动获取连接上的端口名建立连接，并将连接设备的信息返回给Flash调用者，故需要使用另一组工具完成任务。</p>
+
+<p>在WIN下面有一组API可以完成此项功能：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">SetUpAPI</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>摸索<code>setupapi</code>的使用方法着实费了些力气，归结起来主要有两点</p>
+
+<ol>
+<li>英文阅读能力不足，MSDN上面说明的使用方法并没有深刻理解</li>
+<li>整体知识把握不足，摸着石头过河，边试边蒙</li>
+</ol>
+
+
+<p>说到底还是要多看书，多读英文资料，大体结构把握了也知道从何下手，而且国内博客的资源大多抄来抄去，并没有多关注其所以然，代码贴来贴去，试着心烦远不如一点一点学起来得畅快。</p>
+
+<p>言归正传，获取端口信息依旧要从句柄入手。</p>
+
+<h4><em>1.借助API获取某一类设备的相关信息</em></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">HDEVINFO</span> <span class="n">hDevInfo</span> <span class="o">=</span> <span class="n">SetupDiGetClassDevsA</span><span class="p">(</span>
+</span><span class='line'>      <span class="p">(</span><span class="n">LPGUID</span><span class="p">)</span><span class="o">&amp;</span><span class="n">GUID_DEVCLASS_PORTS</span><span class="p">,</span>
+</span><span class='line'>      <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>      <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">DIGCF_PRESENT</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关于<code>LPGUID</code>可以自己初始化，一般的普通设备系统也提供了宏定义，可以看到我这里使用了<code>GUID_DEVCLASS_PORTS</code>，指明需要获取的是<code>PORT</code>（COM端口）一类的设备信息。</p>
+
+<h4><em>2.遍历连接设备，获取设备信息</em></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">char</span> <span class="n">szBuf</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+</span><span class='line'><span class="n">ZeroMemory</span><span class="p">(</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">);</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">SP_DEVINFO_DATA</span>   <span class="n">spDevInfoData</span> <span class="o">=</span> <span class="p">{</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">SP_DEVINFO_DATA</span><span class="p">)</span> <span class="p">};</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">SetupDiEnumDeviceInfo</span><span class="p">(</span><span class="n">hDevInfo</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">spDevInfoData</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="o">*</span><span class="n">id</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span>
+</span><span class='line'>  <span class="kt">char</span> <span class="o">*</span><span class="n">port</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span>
+</span><span class='line'>  <span class="c1">//get ID</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">SetupDiGetDeviceInstanceId</span><span class="p">(</span><span class="n">hDevInfo</span><span class="p">,</span>
+</span><span class='line'>      <span class="o">&amp;</span><span class="n">spDevInfoData</span><span class="p">,</span> <span class="p">(</span><span class="n">PWSTR</span><span class="p">)</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">char</span> <span class="n">dest</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">ZeroMemory</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">get_str</span><span class="p">(</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">get_id</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//get port</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">SetupDiGetDeviceRegistryProperty</span><span class="p">(</span><span class="n">hDevInfo</span><span class="p">,</span>
+</span><span class='line'>      <span class="o">&amp;</span><span class="n">spDevInfoData</span><span class="p">,</span> <span class="n">SPDRP_FRIENDLYNAME</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="p">(</span><span class="n">PBYTE</span><span class="p">)</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">char</span> <span class="n">dest</span><span class="p">[</span><span class="n">MAX_PATH</span><span class="p">];</span>
+</span><span class='line'>      <span class="n">ZeroMemory</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">MAX_PATH</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">get_str</span><span class="p">(</span><span class="n">szBuf</span><span class="p">,</span> <span class="n">dest</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">get_com</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">port</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">strcpy</span><span class="p">(</span><span class="n">coms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">port</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">strcpy</span><span class="p">(</span><span class="n">vids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">id</span><span class="p">);</span>
+</span><span class='line'>  <span class="o">*</span><span class="n">len</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">SetupDiEnumDeviceInfo</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个函数通过<code>Index</code>进行依次查找设备，若设备不存在则返回空终止遍历。</p>
+
+<p>所以在最后我们可以通过初始化的句柄<code>hDevInfo</code>与遍历出来的设备信息<code>spDevInfoData</code>来查找我们想要获取的具体信息。</p>
+
+<h2>三，重叠IO与事件通知</h2>
+
+<h3>重叠IO</h3>
+
+<p>重叠IO解决的是受IO性能的影响不能第一时间将预期的字节数全部读完必须时阻塞等待在<code>ReadFile</code>，待全部数据传输完毕才返回的问题。</p>
+
+<p>简单说来便是假如我想读1000个字节的数据从串口设备，但当前传输速度只有100K/S，那岂不是要在<code>ReadFile</code>上阻塞10s才会返回？正常情况下是这样的，而重叠IO便是解决此一问题的正确方法。</p>
+
+<p>它的大体思路是当主线程第一时间没有从<code>ReadFile</code>中读出预期的字节数后便立即返回<code>FALSE</code>，继续其它操作，另一方面会在后台单开一个线程执行读取操作，真正读取完毕后再返回主线程进行相应的逻辑处理。</p>
+
+<p>下面看详细步骤：</p>
+
+<h4><em>1.句柄设置为可重叠模式</em></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">HANDLE</span> <span class="n">h_com</span> <span class="o">=</span> <span class="n">CreateFileA</span><span class="p">(</span><span class="n">port</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">GENERIC_READ</span> <span class="o">|</span> <span class="n">GENERIC_WRITE</span><span class="p">,</span>
+</span><span class='line'>      <span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>      <span class="nb">NULL</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">OPEN_EXISTING</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">FILE_ATTRIBUTE_NORMAL</span> <span class="o">|</span> <span class="n">FILE_FLAG_OVERLAPPED</span><span class="cm">/*可重叠模式*/</span><span class="p">,</span>
+</span><span class='line'>      <span class="mi">0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><em>2.使用可重叠模式进行读取</em></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">DWORD</span> <span class="n">dwRes</span><span class="p">,</span> <span class="n">deRead</span><span class="p">;</span>
+</span><span class='line'><span class="kt">char</span> <span class="n">cRecved</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">BytesRead</span><span class="p">;</span>
+</span><span class='line'><span class="n">OVERLAPPED</span> <span class="n">ol</span><span class="p">;</span>
+</span><span class='line'><span class="n">ol</span><span class="p">.</span><span class="n">Offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">ol</span><span class="p">.</span><span class="n">OffsetHigh</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="n">ol</span><span class="p">.</span><span class="n">hEvent</span> <span class="o">=</span> <span class="n">CreateEvent</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">ReadFile</span><span class="p">(</span><span class="n">m_hComm</span><span class="p">,</span> <span class="n">cRecved</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">BytesRead</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ol</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//success!</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="c1">//无法第一时间读出数据</span>
+</span><span class='line'>  <span class="n">dwRes</span> <span class="o">=</span> <span class="n">WaitForSingleObject</span><span class="p">(</span><span class="n">ol</span><span class="p">.</span><span class="n">hEvent</span><span class="p">,</span> <span class="mi">5000</span><span class="p">);</span><span class="c1">//设置5s超时</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">dwRes</span> <span class="o">==</span> <span class="n">WAIT_OBJECT_0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">GetOverLappedResult</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ol</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dwRead</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//操作失败，使用GetLastError获取失败信息</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">//操作成功，数据读出并存入cRecved数组中</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这便是一个可重叠IO的简单示例，可以看出当<code>ReadFile</code>返回<code>FALSE</code>后，我们通过<code>OVERLAPPED</code>结构体获取该操作的事件，并通过<code>WaitForSingleObject</code>来等待异步线程读操作的完成，然后通过<code>GetOverLappedResult</code>验证下最终读取的字节数，便算完成了。</p>
+
+<h3>事件通知</h3>
+
+<p>在一般的通信情景中，大多是有个线程一直等待消息的到来然后进行读取。在开篇的例子中我使用的是简单的睡眠轮询的方式，但在真实地应用场景中这样做显然是不符合实际的，于是便需要使用基于事件通知的方式。</p>
+
+<p>既然是事件监听，那第一步需要做的便是添加事件监听事件，这一步是通过对句柄的设置来完成的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">SetCommMask</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="n">EV_RXCHAR</span> <span class="o">|</span> <span class="n">EV_TXEMPTY</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>EV_RXCHAR</code>表示一旦有字节到来便触发事件，<code>EV_TXEMPTY</code>表示缓冲区为空的时候触发事件。</p>
+
+<p>接下来便是对此事件进行监听，并在事件到来时将数据读出：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">while</span> <span class="p">(</span><span class="n">is_running</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">COMSTAT</span> <span class="n">ComStat</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwRes</span><span class="p">,</span> <span class="n">dwMask</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="n">myChar</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">OVERLAPPED</span> <span class="n">ol</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//创建等待事件</span>
+</span><span class='line'>  <span class="n">ol</span><span class="p">.</span><span class="n">hEvent</span> <span class="o">=</span> <span class="n">CreateEvent</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">WaitCommEvent</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dwMask</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ol</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">//对该事件进行等待</span>
+</span><span class='line'>  <span class="n">dwRes</span> <span class="o">=</span> <span class="n">WaitForSingleObject</span><span class="p">(</span><span class="n">ol</span><span class="p">.</span><span class="n">hEvent</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">dwRes</span> <span class="o">==</span> <span class="n">WAIT_OBJECT_0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">dwMask</span> <span class="o">&amp;</span> <span class="n">EV_RXCHAR</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rol</span><span class="p">.</span><span class="n">hEvent</span> <span class="o">=</span> <span class="n">CreateEvent</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>          <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+</span><span class='line'>          <span class="n">ZeroMemory</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">DWORD</span> <span class="n">dwRead</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">DWORD</span> <span class="n">dwErrors</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">COMSTAT</span> <span class="n">Rcs</span><span class="p">;</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">//获取缓冲区字节数量</span>
+</span><span class='line'>          <span class="n">ClearCommError</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dwErrors</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">Rcs</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">Rcs</span><span class="p">.</span><span class="n">cbInQue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>              <span class="k">if</span> <span class="p">(</span><span class="n">ReadFile</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">,</span> <span class="n">Rcs</span><span class="p">.</span><span class="n">cbInQue</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dwRead</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rol</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d-%d-%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">Rcs</span><span class="p">.</span><span class="n">cbInQue</span><span class="p">,</span> <span class="n">dwRead</span><span class="p">,</span> <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>              <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;error</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span class='line'>              <span class="p">}</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">PurgeComm</span><span class="p">(</span><span class="n">h_com</span><span class="p">,</span> <span class="n">PURGE_RXCLEAR</span> <span class="o">|</span> <span class="n">PURGE_TXCLEAR</span> <span class="o">|</span> <span class="n">PURGE_RXABORT</span> <span class="o">|</span> <span class="n">PURGE_TXABORT</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上便是事件触发式读取的基本使用方法，需要注意的是，事件触发IO可以搭配重叠IO进行使用，以获得更好的效果。</p>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/';
+        var disqus_url = 'http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

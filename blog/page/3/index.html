@@ -8,7 +8,16 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Jun 7th, 2013 Tec iOS开发之使用CorePlot绘制折线图并添加拖动功能 做ios开发快两个月了 从基本的语法开始学起看看这个学学那个的。一开始对delegate controller view各种头大，就老老实实地跟着入门教程一步步的来。所幸之前做了一年多的java开发， &hellip;">
+	<meta name="description" content="Jun 9th, 2013 Tec UIView三种动画笔记 1
+2
+3
+4
+5
+6
+7
+8
+9
+[UIView animateWithDuration:0.6f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,8 +77,8 @@
 <section>
   <h3 class="catag">文章类别</h3>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/life/'>Life (15)</a></li>
-<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (10)</a></li>
+    <li class='category'><a href='/blog/categories/life/'>Life (16)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (11)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (25)</a></li>
 
@@ -109,6 +118,99 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-09T10:30:00+08:00" data-updated="true" itemprop="datePublished">Jun 9<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/" itemprop="url">UIView三种动画笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">0.6f</span>
+</span><span class='line'>        <span class="nl">delay:</span><span class="mi">0</span>
+</span><span class='line'>        <span class="nl">options:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+</span><span class='line'>      <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>         <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
+</span><span class='line'><span class="p">}];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  
+		
+		<a href="/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-07T11:47:00+08:00" data-updated="true" itemprop="datePublished">Jun 7<span>th</span>, 2013</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong/" itemprop="url">iOS上js引擎的使用</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p> 如上篇文章所述ios折线图绘制，公司开发需要要用到一些字符串转公式的需求。自己实在有点惧自己写语法书啥的听公司大牛说可以使用js引擎试试，于是就抱着试试的态度调研了一把，感觉还不错。</p>
+
+<p>这次试用了两个js引擎，一个是javascriptcore，这个比较方便可以直接引入便使用，另一个是google的v8引擎，这个有点麻烦要先编译通过才行，搞了好一阵才派上用场~倒是学到了好多新知识，哈哈。</p>
+
+
+		
+		<a href="/blog/2013/06/07/iosshang-jsyin-qing-de-shi-yong/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -489,84 +591,6 @@
 <p> 
 		
 		<a href="/blog/2012/03/15/ru-ci-er-yi/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-23T21:28:00+08:00" data-updated="true" itemprop="datePublished">Feb 23<span>rd</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/" itemprop="url">Struts+jquery+ajax简单整合示例</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>jsp文件：</p>
-
-<script src="https://gist.github.com/wanax/6752399.js"></script>
-
-
-
-
-
-		
-		<a href="/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-13T18:24:00+08:00" data-updated="true" itemprop="datePublished">Feb 13<span>th</span>, 2012</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi/" itemprop="url">垂直发布—Httpclient模拟登陆获取页面信息</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>过年回了趟老家，回来后寒假还有好大一截，闲着也是没事就这两天初步了解了下垂直发布的东西，收获一点点吧，感觉离预期还差很远。趁着还有印象写下来，步步为营呗。网上搜索，看到很多模拟登录都是用Httpclient的，另外一个是HttpURLConnection。
-HttpURLConnection是java的标准类，HttpClient 是 Apache Jakarta Common 下的子项目，用来提供支持 HTTP 协议的客户端编程工具包，并且它支持 HTTP 协议最新的版本和建议。因为是初学，就图着简单易用的目的选择了Httpclient，感觉还是挺容易上手的，不过这两天遇到的问题也不少。</p>
-
-
-		
-		<a href="/blog/2012/02/13/chui-zhi-fa-bu-httpclientmo-ni-deng-lu-huo-qu-ye-mian-xin-xi/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

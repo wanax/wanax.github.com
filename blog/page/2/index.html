@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Mar 13th, 2014 Tec GLib编译笔记 缘起 最近做的一个项目是使用C写的，随着项目的深入发现需要通过不同的数据结构来完成需求，自己简单地去编写已经不能满足要求且在健壮性方面也存在着隐患，于是就琢磨着在网上找找看看有没有什么现成的C工具包来用，就这样，发现了GLib。 &hellip;">
+	<meta name="description" content="Mar 20th, 2014 Tec UNIX下的Socket通信-Socket的连接 一.关于Socket 如我，刚见这个名词的时候不知所云，因为起点就没找对，首先要在基于对UNIX有所了解的情况下才利于开展工作，便是“一切皆文件”。 在UNIX下，一般的文件可以通过open打开， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
 <section>
   <h3 class="catag">文章类别</h3>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/life/'>Life (16)</a></li>
+    <li class='category'><a href='/blog/categories/life/'>Life (17)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (11)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (25)</a></li>
@@ -109,6 +109,50 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-20T15:55:00+08:00" data-updated="true" itemprop="datePublished">Mar 20<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/" itemprop="url">UNIX下的Socket通信-Socket的连接</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>一.关于Socket</h2>
+
+<p>如我，刚见这个名词的时候不知所云，因为起点就没找对，首先要在基于对UNIX有所了解的情况下才利于开展工作，便是“一切皆文件”。</p>
+
+<p>在UNIX下，一般的文件可以通过open打开，并返回一个小整数作为标记，后续的操作便是针对这个小整数进行读写。这个小整数被称作<em>描述符</em>，描述符只是引用file的proc结构中一个数组的某个元素的下标而已，它可以代表该文件，但并不是文件本身，我们通过它来与文件建立联系，方便操作。</p>
+
+<p>以此为前提，Socket便是一种特殊的文件，通过<em>socket</em>函数可以创建一个套接字（特殊的文件），它也返回给我们一个小整数，以后所有的函数调用就用该描述符来标示这个套接字。</p>
+
+<p>在UNIX下文件的种类有很多，打开与使用的方式虽然遵循着一定的模式，但也不尽相同。比如想打开一个文本文件需要借助open函数，而且在打开的时候需要告诉open函数该文本的路径位置，以明确打开的目标。</p>
+
+
+		
+		<a href="/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -583,74 +627,6 @@
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-25T14:36:00+08:00" data-updated="true" itemprop="datePublished">Oct 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/25/scalazai-macxia-de-an-zhuang-fang-fa/" itemprop="url">Scala在Mac下的安装方法</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h3>第一种方法</h3>
-
-<p>1.访问scala的官网<a href="http://www.scala-lang.org/">这里</a>下载最新版的scala。</p>
-
-<p>2.解压缩文件包，可将其移动至<code>/usr/local/share</code>下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mv /download/scalapath /usr/local/share</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.修改环境变量，在mac下使用<code>sudo su</code>进入管理员权限，修改配置文件profile，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim /etc/profile</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在文件的末尾加入</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export PATH="$PATH:/usr/local/share/scala/bin"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>:wq!</code>保存退出，重启终端，完成scala的配置安装。</p>
-
-<h3>第二种方法</h3>
-
-<p>如果本机有安装Ruby的话则安装更加简单，可以借助Homebrew进行安装。
-首先安装Homebrew</p>
-
-<blockquote><p>ruby -e “$(curl -fsSL <a href="https://raw.github.com/mxcl/homebrew/go">https://raw.github.com/mxcl/homebrew/go</a>)”</p></blockquote>
-
-<p>再进行scala的安装<code>brew install scala</code></p>
-
-<p>大功告成~</p>
-
-		
-		
-	</div>
-
-</article>
-
 </div>
 
 <nav id="pagenavi">
@@ -664,7 +640,7 @@
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2014 - Wanax -
+  Copyright &copy; 2015 - Wanax -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

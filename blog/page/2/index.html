@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Mar 20th, 2014 Tec UNIX下的Socket通信-Socket的连接 一.关于Socket 如我，刚见这个名词的时候不知所云，因为起点就没找对，首先要在基于对UNIX有所了解的情况下才利于开展工作，便是“一切皆文件”。 在UNIX下，一般的文件可以通过open打开， &hellip;">
+	<meta name="description" content="Mar 20th, 2014 Tec UNIX下的Socket通信-TCP/IP基本概念 总览 All problems in computer science can be solved by another level of indirection 觉得这句话对TCP的分层也很适用。 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
 <section>
   <h3 class="catag">文章类别</h3>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/life/'>Life (17)</a></li>
+    <li class='category'><a href='/blog/categories/life/'>Life (18)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (11)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (25)</a></li>
@@ -109,6 +109,59 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-20T18:44:00+08:00" data-updated="true" itemprop="datePublished">Mar 20<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/" itemprop="url">UNIX下的Socket通信-TCP/IP基本概念</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>总览</h2>
+
+<blockquote><p>All problems in computer science can be solved by another level of indirection</p></blockquote>
+
+<p>觉得这句话对TCP的分层也很适用。</p>
+
+<p>对TCP/IP协议来说，大体分为五层，</p>
+
+<ol>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>链路层</li>
+<li>物理层</li>
+</ol>
+
+
+<p>应用层我们接触的比较多，流行的如HTTP，FTP之类都算，像我在大学里做的PHP开发时基本对HTTP发包没有任何概念，照着教程开eclipse，apache，在浏览器里敲个<code>locahost:8080</code>出来个猫的图案就很开心了。再建个index，上面写句“未满18周岁禁止进入”，就有种天下在手的感觉。</p>
+
+
+		
+		<a href="/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -579,50 +632,6 @@
 
 		
 		<a href="/blog/2013/10/30/ioskai-fa-xiao-ji-qiao-bi-ji/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-28T00:27:00+08:00" data-updated="true" itemprop="datePublished">Oct 28<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ontheroad/'>OnTheRoad</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/28/xi-chong-xing-ji/" itemprop="url">西冲行记</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><img src="/images/road/xichong.jpg" alt="image" /></p>
-
-<p>又是一年花开日，江上数青峰。</p>
-
-<p>记得第一次去西冲是大一，那时刚加入励志社，因为在招新的时候看到说励志社中有骑行队。</p>
-
-<p>高三的时候跟CJ骑着7,80一辆的二手单车差不多快游遍了深圳，比如说推车推上了梧桐山顶，吸着八百里的尘与土跑到CZJ家蹭饭，当时只道是寻常，而今回忆无语凝噎。现在还记得CJ跟我说有的单车价格会上千时洒家的哈喇子流地一会是个S型一会是个B型的窘状，也想起了在推车上梧桐山的时候在一个休息的平台看到的有辆感觉与我们座下的破驴截然不同状的单车上的码表时那副不懂装懂难掩好奇的心态。</p>
-
-<p>于是在社团招新的时候，看到有骑行队这么一个组织也就毫不犹豫地报名参加了。记得在迎新大会上，社团先隆重介绍了骑行川藏归来的两位学长，在提问环节的时候也不知是哪股子二彪子气发作站起来说我也要骑车去，希望以后多交流云云。现在想来大概有两个原因，第一个貌似类似于现在失恋去西藏，失业去西藏，我家猫发胖了我要去西藏之类的心态，第二个则是据说提问有奖……不要鄙视我，朕就是这样汉子。</p>
-
-
-		
-		<a href="/blog/2013/10/28/xi-chong-xing-ji/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

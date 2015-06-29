@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2015-06-20T15:30:05+07:00</updated>
+  <updated>2015-06-30T01:26:01+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[VC USB 串口通信]]></title>
     <link href="http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/"/>
-    <updated>2014-08-11T11:03:00+07:00</updated>
+    <updated>2014-08-11T11:03:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin</id>
     <content type="html"><![CDATA[<h2>楔子</h2>
 
@@ -356,7 +356,7 @@ SetCommMask(h_com, EV_RXCHAR | EV_TXEMPTY);
   <entry>
     <title type="html"><![CDATA[UNIX程序制作成WIN Server笔记]]></title>
     <link href="http://sonnewilling.com/blog/2014/06/14/unixcheng-xu-zhi-zuo-cheng-win-serverbi-ji/"/>
-    <updated>2014-06-14T16:55:00+07:00</updated>
+    <updated>2014-06-14T16:55:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/06/14/unixcheng-xu-zhi-zuo-cheng-win-serverbi-ji</id>
     <content type="html"><![CDATA[<h1>初</h1>
 
@@ -422,7 +422,7 @@ SetCommMask(h_com, EV_RXCHAR | EV_TXEMPTY);
   <entry>
     <title type="html"><![CDATA[基于C的Socket聊天服务器]]></title>
     <link href="http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/"/>
-    <updated>2014-05-05T16:26:00+07:00</updated>
+    <updated>2014-05-05T16:26:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi</id>
     <content type="html"><![CDATA[<p>前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。</p>
 
@@ -743,7 +743,7 @@ bufferevent_enable(bev, EV_READ|EV_WRITE);
   <entry>
     <title type="html"><![CDATA[Android USB Host通信]]></title>
     <link href="http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin/"/>
-    <updated>2014-04-30T11:18:00+07:00</updated>
+    <updated>2014-04-30T11:18:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/04/30/android-usb-hosttong-xin</id>
     <content type="html"><![CDATA[<h2>开了个头</h2>
 
@@ -1029,7 +1029,7 @@ void setSerialDataToTextView(int disp, byte[] rbuf, int len, String sCr, String 
   <entry>
     <title type="html"><![CDATA[UNIX下的Socket通信-TCP/IP基本概念]]></title>
     <link href="http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/"/>
-    <updated>2014-03-20T18:44:00+07:00</updated>
+    <updated>2014-03-20T18:44:00+08:00</updated>
     <id>http://sonnewilling.com/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian</id>
     <content type="html"><![CDATA[<h2>总览</h2>
 

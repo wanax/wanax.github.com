@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Apr 30th, 2014 Tec Android USB Host通信 开了个头 一部Android手机加上一块Arduino的板子通过USB通信可以实现很多有趣的东西。 2011年Google推出Android开放配件协议AOA及配件开发工具包ADK提供了Android &hellip;">
+	<meta name="description" content="May 5th, 2014 Tec 基于C的Socket聊天服务器 前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,7 +69,7 @@
   <h3 class="catag">文章类别</h3>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/life/'>Life (18)</a></li>
-<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (12)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (25)</a></li>
 
@@ -109,6 +109,73 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-05T16:26:00+08:00" data-updated="true" itemprop="datePublished">May 5<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/" itemprop="url">基于C的Socket聊天服务器</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。</p>
+
+<h2>一，工具类</h2>
+
+<h3>1.libunp.a</h3>
+
+<p>用到的第一个库便是它，因为它是《UNIX网络编程》的示例代码的工具库&hellip;开头写的测试程序基本都是照着示例代码改来改去，自然也是用的一样的函数来实现。觉得对于一般的读写和各种包裹函数都是很有用的。具体的不用细说，还是认真翻书来得实在。</p>
+
+<h3>2.GLib</h3>
+
+<h4>GHashTable</h4>
+
+<p>这里基本的数据结构如哈希表之类的使用了GLib来做主角，另外它的GString也很好用，可以很方便的初始化与格式化字符串，个人感觉比C风格的字符串要好用一些。</p>
+
+<p>GLib哈希表支持各种不同的结构，如果觉得<code>int</code>,<code>string</code>不够用可以直接使用指针，对于我来说已经相当足够。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">GHashTable</span> <span class="o">*</span><span class="n">user_to_bev_map</span> <span class="o">=</span> <span class="n">g_hash_table_new</span><span class="p">(</span><span class="n">g_direct_hash</span><span class="p">,</span><span class="n">g_direct_equal</span><span class="p">);</span>
+</span><span class='line'><span class="n">g_hash_table_insert</span><span class="p">(</span><span class="n">user_to_bev_map</span><span class="p">,</span> <span class="n">GINT_TO_POINTER</span><span class="p">(</span><span class="n">u_id</span><span class="p">),</span> <span class="n">GINT_TO_POINTER</span><span class="p">(</span><span class="n">bev</span><span class="p">));</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">bufferevent</span> <span class="o">*</span><span class="n">bev</span> <span class="o">=</span> <span class="n">g_hash_table_lookup</span><span class="p">(</span><span class="n">user_to_bev_map</span><span class="p">,</span><span class="n">GINT_TO_POINTER</span><span class="p">(</span><span class="n">to_id</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>g_direct_hash</code>,<code>g_direct_equal</code>代表初始化的类型，详细的介绍如下:</p>
+
+<blockquote><p>Hash values returned by hash_func are used to determine where keys are stored within the GHashTable data structure.</p>
+
+<p>The <code>g_direct_hash()</code>, <code>g_int_hash()</code>, <code>g_int64_hash()</code>, <code>g_double_hash()</code> and <code>g_str_hash()</code> functions are provided for some common types of keys.</p>
+
+<p>If hash_func is NULL, g_direct_hash() is used.</p></blockquote>
+
+
+		
+		<a href="/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -544,52 +611,6 @@
 
 		
 		<a href="/blog/2013/11/14/shi-yong-octopressda-jian-ge-ren-bo-ke/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-31T15:56:00+08:00" data-updated="true" itemprop="datePublished">Oct 31<span>st</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li/" itemprop="url">UICollectionView与CXPhotoBrowser配合使用示例</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>UICollection是在iOS6.0中新加的功能，用于图片的集中展示，大概就是图片墙的意思。基本的使用类似于UITableView，也是设置代理，数据源，对单个的Cell可以自行定制样式。稍有不同的是在UITableView中整体样式的设置只有两种，一种是Group和Plain，而在UICollection中则有较多的选择方案，具体的实现方式需要编码人员对UICollectionViewFlowLayout自行调整。</p>
-
-<p>开发的App中有用到这种功能，结合一个台湾哥儿们Chris Xu的开源插件CXPhotoBrower，可以达到比较好的展示图片的效果。</p>
-
-<p>具体效果图如下：</p>
-
-<p><img src="/images/tec/uicollectionImg.png" alt="image" /></p>
-
-<p><img src="/images/tec/cxphotobrowserImg.png" alt="image" /></p>
-
-<p>现在开始一步步搭建吧。</p>
-
-
-		
-		<a href="/blog/2013/10/31/uicollectionviewyu-cxphotobrowserpei-he-shi-yong-shi-li/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

@@ -44,7 +44,7 @@ App运行中时，按压某个View提供预览功能。
 
 App内有统一接口判断当前设备与系统3D Touch是否可用。
 
-```
+```c
 override func viewDidLoad() {
     super.viewDidLoad()
     if traitCollection.forceTouchCapability == .Available {
@@ -61,7 +61,7 @@ override func viewDidLoad() {
 
 基本数据结构：`UIApplicationShortcutItem`
 
-```
+```c
 public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {
     public init(type: String, localizedTitle: String, localizedSubtitle: String?, icon: UIApplicationShortcutIcon?, userInfo: [NSObject : AnyObject]?)
     public convenience init(type: String, localizedTitle: String)   
@@ -94,26 +94,26 @@ public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {
 
 * **Dynamic quick actions**
 
-	```
-	lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
-	```
-	
-	```
-	shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? "", localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [
-	                    AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
-	                ]
-	            )
-	```
-	
-	```
-	dynamicShortcuts[selected.row] = updatedShortcutItem
-	// Update the application's `shortcutItems`.
-	UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
-	```
+```c
+lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
+```
+
+```c
+shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? "", localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [
+                   AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
+               ]
+           )
+```
+
+```c
+dynamicShortcuts[selected.row] = updatedShortcutItem
+// Update the application's `shortcutItems`.
+UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
+```
 	
 点击后的事件响应在App delegate里处理：
 
-```
+```c
     /* 
         Called when the user activates your application by selecting a shortcut on the home screen, except when 
         application(_:,willFinishLaunchingWithOptions:) or application(_:didFinishLaunchingWithOptions) returns `false`.
@@ -130,7 +130,7 @@ public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {
 
 关键数据结构：`UIPreviewAction`
 
-```
+```c
 public class UIPreviewAction : NSObject, NSCopying, UIPreviewActionItem {   
     public var handler: (UIPreviewActionItem, UIViewController) -> Void { get }
     public convenience init(title: String, style: UIPreviewActionStyle, handler: (UIPreviewAction, UIViewController) -> Void)
@@ -140,7 +140,7 @@ public class UIPreviewActionGroup : NSObject, NSCopying, UIPreviewActionItem {
 }
 ```
 
-```
+```c
 lazy var previewActions: [UIPreviewActionItem] = {
         func previewActionForTitle(title: String, style: UIPreviewActionStyle = .Default) -> UIPreviewAction {
             return UIPreviewAction(title: title, style: style) { previewAction, viewController in
@@ -159,12 +159,12 @@ lazy var previewActions: [UIPreviewActionItem] = {
 ```
 通过重载
 
-```
+```c
 func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController?
 ```
 生成对应的快速预览图，本身重载
 
-```
+```c
 override func previewActionItems() -> [UIPreviewActionItem]
 ```
 来生成下一步动作。
@@ -173,7 +173,7 @@ override func previewActionItems() -> [UIPreviewActionItem]
 
 在`UITouch`对象中新增了`force`与`maximumPossibleForce`，可以根据`force`定制化自己的需求
 
-```
+```c
 public class UITouch : NSObject {
     // Force of the touch, where 1.0 represents the force of an average touch
     @available(iOS 9.0, *)

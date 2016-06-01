@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2016-06-01T14:44:11+08:00</updated>
+  <updated>2016-06-01T15:05:52+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -59,7 +59,7 @@
 
 <p>App内有统一接口判断当前设备与系统3D Touch是否可用。</p>
 
-<p>```
+<p>```c
 override func viewDidLoad() {</p>
 
 <pre><code>super.viewDidLoad()
@@ -79,7 +79,7 @@ else {
 
 <p>基本数据结构：<code>UIApplicationShortcutItem</code></p>
 
-<p>```
+<p>```c
 public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {</p>
 
 <pre><code>public init(type: String, localizedTitle: String, localizedSubtitle: String?, icon: UIApplicationShortcutIcon?, userInfo: [NSObject : AnyObject]?)
@@ -116,30 +116,33 @@ public var userInfo: [String : NSSecureCoding]? { get }
 <p>  直接在App的系统plist文件里添加</p>
 
 <p>  <img src="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Art/UIApplicationShortcutItems_plist_editor_2x.png" height="250" width="700" alt="image" /></p></li>
-<li><p><strong>Dynamic quick actions</strong></p>
-
-<p>  <code>
-  lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
- </code></p>
-
-<p>  <code>
-  shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? "", localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [
-                      AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
-                  ]
-              )
- </code></p>
-
-<p>  <code>
-  dynamicShortcuts[selected.row] = updatedShortcutItem
-  // Update the application's `shortcutItems`.
-  UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
- </code></p></li>
+<li><p><strong>Dynamic quick actions</strong></p></li>
 </ul>
 
 
-<p>点击后的事件响应在App delegate里处理：</p>
+<p><code>c
+lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
+</code></p>
+
+<p>```c
+shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? &ldquo;&rdquo;, localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [</p>
+
+<pre><code>               AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
+           ]
+       )
+</code></pre>
 
 <p>```</p>
+
+<p><code>c
+dynamicShortcuts[selected.row] = updatedShortcutItem
+// Update the application's `shortcutItems`.
+UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
+</code></p>
+
+<p>点击后的事件响应在App delegate里处理：</p>
+
+<p>```c</p>
 
 <pre><code>/* 
     Called when the user activates your application by selecting a shortcut on the home screen, except when 
@@ -159,7 +162,7 @@ func application(application: UIApplication, performActionForShortcutItem shortc
 
 <p>关键数据结构：<code>UIPreviewAction</code></p>
 
-<p>```
+<p>```c
 public class UIPreviewAction : NSObject, NSCopying, UIPreviewActionItem {</p>
 
 <pre><code>public var handler: (UIPreviewActionItem, UIViewController) -&gt; Void { get }
@@ -175,7 +178,7 @@ public class UIPreviewActionGroup : NSObject, NSCopying, UIPreviewActionItem {</
 <p>}
 ```</p>
 
-<p>```
+<p>```c
 lazy var previewActions: [UIPreviewActionItem] = {</p>
 
 <pre><code>    func previewActionForTitle(title: String, style: UIPreviewActionStyle = .Default) -&gt; UIPreviewAction {
@@ -197,12 +200,12 @@ lazy var previewActions: [UIPreviewActionItem] = {</p>
 <p>```
 通过重载</p>
 
-<p><code>
+<p><code>c
 func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController?
 </code>
 生成对应的快速预览图，本身重载</p>
 
-<p><code>
+<p><code>c
 override func previewActionItems() -&gt; [UIPreviewActionItem]
 </code>
 来生成下一步动作。</p>
@@ -211,7 +214,7 @@ override func previewActionItems() -&gt; [UIPreviewActionItem]
 
 <p>在<code>UITouch</code>对象中新增了<code>force</code>与<code>maximumPossibleForce</code>，可以根据<code>force</code>定制化自己的需求</p>
 
-<p>```
+<p>```c
 public class UITouch : NSObject {</p>
 
 <pre><code>// Force of the touch, where 1.0 represents the force of an average touch

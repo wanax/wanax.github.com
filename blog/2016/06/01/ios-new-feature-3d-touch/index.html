@@ -150,7 +150,7 @@
 
 <p>App内有统一接口判断当前设备与系统3D Touch是否可用。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -160,23 +160,24 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override func viewDidLoad() {
-</span><span class='line'>    super.viewDidLoad()
-</span><span class='line'>    if traitCollection.forceTouchCapability == .Available {
-</span><span class='line'>        registerForPreviewingWithDelegate(self, sourceView: view)
-</span><span class='line'>    }
-</span><span class='line'>    else {
-</span><span class='line'>        // Create an alert to display to the user.
-</span><span class='line'>        alertController = UIAlertController(title: "3D Touch Not Available", message: "Unsupported device.", preferredStyle: .Alert)
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">override</span> <span class="n">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">traitCollection</span><span class="p">.</span><span class="n">forceTouchCapability</span> <span class="o">==</span> <span class="p">.</span><span class="n">Available</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">registerForPreviewingWithDelegate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">sourceView</span><span class="o">:</span> <span class="n">view</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Create an alert to display to the user.</span>
+</span><span class='line'>        <span class="n">alertController</span> <span class="o">=</span> <span class="n">UIAlertController</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="s">&quot;3D Touch Not Available&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">:</span> <span class="s">&quot;Unsupported device.&quot;</span><span class="p">,</span> <span class="n">preferredStyle</span><span class="o">:</span> <span class="p">.</span><span class="n">Alert</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>1. Home Screen Quick Actions</h4>
 
 <p>基本数据结构：<code>UIApplicationShortcutItem</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -189,19 +190,20 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {
-</span><span class='line'>    public init(type: String, localizedTitle: String, localizedSubtitle: String?, icon: UIApplicationShortcutIcon?, userInfo: [NSObject : AnyObject]?)
-</span><span class='line'>    public convenience init(type: String, localizedTitle: String)   
-</span><span class='line'>    // An application-specific string that identifies the type of action to perform.
-</span><span class='line'>    public var type: String { get }
-</span><span class='line'>    // Properties controlling how the item should be displayed on the home screen.
-</span><span class='line'>    public var localizedTitle: String { get }
-</span><span class='line'>    public var localizedSubtitle: String? { get }
-</span><span class='line'>    @NSCopying public var icon: UIApplicationShortcutIcon? { get }
-</span><span class='line'>    // Application-specific information needed to perform the action.
-</span><span class='line'>    // Will throw an exception if the NSDictionary is not plist-encodable.
-</span><span class='line'>    public var userInfo: [String : NSSecureCoding]? { get }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">public</span> <span class="n">class</span> <span class="n">UIApplicationShortcutItem</span> <span class="o">:</span> <span class="n">NSObject</span><span class="p">,</span> <span class="n">NSCopying</span><span class="p">,</span> <span class="n">NSMutableCopying</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">init</span><span class="p">(</span><span class="n">type</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">localizedTitle</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">localizedSubtitle</span><span class="o">:</span> <span class="n">String</span><span class="o">?</span><span class="p">,</span> <span class="n">icon</span><span class="o">:</span> <span class="n">UIApplicationShortcutIcon</span><span class="o">?</span><span class="p">,</span> <span class="n">userInfo</span><span class="o">:</span> <span class="p">[</span><span class="n">NSObject</span> <span class="o">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">convenience</span> <span class="n">init</span><span class="p">(</span><span class="n">type</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">localizedTitle</span><span class="o">:</span> <span class="n">String</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1">// An application-specific string that identifies the type of action to perform.</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">type</span><span class="o">:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Properties controlling how the item should be displayed on the home screen.</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">localizedTitle</span><span class="o">:</span> <span class="n">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">localizedSubtitle</span><span class="o">:</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="err">@</span><span class="n">NSCopying</span> <span class="n">public</span> <span class="n">var</span> <span class="n">icon</span><span class="o">:</span> <span class="n">UIApplicationShortcutIcon</span><span class="o">?</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Application-specific information needed to perform the action.</span>
+</span><span class='line'>    <span class="c1">// Will throw an exception if the NSDictionary is not plist-encodable.</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">userInfo</span><span class="o">:</span> <span class="p">[</span><span class="n">String</span> <span class="o">:</span> <span class="n">NSSecureCoding</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>UIApplicationShortcutItemType</code>与<code>UIApplicationShortcutItemTitle</code>是必填项，其它选填。</p>
@@ -222,30 +224,42 @@
 <p>  直接在App的系统plist文件里添加</p>
 
 <p>  <img src="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Art/UIApplicationShortcutItems_plist_editor_2x.png" height="250" width="700" alt="image" /></p></li>
-<li><p><strong>Dynamic quick actions</strong></p>
-
-<p>  <code>
-  lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
- </code></p>
-
-<p>  <code>
-  shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? "", localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [
-                      AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
-                  ]
-              )
- </code></p>
-
-<p>  <code>
-  dynamicShortcuts[selected.row] = updatedShortcutItem
-  // Update the application's `shortcutItems`.
-  UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
- </code></p></li>
+<li><p><strong>Dynamic quick actions</strong></p></li>
 </ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">lazy</span> <span class="n">var</span> <span class="n">dynamicShortcuts</span> <span class="o">=</span> <span class="n">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">shortcutItems</span> <span class="o">??</span> <span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">shortcutItem</span> <span class="o">=</span> <span class="n">UIApplicationShortcutItem</span><span class="p">(</span><span class="n">type</span><span class="o">:</span> <span class="n">selectedShortcutItem</span><span class="p">.</span><span class="n">type</span><span class="p">,</span> <span class="n">localizedTitle</span><span class="o">:</span> <span class="n">titleTextField</span><span class="p">.</span><span class="n">text</span> <span class="o">??</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">localizedSubtitle</span><span class="o">:</span> <span class="n">subtitleTextField</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="n">icon</span><span class="o">:</span> <span class="n">icon</span><span class="p">,</span> <span class="n">userInfo</span><span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>                   <span class="n">AppDelegate</span><span class="p">.</span><span class="n">applicationShortcutUserInfoIconKey</span><span class="o">:</span> <span class="n">pickerView</span><span class="p">.</span><span class="n">selectedRowInComponent</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>               <span class="p">]</span>
+</span><span class='line'>           <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">dynamicShortcuts</span><span class="p">[</span><span class="n">selected</span><span class="p">.</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">updatedShortcutItem</span>
+</span><span class='line'><span class="c1">// Update the application&#39;s `shortcutItems`.</span>
+</span><span class='line'><span class="n">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">shortcutItems</span> <span class="o">=</span> <span class="n">dynamicShortcuts</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>点击后的事件响应在App delegate里处理：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -255,41 +269,43 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* 
-</span><span class='line'>    Called when the user activates your application by selecting a shortcut on the home screen, except when 
-</span><span class='line'>    application(_:,willFinishLaunchingWithOptions:) or application(_:didFinishLaunchingWithOptions) returns `false`.
-</span><span class='line'>    You should handle the shortcut in those callbacks and return `false` if possible. In that case, this 
-</span><span class='line'>    callback is used if your application is already launched in the background.
-</span><span class='line'>*/
-</span><span class='line'>func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -&gt; Void) {
-</span><span class='line'>    let handledShortCutItem = handleShortCutItem(shortcutItem)
-</span><span class='line'>    completionHandler(handledShortCutItem)
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/* </span>
+</span><span class='line'><span class="cm">    Called when the user activates your application by selecting a shortcut on the home screen, except when </span>
+</span><span class='line'><span class="cm">    application(_:,willFinishLaunchingWithOptions:) or application(_:didFinishLaunchingWithOptions) returns `false`.</span>
+</span><span class='line'><span class="cm">    You should handle the shortcut in those callbacks and return `false` if possible. In that case, this </span>
+</span><span class='line'><span class="cm">    callback is used if your application is already launched in the background.</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'><span class="n">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="o">:</span> <span class="n">UIApplication</span><span class="p">,</span> <span class="n">performActionForShortcutItem</span> <span class="n">shortcutItem</span><span class="o">:</span> <span class="n">UIApplicationShortcutItem</span><span class="p">,</span> <span class="n">completionHandler</span><span class="o">:</span> <span class="n">Bool</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">handledShortCutItem</span> <span class="o">=</span> <span class="n">handleShortCutItem</span><span class="p">(</span><span class="n">shortcutItem</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">completionHandler</span><span class="p">(</span><span class="n">handledShortCutItem</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>2. Peek and Pop</h4>
 
 <p>关键数据结构：<code>UIPreviewAction</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class UIPreviewAction : NSObject, NSCopying, UIPreviewActionItem {   
-</span><span class='line'>    public var handler: (UIPreviewActionItem, UIViewController) -&gt; Void { get }
-</span><span class='line'>    public convenience init(title: String, style: UIPreviewActionStyle, handler: (UIPreviewAction, UIViewController) -&gt; Void)
-</span><span class='line'>}
-</span><span class='line'>public class UIPreviewActionGroup : NSObject, NSCopying, UIPreviewActionItem {
-</span><span class='line'>    public convenience init(title: String, style: UIPreviewActionStyle, actions: [UIPreviewAction])
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">public</span> <span class="n">class</span> <span class="n">UIPreviewAction</span> <span class="o">:</span> <span class="n">NSObject</span><span class="p">,</span> <span class="n">NSCopying</span><span class="p">,</span> <span class="n">UIPreviewActionItem</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">handler</span><span class="o">:</span> <span class="p">(</span><span class="n">UIPreviewActionItem</span><span class="p">,</span> <span class="n">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">convenience</span> <span class="n">init</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="n">UIPreviewActionStyle</span><span class="p">,</span> <span class="n">handler</span><span class="o">:</span> <span class="p">(</span><span class="n">UIPreviewAction</span><span class="p">,</span> <span class="n">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">public</span> <span class="n">class</span> <span class="n">UIPreviewActionGroup</span> <span class="o">:</span> <span class="n">NSObject</span><span class="p">,</span> <span class="n">NSCopying</span><span class="p">,</span> <span class="n">UIPreviewActionItem</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">convenience</span> <span class="n">init</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="n">UIPreviewActionStyle</span><span class="p">,</span> <span class="n">actions</span><span class="o">:</span> <span class="p">[</span><span class="n">UIPreviewAction</span><span class="p">])</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -304,33 +320,36 @@
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lazy var previewActions: [UIPreviewActionItem] = {
-</span><span class='line'>        func previewActionForTitle(title: String, style: UIPreviewActionStyle = .Default) -&gt; UIPreviewAction {
-</span><span class='line'>            return UIPreviewAction(title: title, style: style) { previewAction, viewController in
-</span><span class='line'>                guard let detailViewController = viewController as? DetailViewController,
-</span><span class='line'>                          sampleTitle = detailViewController.sampleTitle else { return }
-</span><span class='line'>                print("\(previewAction.title) triggered from `DetailViewController` for item: \(sampleTitle)")
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>        let action1 = previewActionForTitle("Default Action")
-</span><span class='line'>        let action2 = previewActionForTitle("Destructive Action", style: .Destructive)
-</span><span class='line'>        let subAction1 = previewActionForTitle("Sub Action 1")
-</span><span class='line'>        let subAction2 = previewActionForTitle("Sub Action 2")
-</span><span class='line'>        let groupedActions = UIPreviewActionGroup(title: "Sub Actions…", style: .Default, actions: [subAction1, subAction2] )
-</span><span class='line'>        return [action1, action2, groupedActions]
-</span><span class='line'>    }()</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">lazy</span> <span class="n">var</span> <span class="n">previewActions</span><span class="o">:</span> <span class="p">[</span><span class="n">UIPreviewActionItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">func</span> <span class="n">previewActionForTitle</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="n">UIPreviewActionStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">Default</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UIPreviewAction</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">UIPreviewAction</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="n">title</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="n">style</span><span class="p">)</span> <span class="p">{</span> <span class="n">previewAction</span><span class="p">,</span> <span class="n">viewController</span> <span class="n">in</span>
+</span><span class='line'>                <span class="n">guard</span> <span class="n">let</span> <span class="n">detailViewController</span> <span class="o">=</span> <span class="n">viewController</span> <span class="n">as</span><span class="o">?</span> <span class="n">DetailViewController</span><span class="p">,</span>
+</span><span class='line'>                          <span class="n">sampleTitle</span> <span class="o">=</span> <span class="n">detailViewController</span><span class="p">.</span><span class="n">sampleTitle</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+</span><span class='line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;\(previewAction.title) triggered from `DetailViewController` for item: \(sampleTitle)&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">action1</span> <span class="o">=</span> <span class="n">previewActionForTitle</span><span class="p">(</span><span class="s">&quot;Default Action&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">action2</span> <span class="o">=</span> <span class="n">previewActionForTitle</span><span class="p">(</span><span class="s">&quot;Destructive Action&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="p">.</span><span class="n">Destructive</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">subAction1</span> <span class="o">=</span> <span class="n">previewActionForTitle</span><span class="p">(</span><span class="s">&quot;Sub Action 1&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">subAction2</span> <span class="o">=</span> <span class="n">previewActionForTitle</span><span class="p">(</span><span class="s">&quot;Sub Action 2&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">groupedActions</span> <span class="o">=</span> <span class="n">UIPreviewActionGroup</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="s">&quot;Sub Actions…&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">,</span> <span class="n">actions</span><span class="o">:</span> <span class="p">[</span><span class="n">subAction1</span><span class="p">,</span> <span class="n">subAction2</span><span class="p">]</span> <span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">[</span><span class="n">action1</span><span class="p">,</span> <span class="n">action2</span><span class="p">,</span> <span class="n">groupedActions</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}()</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>通过重载</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController?</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">func</span> <span class="n">previewingContext</span><span class="p">(</span><span class="n">previewingContext</span><span class="o">:</span> <span class="n">UIViewControllerPreviewing</span><span class="p">,</span> <span class="n">viewControllerForLocation</span> <span class="n">location</span><span class="o">:</span> <span class="n">CGPoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UIViewController</span><span class="o">?</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>生成对应的快速预览图，本身重载</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override func previewActionItems() -&gt; [UIPreviewActionItem]</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">override</span> <span class="n">func</span> <span class="n">previewActionItems</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UIPreviewActionItem</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>来生成下一步动作。</p>
@@ -339,7 +358,7 @@
 
 <p>在<code>UITouch</code>对象中新增了<code>force</code>与<code>maximumPossibleForce</code>，可以根据<code>force</code>定制化自己的需求</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -347,14 +366,15 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class UITouch : NSObject {
-</span><span class='line'>    // Force of the touch, where 1.0 represents the force of an average touch
-</span><span class='line'>    @available(iOS 9.0, *)
-</span><span class='line'>    public var force: CGFloat { get }
-</span><span class='line'>    // Maximum possible force with this input mechanism
-</span><span class='line'>    @available(iOS 9.0, *)
-</span><span class='line'>    public var maximumPossibleForce: CGFloat { get }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">public</span> <span class="n">class</span> <span class="n">UITouch</span> <span class="o">:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Force of the touch, where 1.0 represents the force of an average touch</span>
+</span><span class='line'>    <span class="err">@</span><span class="n">available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">9.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">force</span><span class="o">:</span> <span class="n">CGFloat</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// Maximum possible force with this input mechanism</span>
+</span><span class='line'>    <span class="err">@</span><span class="n">available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">9.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">maximumPossibleForce</span><span class="o">:</span> <span class="n">CGFloat</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 

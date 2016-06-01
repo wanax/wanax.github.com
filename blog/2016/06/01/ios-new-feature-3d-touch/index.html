@@ -1,0 +1,424 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iOS New Feature -- 3D Touch - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="iOS New Feature -- 3D Touch 一. 功能介绍 3D Touch 是苹果公司最新推出的一种应用在手机上的技术，基于iOS9系统与6s设备，它拓展了手机的操作维度，由平面的两维空间空间拓展为立体的三维空间。针对手机屏幕，在纵向上对压按进行响应，由此衍生出更多的操作场景。 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2016/06/01/ios-new-feature-3d-touch/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!-- 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'> -->
+	<script src="/javascripts/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=31767964" charset="UTF-8"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (26)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">iOS New Feature -- 3D Touch</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>一. 功能介绍</h3>
+
+<p>3D Touch 是苹果公司最新推出的一种应用在手机上的技术，基于iOS9系统与6s设备，它拓展了手机的操作维度，由平面的两维空间空间拓展为立体的三维空间。针对手机屏幕，在纵向上对压按进行响应，由此衍生出更多的操作场景。</p>
+
+<blockquote><p>   With iOS 9, new iPhone models add a third dimension to the user interface.</p>
+
+<ul>
+<li><p> A user can now press your Home screen icon to immediately access functionality provided by your app.></p></li>
+<li><p>Within your app, a user can now press views to see previews of additional content and gain accelerated access to features.</p></li>
+</ul>
+</blockquote>
+
+<!--more-->
+
+
+<p>根据苹果官方文档<a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/index.html#//apple_ref/doc/uid/TP40016543-CH1-SW1">Getting Started with 3D Touch</a>介绍，3D touch可增加以下三种UI新体验：</p>
+
+<h4>1. Home Screen Quick Actions</h4>
+
+<p>按压Home screen上特定App图标，提供快捷方式跳转去App的不同功能场景。</p>
+
+<p><img src="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/Art/maps_directions_home_2x.png" alt="image" /></p>
+
+<h4>2. Peek and Pop</h4>
+
+<p>App运行中时，按压某个View提供预览功能。</p>
+
+<blockquote><p>You can also enable peek and pop for links in web views, as described in <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/3DTouchAPIs.html#//apple_ref/doc/uid/TP40016543-CH4-SW5">Web View Peek and Pop</a>.</p></blockquote>
+
+<p><img src="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/Art/peek_2x.png" alt="image" /></p>
+
+<h4>3. Force Properties</h4>
+
+<blockquote><p>In iOS 9, the <code>UITouch</code> class has two new properties to support custom implementation of 3D Touch in your app: <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITouch_Class/index.html#//apple_ref/occ/instp/UITouch/force">force</a> and <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITouch_Class/index.html#//apple_ref/occ/instp/UITouch/maximumPossibleForce">maximumPossibleForce</a>. For the first time on iOS devices, these properties let you detect and respond to touch pressure in the <code>UIEvent</code> objects your app receives.</p>
+
+<p>The force of a touch has a high dynamic range, available as a floating point value to your app.</p></blockquote>
+
+<h3>二. 特性实现介绍</h3>
+
+<p>App内有统一接口判断当前设备与系统3D Touch是否可用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override func viewDidLoad() {
+</span><span class='line'>    super.viewDidLoad()
+</span><span class='line'>    if traitCollection.forceTouchCapability == .Available {
+</span><span class='line'>        registerForPreviewingWithDelegate(self, sourceView: view)
+</span><span class='line'>    }
+</span><span class='line'>    else {
+</span><span class='line'>        // Create an alert to display to the user.
+</span><span class='line'>        alertController = UIAlertController(title: "3D Touch Not Available", message: "Unsupported device.", preferredStyle: .Alert)
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>1. Home Screen Quick Actions</h4>
+
+<p>基本数据结构：<code>UIApplicationShortcutItem</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {
+</span><span class='line'>    public init(type: String, localizedTitle: String, localizedSubtitle: String?, icon: UIApplicationShortcutIcon?, userInfo: [NSObject : AnyObject]?)
+</span><span class='line'>    public convenience init(type: String, localizedTitle: String)   
+</span><span class='line'>    // An application-specific string that identifies the type of action to perform.
+</span><span class='line'>    public var type: String { get }
+</span><span class='line'>    // Properties controlling how the item should be displayed on the home screen.
+</span><span class='line'>    public var localizedTitle: String { get }
+</span><span class='line'>    public var localizedSubtitle: String? { get }
+</span><span class='line'>    @NSCopying public var icon: UIApplicationShortcutIcon? { get }
+</span><span class='line'>    // Application-specific information needed to perform the action.
+</span><span class='line'>    // Will throw an exception if the NSDictionary is not plist-encodable.
+</span><span class='line'>    public var userInfo: [String : NSSecureCoding]? { get }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>UIApplicationShortcutItemType</code>与<code>UIApplicationShortcutItemTitle</code>是必填项，其它选填。</p>
+
+<p><em>注意事项：</em></p>
+
+<ol>
+<li>快捷标签最多可以创建四个，包括静态的和动态的。</li>
+<li>每个标签的题目和icon最多两行，多出的会用&hellip;省略</li>
+</ol>
+
+
+<p>添加<code>ShortcutItem</code>有两种方式：</p>
+
+<ul>
+<li><p><strong>Static quick actions</strong></p>
+
+<p>  直接在App的系统plist文件里添加</p>
+
+<p>  <img src="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Art/UIApplicationShortcutItems_plist_editor_2x.png" height="250" width="700" alt="image" /></p></li>
+<li><p><strong>Dynamic quick actions</strong></p>
+
+<p>  <code>
+  lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
+ </code></p>
+
+<p>  <code>
+  shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? "", localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [
+                      AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
+                  ]
+              )
+ </code></p>
+
+<p>  <code>
+  dynamicShortcuts[selected.row] = updatedShortcutItem
+  // Update the application's `shortcutItems`.
+  UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
+ </code></p></li>
+</ul>
+
+
+<p>点击后的事件响应在App delegate里处理：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* 
+</span><span class='line'>    Called when the user activates your application by selecting a shortcut on the home screen, except when 
+</span><span class='line'>    application(_:,willFinishLaunchingWithOptions:) or application(_:didFinishLaunchingWithOptions) returns `false`.
+</span><span class='line'>    You should handle the shortcut in those callbacks and return `false` if possible. In that case, this 
+</span><span class='line'>    callback is used if your application is already launched in the background.
+</span><span class='line'>*/
+</span><span class='line'>func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -&gt; Void) {
+</span><span class='line'>    let handledShortCutItem = handleShortCutItem(shortcutItem)
+</span><span class='line'>    completionHandler(handledShortCutItem)
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2. Peek and Pop</h4>
+
+<p>关键数据结构：<code>UIPreviewAction</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class UIPreviewAction : NSObject, NSCopying, UIPreviewActionItem {   
+</span><span class='line'>    public var handler: (UIPreviewActionItem, UIViewController) -&gt; Void { get }
+</span><span class='line'>    public convenience init(title: String, style: UIPreviewActionStyle, handler: (UIPreviewAction, UIViewController) -&gt; Void)
+</span><span class='line'>}
+</span><span class='line'>public class UIPreviewActionGroup : NSObject, NSCopying, UIPreviewActionItem {
+</span><span class='line'>    public convenience init(title: String, style: UIPreviewActionStyle, actions: [UIPreviewAction])
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lazy var previewActions: [UIPreviewActionItem] = {
+</span><span class='line'>        func previewActionForTitle(title: String, style: UIPreviewActionStyle = .Default) -&gt; UIPreviewAction {
+</span><span class='line'>            return UIPreviewAction(title: title, style: style) { previewAction, viewController in
+</span><span class='line'>                guard let detailViewController = viewController as? DetailViewController,
+</span><span class='line'>                          sampleTitle = detailViewController.sampleTitle else { return }
+</span><span class='line'>                print("\(previewAction.title) triggered from `DetailViewController` for item: \(sampleTitle)")
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>        let action1 = previewActionForTitle("Default Action")
+</span><span class='line'>        let action2 = previewActionForTitle("Destructive Action", style: .Destructive)
+</span><span class='line'>        let subAction1 = previewActionForTitle("Sub Action 1")
+</span><span class='line'>        let subAction2 = previewActionForTitle("Sub Action 2")
+</span><span class='line'>        let groupedActions = UIPreviewActionGroup(title: "Sub Actions…", style: .Default, actions: [subAction1, subAction2] )
+</span><span class='line'>        return [action1, action2, groupedActions]
+</span><span class='line'>    }()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过重载</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController?</span></code></pre></td></tr></table></div></figure>
+
+
+<p>生成对应的快速预览图，本身重载</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override func previewActionItems() -&gt; [UIPreviewActionItem]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>来生成下一步动作。</p>
+
+<h4>3. Force Properties</h4>
+
+<p>在<code>UITouch</code>对象中新增了<code>force</code>与<code>maximumPossibleForce</code>，可以根据<code>force</code>定制化自己的需求</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class UITouch : NSObject {
+</span><span class='line'>    // Force of the touch, where 1.0 represents the force of an average touch
+</span><span class='line'>    @available(iOS 9.0, *)
+</span><span class='line'>    public var force: CGFloat { get }
+</span><span class='line'>    // Maximum possible force with this input mechanism
+</span><span class='line'>    @available(iOS 9.0, *)
+</span><span class='line'>    public var maximumPossibleForce: CGFloat { get }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2016 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2016/06/01/ios-new-feature-3d-touch/';
+        var disqus_url = 'http://sonnewilling.com/blog/2016/06/01/ios-new-feature-3d-touch/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

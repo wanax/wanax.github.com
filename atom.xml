@@ -4,7 +4,7 @@
   <title><![CDATA[陋室]]></title>
   <link href="http://sonnewilling.com/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2016-10-19T20:55:08+08:00</updated>
+  <updated>2016-10-19T21:02:20+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,198 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[React Native入门指南]]></title>
+    <link href="http://sonnewilling.com/blog/2016/10/19/react-nativeru-men-zhi-nan/"/>
+    <updated>2016-10-19T20:56:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2016/10/19/react-nativeru-men-zhi-nan</id>
+    <content type="html"><![CDATA[<h3>一，背景</h3>
+
+<h4>1. 前言</h4>
+
+<p><code>React Native</code>现在的口号是<em>Learn Once,Write Anywhere</em>，让我想起了早些年<code>Jave</code>曾倡导过的<em>Write Once, Run Everywhere</em>，最后虽被人调侃成了<em>Write Once, Debug Everywhere</em>，但不失为一次跨平台开发的早期尝试。</p>
+
+<p>这几年游戏开发中很火的<code>COCOS2D-X</code>，相较看来确实是个成功的案例了。</p>
+
+<p>现在FaceBook要试水App的跨平台开发，推出不到一年的时间已经火遍世界，但最终能走多远，现在下结论还为时过早。</p>
+
+<!--more-->
+
+
+<h4>2. 起源</h4>
+
+<p>要说<code>React Native</code>得先从<a href="http://reactjs.cn/">ReactJS</a>说起。</p>
+
+<p><code>ReactJS</code>起源于 Facebook 的内部项目，因为该公司对市场上所有 JavaScript MVC 框架，都不满意，就决定自己写一套，用来架设 Instagram 的网站。</p>
+
+<p>由于 React 的设计思想极其独特，属于革命性创新，性能出众，代码逻辑却非常简单。所以，越来越多的人开始关注和使用，认为它可能是将来 Web 开发的主流工具。</p>
+
+<p>这个项目本身也越滚越大，从最早的UI引擎变成了一整套前后端通吃的 Web App 解决方案。衍生的 <code>React Native</code> 项目，目标更是宏伟，希望用写 Web App 的方式去写 Native App。如果能够实现，整个互联网行业都会被颠覆，因为同一组人只需要写一次 UI ，就能同时运行在服务器、浏览器和手机<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+
+<h3>二，原理</h3>
+
+<p>最基本的Native与WebView通讯原理我之前的一篇文章讲过，在此不多说了，<code>RN</code>的实现机制也是基于同样的<code>JSBridge</code>规则。</p>
+
+<p><img src="http://sonnewilling.com/images/tec/reactNative/rn01.png" alt="image" /></p>
+
+<p>所不同的是，<code>RN</code>使用<code>JSBridge</code>只是当做一块跳板，最终目的还是调用本地原生API进行UI绘制。</p>
+
+<p>之前与WebView的混合应用需要我们在初始化的时候手动注入方法作为MethodID，在<code>RN</code>中，由于每个模块类都实现了RCTBridgeModule接口，可以通过runtime接口objc_getClassList或objc_copyClassList取出项目里所有类，然后逐个判断是否实现了RCTBridgeModule接口，就可以找到所有模块类<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>。</p>
+
+<p>由此，我们写出来的<code>JS</code>代码就可以通过<code>JSBridge</code>直接调用本地UI控件了。</p>
+
+<p><code>RN</code>的入口函数为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Module name
+</span><span class='line'>AppRegistry.registerComponent('RNProject', () =&gt; RNApp);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>写在<code>index.ios.js</code>文件中。</p>
+
+<p>react native自己实现了一个打包方式packger，打包之后，我们的js代码包括react native的js源码都被打包压缩成了一个.jsbundle文件，我们在index.ios.js里面可以写es6的语法，这些都会在打包的时候去编译解析，生成这个jsbundle文件里面的代码是基于commonJS规范的，便于<a href="http://trac.webkit.org/wiki/JavaScriptCore">JavaScriptCore</a>解析。<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup></p>
+
+<p>再由Native本地调用：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/rn/test.ios.bundle?platform=ios"];
+</span><span class='line'>RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation 
+</span><span class='line'>                                              moduleName:@"RNProject" 
+</span><span class='line'>                                              initialProperties:nil launchOptions:nil];
+</span><span class='line'>UIViewController *vc = [[UIViewController alloc] init];
+</span><span class='line'>vc.view = rootView;
+</span><span class='line'>[self presentViewController:vc animated:YES completion:nil];</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://sonnewilling.com/images/tec/reactNative/rn02.png" alt="image" /></p>
+
+<h3>三，Hello World</h3>
+
+<h4>1. 准备知识</h4>
+
+<ul>
+<li><a href="https://nodejs.org/zh-cn/">NodeJS</a></li>
+</ul>
+
+
+<blockquote><p>Node.js®是一个基于Chrome V8 引擎的 JavaScript 运行时。 Node.js 使用高效、轻量级的事件驱动、非阻塞 I/O 模型。Node.js 之生态系统是目前最大的开源包管理系统。</p></blockquote>
+
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/Node%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8">npm</a></li>
+</ul>
+
+
+<blockquote><p>Node包管理器（Node Package Manager）。它是一个以javascript编写的软件包管理系统，默认环境为Node.js，从Node.js0.6.3版本开始，npm被自动附带在安装包中。</p></blockquote>
+
+<p>类似于<code>Homebrew</code>之于Mac，<code>npm</code>的使用有时候也受制于<em>墙</em>的限制，它的默认源地址为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://registry.npm.org</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用命令查看：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>npm get registry</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在比较流行的国内镜像地址是淘宝提供的，我们可以直接使用命令设置：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>npm set registry https://registry.npm.taobao.org</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://www.infoq.com/cn/articles/react-native-solution-dev-environment">React-Native痛点</a>这篇文章的后半部分还提供了一种自己建立<code>npm</code>资源站点的方式，适合团队内部使用。文章前半部分讲解了下<code>RN</code>初始化时内部所做的一些事情，有一定的学习意义。</p>
+
+<h4>2. RN与原生App整合</h4>
+
+<p>这里我们使用<a href="https://cocoapods.org/">CocoaPods</a>的方式进行整合。</p>
+
+<p>整合方式很简单，大体分为三步：</p>
+
+<ol>
+<li>使用<code>npm</code>下载<code>RN</code>相关资源文件。</li>
+<li>配置<code>podfile</code>，将资源整合。</li>
+<li>编写入口文件，进行代码编写。</li>
+</ol>
+
+
+<p>具体细节可参考<a href="https://facebook.github.io/react-native/docs/integration-with-existing-apps.html">官网文档</a>。</p>
+
+<h3>四，开发技能数</h3>
+
+<p><strong>UI</strong></p>
+
+<ul>
+<li><p>JS</p>
+
+<p>  <code>RN</code>从0.18开始，默认项目转向ES6。</p></li>
+<li><p>JSX</p>
+
+<p>  JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。React 可以用来做简单的 JSX 句法转换。</p></li>
+<li><p>StyleSheet</p>
+
+<p>  CSS的一种实现方式</p></li>
+</ul>
+
+
+<p><strong>Net Working</strong></p>
+
+<p><code>RN</code>内置了<code>Ajax</code>网络调用方式，同时也支持其它第三方网络库的使用。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var request = new XMLHttpRequest();
+</span><span class='line'>request.onreadystatechange = (e) =&gt; {
+</span><span class='line'>  if (request.readyState !== 4) {
+</span><span class='line'>    return;
+</span><span class='line'>  }
+</span><span class='line'>  if (request.status === 200) {
+</span><span class='line'>    console.log('success', request.responseText);
+</span><span class='line'>  } else {
+</span><span class='line'>    console.warn('error');
+</span><span class='line'>  }
+</span><span class='line'>};
+</span><span class='line'>request.open('GET', 'https://mywebsite.com/endpoint/');
+</span><span class='line'>request.send();</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>热更新</strong></p>
+
+<p><img src="http://sonnewilling.com/images/tec/reactNative/rn03.png" alt="image" /></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p><a href="http://www.ruanyifeng.com/blog/2015/03/react.html">React 入门实例教程</a><a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+<li id="fn:2">
+<p><a href="http://blog.cnbang.net/tech/2698/">React Native通信机制详解</a><a href="#fnref:2" rev="footnote">&#8617;</a></p></li>
+<li id="fn:3">
+<p><a href="https://www.nihaoshijie.com.cn/index.php/archives/560">React Native IOS集成与原理简析</a><a href="#fnref:3" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS中jsBridge的原理与封装应用]]></title>
@@ -3291,92 +3483,6 @@
 
 
 <p>其实按照教程正常安装的话基本上都会在这个位置，这样的话就可以用Eclipse在GLib里爽起来了~</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UNIX下Socket工具包libunp.a编译笔记]]></title>
-    <link href="http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/"/>
-    <updated>2014-03-12T16:23:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji</id>
-    <content type="html"><![CDATA[<p>1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令，因为刚开始接触makefile，所以在这个不大的坑上也花了点时间才发现，还是在别人的机子上编译成功的，一对比才发现自己电脑上没有装&hellip;一定不要太自信，当时压根就没往这个方向想。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">Execute</span> <span class="n">the</span> <span class="n">following</span> <span class="n">from</span> <span class="n">the</span> <span class="n">src</span><span class="o">/</span> <span class="n">directory</span><span class="o">:</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">configure</span>    <span class="err">#</span> <span class="n">try</span> <span class="n">to</span> <span class="n">figure</span> <span class="n">out</span> <span class="n">all</span> <span class="n">implementation</span> <span class="n">differences</span>
-</span><span class='line'><span class="n">cd</span> <span class="n">lib</span>         <span class="err">#</span> <span class="n">build</span> <span class="n">the</span> <span class="n">basic</span> <span class="n">library</span> <span class="n">that</span> <span class="n">all</span> <span class="n">programs</span> <span class="n">need</span>
-</span><span class='line'><span class="n">make</span>           <span class="err">#</span> <span class="n">use</span> <span class="s">&quot;gmake&quot;</span> <span class="n">everywhere</span> <span class="n">on</span> <span class="n">BSD</span><span class="o">/</span><span class="n">OS</span> <span class="n">systems</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libfree</span>  <span class="err">#</span> <span class="k">continue</span> <span class="n">building</span> <span class="n">the</span> <span class="n">basic</span> <span class="n">library</span>
-</span><span class='line'><span class="n">make</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libroute</span> <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="mf">4.4</span><span class="n">BSD</span> <span class="n">style</span> <span class="n">routing</span> <span class="n">sockets</span>
-</span><span class='line'><span class="n">make</span>           <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="mf">4.4</span><span class="n">BSD</span> <span class="n">style</span> <span class="n">routing</span> <span class="n">sockets</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">libxti</span>   <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="n">XTI</span>
-</span><span class='line'>    <span class="n">make</span>           <span class="err">#</span> <span class="n">only</span> <span class="k">if</span> <span class="n">your</span> <span class="n">system</span> <span class="n">supports</span> <span class="n">XTI</span>
-</span><span class='line'><span class="n">cd</span> <span class="p">..</span><span class="o">/</span><span class="n">intro</span>    <span class="err">#</span> <span class="n">build</span> <span class="n">and</span> <span class="n">test</span> <span class="n">a</span> <span class="n">basic</span> <span class="n">client</span> <span class="n">program</span>
-</span><span class='line'><span class="n">make</span> <span class="n">daytimetcpcli</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="p">.</span><span class="o">/</span><span class="n">daytimetcpcli</span> <span class="mf">127.0.0.1</span>
-</span><span class='line'><span class="o">&amp;</span>
-</span><span class='line'><span class="n">If</span> <span class="n">all</span> <span class="n">that</span> <span class="n">works</span><span class="p">,</span> <span class="n">you</span><span class="err">&#39;</span><span class="n">re</span> <span class="n">all</span> <span class="n">set</span> <span class="n">to</span> <span class="n">start</span> <span class="n">compiling</span> <span class="n">individual</span> <span class="n">programs</span><span class="p">.</span>
-</span><span class='line'><span class="n">Notice</span> <span class="n">that</span> <span class="n">all</span> <span class="n">the</span> <span class="n">source</span> <span class="n">code</span> <span class="n">assumes</span> <span class="n">tabs</span> <span class="n">every</span> <span class="mi">4</span> <span class="n">columns</span><span class="p">,</span> <span class="n">not</span> <span class="mf">8.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<!--more-->
-
-
-<p>2.开始蛮兴奋地在sublime上敲，觉得脱离了IDE后怎么看怎么高大上，但慢慢发现每更改了服务端客户端的程序后，想要运行测试要在三个终端窗口敲五次命令才可以，对于习惯了一个快捷键编译运行的我实在是一场灾难，果断还是要把服务端的开发迁移到eclipse上才是上上之道。因为不熟悉Makefile的语法，对于编译的配置又是一场灾难，折腾了好久才日出来。</p>
-
-<p>首先要配置-L选项，定位于lib所在文件路径</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">workingspace</span><span class="o">/</span><span class="n">Demo</span><span class="o">/</span><span class="n">src</span><span class="o">/</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再之后配置-l（小写L）选项，定位到具体的库名，虽然全名为libunp.a，但在配置的时候只写unp就够了,另外还要添加resolv，pthread这两个库</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">unp</span>
-</span><span class='line'><span class="n">resolv</span>
-</span><span class='line'><span class="n">pthread</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本来以为到这里就结束了，所以也就开始了悲剧的折腾之路，后来仔细对比了Makefile的显示信息，发现还要对-I（大写i）进行配置</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">lib</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个路径是编译lib时所在的路径，三个配置齐全，用的时候记得include就可以使用了。</p>
 ]]></content>
   </entry>
   

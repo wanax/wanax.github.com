@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2016-10-19T20:40:36+08:00</updated>
+  <updated>2016-10-19T20:55:08+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS中jsBridge的原理与封装应用]]></title>
+    <link href="http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/"/>
+    <updated>2016-10-19T20:46:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong</id>
+    <content type="html"><![CDATA[<h3>一，基本原理</h3>
+
+<p><em>A. Web向Native通信方式：</em></p>
+
+<p>客户端Native内置的webView控件可以看做是一个简易的浏览器，可以使用该控件载入Web页面。当Web页面<code>URL</code>发生变化时会触发webView控件的<code>urlReload</code>函数，并可以拿到变化后的<code>URL</code>路径。若在此<code>URL</code>上附上一些特殊信息，便实现了Web向Native通信。</p>
+
+<p>当前Web中比较流行的做法是在页面内隐式嵌套一个<code>iFrame</code>，通过改变此<code>iFrame</code>的<code>src</code>，达到触发Native<code>urlReload</code>的目的。</p>
+
+<p><em>B. Native向Web通信方式：</em></p>
+
+<p>Native向Web通信的方式比较粗暴，在iOS端，webView内置了直接执行<code>js</code>的方法：</p>
+
+<p><code>
+[_webView stringByEvaluatingJavaScriptFromString:javascriptCommand]
+</code></p>
+
+<p>一般情况下，我们约定好Web页面<code>js</code>中定义的方法名，则此处便可以直接调用了。</p>
+
+<!--more-->
+
+
+<h3>二，大致流程：</h3>
+
+<p>Native载入H5页面时通过本地内置的<code>js</code>代码注入一个供H5页面调用的对象<code>WebViewJavascriptBridge</code>，该对象为H5页面提供函数注册方法：<code>registerHandler(handlerName, handler)</code>，以供Native调用：</p>
+
+<p>```
+bridge.registerHandler(&lsquo;testJavascriptHandler&rsquo;, function(data, responseCallback) {</p>
+
+<pre><code>        log('ObjC called testJavascriptHandler with', data)
+        var responseData = { 'Javascript Says':'Right back atcha!' }
+        log('JS responding with', responseData)
+        responseCallback(responseData)
+    })
+</code></pre>
+
+<p>```</p>
+
+<p>同时也提供调用函数：<code>callHandler(handlerName, data, responseCallback)</code>，供H5直接调用Navtive的函数方法：</p>
+
+<p>```
+bridge.callHandler(&lsquo;testObjcCallback&rsquo;, {&lsquo;foo&rsquo;: &lsquo;bar&rsquo;}, function(response) {</p>
+
+<pre><code>            log('JS got response', response)
+        })
+</code></pre>
+
+<p>```</p>
+
+<p>当H5页面载入完成后，H5页面发送<code>scheme://jsBridge/bridge_loaded</code>，通知Native页面载入完成，则Native注入<code>js</code>对象<code>WebViewJavascriptBridge</code>，供H5注册本地函数与调用Native函数。</p>
+
+<p>两方具体通信流程可参见下图：</p>
+
+<p><img src="/images/tec/jsbridge/H5%20Call%20Native.png" alt="image" /></p>
+
+<p><img src="/images/tec/jsbridge/Native%20Call%20H5.png" alt="image" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS图形原理与离屏渲染]]></title>
@@ -997,327 +1060,6 @@ SetCommMask(h_com, EV_RXCHAR | EV_TXEMPTY);
 <p>大体的了解了下思路，发现没有自己想象的难，大体就是开始的时候初始化一个叫<code>分配表</code>的结构体，在这个结构体可以定义服务的名字和主调用程序，然后调用一个叫dispatch的函数，大体意思是这个dispatch会把当前进程转换为分配表的进程，然后再通过分配表启动一个新的线程，再用这个线程调用我们的主程序。在这个主程序中我们还需要对当前服务的状态进行不同程度的修改，然后把自己写好的程序放进去就行了。另外还需要写一个<code>Handler</code>来接收这个服务的各种返回状态。</p>
 
 <p>需要注意的是启动的服务无法打印信息，需要搭配日志来使用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[基于C的Socket聊天服务器]]></title>
-    <link href="http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi/"/>
-    <updated>2014-05-05T16:26:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/05/05/ji-yu-cshi-de-socketliao-tian-fu-wu-qi</id>
-    <content type="html"><![CDATA[<p>前段时间使用C借助libevent，glib实现了一个简单的可以单聊，群聊的服务器，今天因为需求有些改动所以又翻出来改了一下。果然一日不见如隔三秋，虽说是自己写的东西，但基本上已经忘得七七八八了。觉得有必要在这里记录一下，省得以后又悲剧。</p>
-
-<h2>一，工具类</h2>
-
-<h3>1.libunp.a</h3>
-
-<p>用到的第一个库便是它，因为它是《UNIX网络编程》的示例代码的工具库&hellip;开头写的测试程序基本都是照着示例代码改来改去，自然也是用的一样的函数来实现。觉得对于一般的读写和各种包裹函数都是很有用的。具体的不用细说，还是认真翻书来得实在。</p>
-
-<h3>2.GLib</h3>
-
-<h4>GHashTable</h4>
-
-<p>这里基本的数据结构如哈希表之类的使用了GLib来做主角，另外它的GString也很好用，可以很方便的初始化与格式化字符串，个人感觉比C风格的字符串要好用一些。</p>
-
-<p>GLib哈希表支持各种不同的结构，如果觉得<code>int</code>,<code>string</code>不够用可以直接使用指针，对于我来说已经相当足够。</p>
-
-<p><code>c
-GHashTable *user_to_bev_map = g_hash_table_new(g_direct_hash,g_direct_equal);
-g_hash_table_insert(user_to_bev_map, GINT_TO_POINTER(u_id), GINT_TO_POINTER(bev));
-struct bufferevent *bev = g_hash_table_lookup(user_to_bev_map,GINT_TO_POINTER(to_id));
-</code></p>
-
-<p><code>g_direct_hash</code>,<code>g_direct_equal</code>代表初始化的类型，详细的介绍如下:</p>
-
-<blockquote><p>Hash values returned by hash_func are used to determine where keys are stored within the GHashTable data structure.</p>
-
-<p>The <code>g_direct_hash()</code>, <code>g_int_hash()</code>, <code>g_int64_hash()</code>, <code>g_double_hash()</code> and <code>g_str_hash()</code> functions are provided for some common types of keys.</p>
-
-<p>If hash_func is NULL, g_direct_hash() is used.</p></blockquote>
-
-<!-- more -->
-
-
-<h4>GString</h4>
-
-<p>相比于C风格的字符串需要定长初始化，拼接赋值之类的，GString提供的字符串要人性化很多，还内置了长度的属性，可以很方便的调用。</p>
-
-<p><code>c
-GString *sql = g_string_sized_new(0);
-g_string_printf(sql,"INSERT INTO table (id, type) VALUES (%s, %s);",id,type);
-g_string_erase(sql, 0, sql-&gt;len);
-g_string_free(sql,1);
-</code></p>
-
-<p>还可以很方便的重复使用，但不要忘记最后的释放，关于释放函数的第二个参数是这样说明的：</p>
-
-<blockquote><p>If free_segment is TRUE it also frees the character data. If it&rsquo;s FALSE, the caller gains ownership of the buffer and must free it after use with g_free().</p></blockquote>
-
-<p>还有个常用的函数是<code>g_strsplit</code>，可以对字符进行分割,第三个参数表明需要分出几个来，0的话则一直切分到最后。</p>
-
-<p>```c</p>
-
-<pre><code>gchar **p = g_strsplit(line,",",0);
-dispatch_request(source_id-&gt;str, p[3], p[0], p[2], p[1], p[4]);
-g_strfreev(p);
-</code></pre>
-
-<p>```</p>
-
-<p>当然，关于GLib还有很多有用的东西，用Dash下个文档慢慢翻着看一遍相信会很有收获的。</p>
-
-<h3>3.Mysql</h3>
-
-<p>有服务的地方就有数据库，对于这种简易的小服务，Mysql是必不可少的。</p>
-
-<p>针对Mysql封了三个简单的函数方便调用：</p>
-
-<p>```c</p>
-
-<pre><code>MYSQL *db_connect(char *url, char *user_name, char *pwd, char *table_name) {
-    MYSQL *conn_ptr;
-    conn_ptr = mysql_init(NULL);
-    if (!conn_ptr) {
-        printf("mysql_init failed\n");
-        return NULL;
-    }
-    conn_ptr = mysql_real_connect(conn_ptr, url, user_name, pwd, table_name, 0, NULL, 0);
-    mysql_set_character_set(conn_ptr,"utf8");
-    if (conn_ptr) {
-        return conn_ptr;
-    } else {
-        return NULL;
-    }
-}
-</code></pre>
-
-<p>```</p>
-
-<p>```c</p>
-
-<pre><code>MYSQL_RES *db_query(MYSQL *conn_ptr, char *sql) {
-    int res = mysql_query(conn_ptr, sql); //查询语句
-    if (res) {
-        printf("error:%s\n",mysql_error(conn_ptr));
-        return NULL;
-    } else {
-        MYSQL_RES *res_ptr = mysql_store_result(conn_ptr);              //取出结果集
-        printf("affected %lu rows\n",(unsigned long)mysql_affected_rows(conn_ptr));
-        return res_ptr;
-    }
-}
-</code></pre>
-
-<p>```</p>
-
-<p>返回的<code>res_ptr</code>需要手动释放：</p>
-
-<p>```c</p>
-
-<pre><code>mysql_free_result(res);
-</code></pre>
-
-<p>```
-还有一个关闭函数：</p>
-
-<p>```c</p>
-
-<pre><code>void db_close(MYSQL *connfd) {
-    mysql_close(connfd);
-}
-</code></pre>
-
-<p>```
-这样，在服务器起来时建立数据库的连接存为全局变量，每次直接拿来用就好了，下面是一个比较典型的使用场景：</p>
-
-<p>```c</p>
-
-<pre><code>GString *sql = g_string_sized_new(0);
-g_string_printf(sql,"INSERT INTO table (id, type) VALUES (%s, %s);",id,type);
-db_query(conn_ptr, sql-&gt;str);
-g_string_erase(sql, 0, sql-&gt;len);
-g_string_printf(sql,"SELECT uid FROM table WHERE pid = %s",target_id);
-printf("find users sql2:%s\n", sql-&gt;str);
-MYSQL_RES *res = db_query(conn_ptr, sql-&gt;str);
-MYSQL_ROW sqlrow;
-if (res) {
-    while((sqlrow = mysql_fetch_row(res)))  {
-        long to_id = strtol(sqlrow[0], NULL, 10);
-        if (g_hash_table_contains(user_to_bev_map,GINT_TO_POINTER(to_id)) &amp;&amp; strcmp(sqlrow[0],source_id)) {
-            struct bufferevent *bev = g_hash_table_lookup(user_to_bev_map,GINT_TO_POINTER(to_id));
-            evbuffer_add_printf ((struct evbuffer *)bufferevent_get_output(bev), "%s\n",send_msg-&gt;str);
-        }
-    }
-}
-mysql_free_result(res);
-g_string_free(sql,1);
-g_string_free(send_msg,1);
-</code></pre>
-
-<p>```</p>
-
-<h3>4.libevent</h3>
-
-<h4>介绍</h4>
-
-<p>libevent是个好东西，有了它一般的数量级的连接都不在话下了。关于这种大数量的连接是有专门的话题来讨论的-<a href="http://www.kegel.com/c10k.html">C10K</a>。</p>
-
-<p>最开始尝试了多进程多线程，select阻塞之类的方法，最后才找到这里来，也算是按着故事的发展逻辑走了一遍符合剧情尿性吧&hellip;<a href="http://daniel.haxx.se/docs/poll-vs-select.html">这篇文章</a>写得不错，比较有指导性。</p>
-
-<p>关于libevent上手说不上难，狠下心来多读几遍它的<a href="http://www.wangafu.net/~nickm/libevent-book/">Fast portable non-blocking network programming with Libevent</a>弄明白了个大概还是不成问题的。</p>
-
-<p>它的优点是跨平台，可以针对不同的平台的阻塞实现相同的功能。对于我们来说只需要关心event这个东西就好了，至于是UNIX的select，Linux的epoll还是BSD的kqueue那是libevent的事情，它会在底层帮我们选择<a href="http://monkey.org/~provos/libevent/doxygen-2.0.1/">libevent Documentation</a>。</p>
-
-<h4>原理</h4>
-
-<p>原始的socket的连接是我们建立了连接，获得一个套接字，然后对这个套接字进行多路复用的读写。</p>
-
-<p>而现在我们可以使用libevent提供的event将这个套接字包裹起来，针对这个event编写它特定的读写函数。因为libevent是事件驱动的，所以当读写缓冲区达到特定条件时便会自动调用我们事先定义好的函数进行逻辑处理。大大简化了编码人员的工作量，可以让我们将更多的精力集中到逻辑代码的编写上面来（恰恰是最无聊的部分&hellip;），所以这么看来，也算是对程序员傻瓜化了一下吧。</p>
-
-<p>因为对event的读写涉及到缓冲区的东西，需要我们去按字节的读出来，这里libevent也很贴心的又帮我们简化了一下工作。除了event外还提供了<a href="http://www.wangafu.net/~nickm/libevent-book/Ref6_bufferevent.html">bufferevent</a>，看名字便知道这是专门针对读写字符准备的。这是网站上对它的介绍：</p>
-
-<blockquote><p>Most of the time, an application wants to perform some amount of data buffering in addition to just responding to events.</p>
-
-<p>When we want to write data, for example, the usual pattern runs something like:</p>
-
-<ul>
-<li><p>Decide that we want to write some data to a connection;</p></li>
-<li><p>Put that data in a buffer.Wait for the connection to become writable;</p></li>
-<li><p>Write as much of the data as we can;</p></li>
-<li><p>Remember how much we wrote, and if we still have more data to write, wait for the connection to become writable again.</p></li>
-</ul>
-
-
-<p>This buffered IO pattern is common enough that Libevent provides a generic mechanism for it. A &ldquo;bufferevent&rdquo; consists of an underlying transport (like a socket), a read buffer, and a write buffer. Instead of regular events, which give callbacks when the underlying transport is ready to be read or written, a bufferevent invokes its user-supplied callbacks when it has read or written enough data.</p></blockquote>
-
-<h4>使用</h4>
-
-<p>我们可以将新建的监听套接字绑定在event上帮我们处理后续的事件：</p>
-
-<p>```c</p>
-
-<pre><code>struct event_base *base;
-struct event *listener_event;
-serveListen(&amp;listener);
-evutil_make_socket_nonblocking(listener);
-listener_event = event_new(base, listener, EV_READ|EV_PERSIST, do_accept, (void *)base);
-event_add(listener_event, NULL);
-event_base_dispatch(base);
-</code></pre>
-
-<p>```</p>
-
-<p>当有事件进入时它会主动调用<code>do_accept</code>：</p>
-
-<p>```c
-void do_accept(evutil_socket_t listener, short event, void *arg)
-{</p>
-
-<pre><code> struct event_base *base = arg;
-struct sockaddr_storage ss;
-socklen_t slen = sizeof(ss);
-int fd = accept(listener, (struct sockaddr*)&amp;ss, &amp;slen);
-if (fd &lt; 0) {
-    perror("accept");
-} else if (fd &gt; FD_SETSIZE) {
-    close(fd);
-} else {
-    struct bufferevent *bev;
-    evutil_make_socket_nonblocking(fd);
-    bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-    bufferevent_setcb(bev, readcb, writecb, errorcb, GINT_TO_POINTER(fd));
-    bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
-    bufferevent_enable(bev, EV_READ|EV_WRITE);
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>从上面代码可以看出，我们从<code>accept</code>中接收回一个套接字，并将该套接字绑定在一个<code>bufferevent</code>，设置好相应的读写函数与读写触发的水位线加入到<code>base</code>里便可以从容的等待事件的触发了。</p>
-
-<p>关于水位线，这里也有段详细的描述：</p>
-
-<blockquote><p>Every bufferevent has two data-related callbacks: a read callback and a write callback. By default, the read callback is called whenever any data is read from the underlying transport, and the write callback is called whenever enough data from the output buffer is emptied to the underlying transport. You can override the behavior of these functions by adjusting the read and write &ldquo;watermarks&rdquo; of the bufferevent.</p>
-
-<p>Every bufferevent has four watermarks:</p>
-
-<ul>
-<li><code>Read low-water mark</code></li>
-</ul>
-
-
-<p>Whenever a read occurs that leaves the bufferevent’s input buffer at this level or higher, the bufferevent’s read callback is invoked. Defaults to 0, so that every read results in the read callback being invoked.</p>
-
-<ul>
-<li><code>Read high-water mark</code></li>
-</ul>
-
-
-<p>If the bufferevent’s input buffer ever gets to this level, the bufferevent stops reading until enough data is drained from the input buffer to take us below it again. Defaults to unlimited, so that we never stop reading because of the size of the input buffer.</p>
-
-<ul>
-<li><code>Write low-water mark</code></li>
-</ul>
-
-
-<p>Whenever a write occurs that takes us to this level or below, we invoke the write callback. Defaults to 0, so that a write callback is not invoked unless the output buffer is emptied.</p>
-
-<ul>
-<li><code>Write high-water mark</code></li>
-</ul>
-
-
-<p>Not used by a bufferevent directly, this watermark can have special meaning when a bufferevent is used as the underlying transport of another bufferevent. See notes on filtering bufferevents below.</p></blockquote>
-
-<p>细读一遍还是蛮获益匪浅的，大体意思为通过水位线的设置来触发读写的回调函数。</p>
-
-<ul>
-<li><p>对于读取水位，有读低水位与高水位，读低水位默认为0，即当buffer里数据量高于0时便会调用读回调，也就是一有数据便会回调，另一方面，当超过读的高水位时，buffer便会停止接受数据，这个值默认被置为<code>unlimited</code>，所以可以理解为永远不会停止接受数据。</p></li>
-<li><p>对于写入水位，写的低水位表示当写出数据后buffer里剩余的数据量小于该水位时调用写函数，默认为0，即只有buffer被清空后该函数才会被回调。写的高水位比较特殊，一般情况下没有使用。</p></li>
-</ul>
-
-
-<p>对于水位线的设置是通过下面的函数实现的</p>
-
-<p><code>c
-void bufferevent_setwatermark(struct bufferevent *bufev, short events,size_t lowmark, size_t highmark);
-ex:bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
-</code></p>
-
-<p>在回调函数里这样获取数据：</p>
-
-<p>```c</p>
-
-<pre><code>struct evbuffer *input = bufferevent_get_input(bev);
-if ((line = evbuffer_readln(input, &amp;n, EVBUFFER_EOL_LF))) {
-    gchar **p;
-    p = g_strsplit(line,",",0);
-    dispatch_request(u_data-&gt;u_id-&gt;str, p[3], p[0], p[2], p[1], p[4]);
-    g_strfreev(p);
-}
-</code></pre>
-
-<p>```</p>
-
-<p>需要注意的是，提供的<code>evbuffer_readln</code>可以将接受到的一行数据自动去除<code>\n</code>，方便了我们的后期使用。</p>
-
-<h2>二，实现思路</h2>
-
-<p>具体的思路因为暂时在需求上不是很复杂所以比较简单。</p>
-
-<p>首先实现了<code>do_accept</code>函数，阻塞接收请求建立连接的<code>socket</code>，当有新的<code>socket</code>进来后使用<code>bufferevent</code>将其包装好，并设置好它的首次读写回调函数。</p>
-
-<p><code>c
-struct bufferevent *bev;
-evutil_make_socket_nonblocking(fd);
-bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
-bufferevent_setcb(bev, readcb, writecb, errorcb, GINT_TO_POINTER(fd));
-bufferevent_setwatermark(bev, EV_READ, 0, MAX_LINE);
-bufferevent_enable(bev, EV_READ|EV_WRITE);
-</code></p>
-
-<p>首次客户端的通信用于标示此次通信的目的，当为登录时，进入<code>reg_client</code>将该用户注册至服务器，并修改其回调函数用于具体的逻辑处理。</p>
 ]]></content>
   </entry>
   

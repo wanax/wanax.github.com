@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Aug 2nd, 2014 Read 阿勒泰的角落 论坛闲逛的时候无意间看见有人推荐李娟的书，清新平淡之类的赞美之词倒是没有在意，单看书名中的阿勒泰便足够将我吸引。 之前很喜欢一位讲新疆的作家是刘亮程，记得初中还是高中学过他得一篇课文叫《一个人的村庄》，明明很有记忆的事情， &hellip;">
+	<meta name="description" content="Aug 11th, 2014 Tec VC USB 串口通信 楔子 前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,7 +71,7 @@
     <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
-<li class='category'><a href='/blog/categories/tec/'>Tec (27)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (28)</a></li>
 
   </ul>
 </section>
@@ -109,6 +109,44 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-11T11:03:00+08:00" data-updated="true" itemprop="datePublished">Aug 11<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/" itemprop="url">VC USB 串口通信</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>楔子</h2>
+
+<p>前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便，Cache倒相对来说可行一些，开多一个服务罢了，其实简单的逻辑自己也能实现。就这样纠结来纠结去的，发现其实现在的服务倒也完全够用，压力测试了下，能撑到1500的并发，想来刚上线估计也最多几百号人能同时聊天就不错了，所以就先研究至此，撑不住了再换，不要过早优化嘛。</p>
+
+
+		
+		<a href="/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -557,50 +595,6 @@
 
 		
 		<a href="/blog/2014/03/12/unixxia-socketgong-ju-bao-libunp-dot-abian-yi-bi-ji/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-01T17:20:00+08:00" data-updated="true" itemprop="datePublished">Mar 1<span>st</span>, 2014</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng/" itemprop="url">iOS应用发布流程</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h3>概述</h3>
-
-<p>整个发布流程有四个关键词，<em>Certificates</em>，<em>Identifiers</em>，<em>Devices</em>与<em>Provisioning Profiles</em>.</p>
-
-<p>它们的相互关系如下图所示，</p>
-
-<p><img src="/images/tec/IOSPub/pic_1.png" alt="image" /></p>
-
-<p>简单说来便是用户身份验证书（Certificates），App应用身份ID（Identifiers），可用于开发的Devices三者合一生成一份Provisioning Profile，并将此profile下载到本机双击安装后就自然可以在xcode中找到了(注意左上角的“GooGuu”在配置发布时应将Target与Project的设置调未相同选项，以避免发布失败)。</p>
-
-
-		
-		<a href="/blog/2014/03/01/iosying-yong-fa-bu-liu-cheng/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

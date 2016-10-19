@@ -277,8 +277,14 @@
         <lastmod>2016-10-19T20:36:00+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/
+        </loc>
+        <lastmod>2016-10-19T20:50:41+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://sonnewilling.com/blog/archives/</loc>
-        <lastmod>2016-10-19T20:36:00+08:00</lastmod>
+        <lastmod>2016-10-19T20:50:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/blog/categories/</loc>
@@ -286,7 +292,7 @@
     </url>
     <url>
         <loc>http://sonnewilling.com/</loc>
-        <lastmod>2016-10-19T20:36:00+08:00</lastmod>
+        <lastmod>2016-10-19T20:50:41+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/robots.txt</loc>

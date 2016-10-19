@@ -5,10 +5,10 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>行走 - 陋室</title>
+	<title>iOS中jsBridge的原理与封装应用 - 陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="行走 岁末，便是假期，心已跑回了老家的小院。 那儿有棵树，春天开满白色的花。 再不久便结了一树的樱桃。搭梯子爬上一旁的小屋，房顶端个盛水的瓢，清冽，人影荡在里面。 浸着刚摘的樱桃，起起伏伏，是小时候的心情。为假期开心，为作业苦恼，爱这一瓢的樱桃和下面张望的姥姥。 只道寻常，不再得遇。 &hellip;">
+	<meta name="description" content="iOS中jsBridge的原理与封装应用 一，基本原理 A. Web向Native通信方式： 客户端Native内置的webView控件可以看做是一个简易的浏览器，可以使用该控件载入Web页面。当Web页面URL发生变化时会触发webView控件的urlReload函数， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://sonnewilling.com/blog/2016/06/16/nian-gen-er/">
+	<link rel="canonical" href="http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -108,43 +108,63 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">行走</h1>
-	<div class="entry-content" itemprop="articleBody"><p>岁末，便是假期，心已跑回了老家的小院。</p>
+	<h1 class="title" itemprop="name">iOS中jsBridge的原理与封装应用</h1>
+	<div class="entry-content" itemprop="articleBody"><h3>一，基本原理</h3>
 
-<p>那儿有棵树，春天开满白色的花。</p>
+<p><em>A. Web向Native通信方式：</em></p>
 
-<p>再不久便结了一树的樱桃。搭梯子爬上一旁的小屋，房顶端个盛水的瓢，清冽，人影荡在里面。</p>
+<p>客户端Native内置的webView控件可以看做是一个简易的浏览器，可以使用该控件载入Web页面。当Web页面<code>URL</code>发生变化时会触发webView控件的<code>urlReload</code>函数，并可以拿到变化后的<code>URL</code>路径。若在此<code>URL</code>上附上一些特殊信息，便实现了Web向Native通信。</p>
 
-<p>浸着刚摘的樱桃，起起伏伏，是小时候的心情。为假期开心，为作业苦恼，爱这一瓢的樱桃和下面张望的姥姥。</p>
+<p>当前Web中比较流行的做法是在页面内隐式嵌套一个<code>iFrame</code>，通过改变此<code>iFrame</code>的<code>src</code>，达到触发Native<code>urlReload</code>的目的。</p>
 
-<p>只道寻常，不再得遇。</p>
+<p><em>B. Native向Web通信方式：</em></p>
+
+<p>Native向Web通信的方式比较粗暴，在iOS端，webView内置了直接执行<code>js</code>的方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[_webView stringByEvaluatingJavaScriptFromString:javascriptCommand]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一般情况下，我们约定好Web页面<code>js</code>中定义的方法名，则此处便可以直接调用了。</p>
 
 <!--more-->
 
 
-<h3>Chapter 1</h3>
+<h3>二，大致流程：</h3>
 
-<p>姥姥说过，吃饱不想家，真对。乡情发酵，咽下肚去，都是大馒头的味道。</p>
+<p>Native载入H5页面时通过本地内置的<code>js</code>代码注入一个供H5页面调用的对象<code>WebViewJavascriptBridge</code>，该对象为H5页面提供函数注册方法：<code>registerHandler(handlerName, handler)</code>，以供Native调用：</p>
 
-<p>毕业以后，每年只有过年回家。家人围坐一桌，都是姥姥的手艺。酒酣过半，又是包子大的牛肉饺子端上来，大家嚷着少下点，吃不动了，却都又不含糊地一扫而光。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
+</span><span class='line'>          log('ObjC called testJavascriptHandler with', data)
+</span><span class='line'>          var responseData = { 'Javascript Says':'Right back atcha!' }
+</span><span class='line'>          log('JS responding with', responseData)
+</span><span class='line'>          responseCallback(responseData)
+</span><span class='line'>      })</span></code></pre></td></tr></table></div></figure>
 
-<p>近几年回家眼瞅着姥姥身子渐渐老了下去，不想竟如此之快。前个月还因表弟结婚回趟家。下了飞机坐上姥爷接我回去的车，还未到家便急不可待地给姥姥电话，嚷嚷着马上到家要吃饭啦。</p>
 
-<h3>Chapter 2</h3>
+<p>同时也提供调用函数：<code>callHandler(handlerName, data, responseCallback)</code>，供H5直接调用Navtive的函数方法：</p>
 
-<p>国产电视剧钟爱康熙王朝，中间有个片段讲年少的康熙因为急着出门被门槛绊了下，一怒之下，把宫廷里所有的门槛都拆了。后来渐渐成长，又把门槛装了回去，说，唯有装上门槛，出门才有气魄。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bridge.callHandler('testObjcCallback', {'foo': 'bar'}, function(response) {
+</span><span class='line'>              log('JS got response', response)
+</span><span class='line'>          })</span></code></pre></td></tr></table></div></figure>
 
-<p>当时说不上为什么，却唯独印象深刻。现在想来便是一种从少不更事到成熟的过程。年少时，觉得生活中一堆繁文缛节，好不爽快，慢慢经历多了就发现，唯有一些礼节才能凸显庄重，表达情分。所以说少不读水浒，本来就是该学礼的年龄，读的都是一些造反的书，着实是不好管教的，自己便深有体会。</p>
 
-<p>看哭丧的人，最亲的人可能早哭干了眼泪，旁系的一些家属却每能在关键的节点放出声来，初时，你有些瞧不起，后来却偏向了他们。这些场合最需要的还是他们，他们其实也是通过这种方式融入整个家族。大家都缺一不可。便是礼节，最深的情不是每个人都有，但通过这些礼节，可以把更多的人聚合在一起。</p>
+<p>当H5页面载入完成后，H5页面发送<code>scheme://jsBridge/bridge_loaded</code>，通知Native页面载入完成，则Native注入<code>js</code>对象<code>WebViewJavascriptBridge</code>，供H5注册本地函数与调用Native函数。</p>
 
-<p>五点半到站，尚未天亮，背包走出车站，本打算去公共车站坐大巴，发现旁边凑来的大妈给的黑车价格还不错便坐了上去。随后又上来两位汉子，便乘着夜色向家奔去。</p>
+<p>两方具体通信流程可参见下图：</p>
 
-<p>言谈中得知他们是去QG的兵哥哥，本以为也是放假回家却发现是去部队报道的。纳闷那里的师团撤掉后还有什么剩下。</p>
+<p><img src="/images/tec/jsbridge/H5%20Call%20Native.png" alt="image" /></p>
 
-<p>睡意朦胧中到了他们的连部，还真的有部队在这儿。回来的路上跟司机攀谈，三十一师跟十七团确实撤掉了，但还有个场站驻守，维护机场之类的吧。</p>
-
-<p>不宽的路被</p>
+<p><img src="/images/tec/jsbridge/Native%20Call%20H5.png" alt="image" /></p>
 </div>
 
 </article>
@@ -181,8 +201,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://sonnewilling.com/blog/2016/06/16/nian-gen-er/';
-        var disqus_url = 'http://sonnewilling.com/blog/2016/06/16/nian-gen-er/';
+        var disqus_identifier = 'http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/';
+        var disqus_url = 'http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/';
         var disqus_script = 'embed.js';
       
     (function () {

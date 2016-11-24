@@ -267,10 +267,6 @@
         <lastmod>2016-06-01T15:03:16+08:00</lastmod>
     </url>
     <url>
-        <loc>http://sonnewilling.com/blog/2016/06/16/nian-gen-er/</loc>
-        <lastmod>2016-06-16T22:16:05+08:00</lastmod>
-    </url>
-    <url>
         <loc>
             http://sonnewilling.com/blog/2016/10/19/iostu-xing-yuan-li-yu-chi-ping-xuan-ran/
         </loc>
@@ -287,8 +283,12 @@
         <lastmod>2016-10-19T20:59:34+08:00</lastmod>
     </url>
     <url>
+        <loc>http://sonnewilling.com/blog/2016/11/24/xing-zou/</loc>
+        <lastmod>2016-11-24T20:03:04+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://sonnewilling.com/blog/archives/</loc>
-        <lastmod>2016-10-19T20:59:34+08:00</lastmod>
+        <lastmod>2016-11-24T20:03:04+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/blog/categories/</loc>
@@ -296,7 +296,7 @@
     </url>
     <url>
         <loc>http://sonnewilling.com/</loc>
-        <lastmod>2016-10-19T20:59:34+08:00</lastmod>
+        <lastmod>2016-11-24T20:03:04+08:00</lastmod>
     </url>
     <url>
         <loc>http://sonnewilling.com/robots.txt</loc>

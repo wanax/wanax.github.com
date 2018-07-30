@@ -1,0 +1,362 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Business Statistics and Analysis-3 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="Business Statistics and Analysis-3 课件来源于Rice University的Business Statistics and Analysis 四，Linear Regression for Business Statistics Week 1 &ndash; &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!-- 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'> -->
+	<script src="/javascripts/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=31767964" charset="UTF-8"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (32)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Business Statistics and Analysis-3</h1>
+	<div class="entry-content" itemprop="articleBody"><p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
+
+<h3>四，Linear Regression for Business Statistics</h3>
+
+<h4>Week 1 &ndash; Regression Analysis</h4>
+
+<h5>1. Introducing Linear Regression- Building the Model</h5>
+
+<p><strong>What is Linear Regression?</strong></p>
+
+<p><em>Linear regression attempts to fit a linear relation between a variable of interest and a set of variables that may be related to the variable of interest.</em></p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>There is a Sales manager of a toys retail company which sells various
+</span><span class='line'>kinds of toys in the local market. This sales manager needs to make
+</span><span class='line'>some kind of projections about the number of monthly units that the retail company will be able to sell of this particular toy in the
+</span><span class='line'>coming half year. In the past she has been making such projections
+</span><span class='line'>based on her gut feeling and now wishes to be a little more
+</span><span class='line'>scientific about the whole process.
+</span><span class='line'>
+</span><span class='line'>Based on her experience, the manager figures out that the monthly unit 
+</span><span class='line'>sales depend on three important variables, the price at which the toy 
+</span><span class='line'>is sold, the monthly amount that the company spends on advertising the 
+</span><span class='line'>toy and the monthly amount spent on promotions for the toy.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Overview of Regression:</strong></p>
+
+<p><strong>Simple Regression:</strong></p>
+
+<p>A regression with only one explanatory or X variable</p>
+
+<p><strong>Multiple Regression:</strong></p>
+
+<p>A regression with two or more explanatory or X variables</p>
+
+<ol>
+<li>Modeling Developing a regression model</li>
+<li>Estimation Using software to estimate the model</li>
+<li>Inference Interpreting the estimated regression model</li>
+<li>Prediction Making predictions about the variable of interest</li>
+</ol>
+
+
+<p><img src="/images/tec/BA3/lrm.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lre.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lbi.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lbi2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lrp.jpg" alt="image" /></p>
+
+<h5>2. Errors, Residuals and R-square</h5>
+
+<p><img src="/images/tec/BA3/lrerr.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lrr.jpg" alt="image" /></p>
+
+<p><strong>Regression is a process that has errors</strong></p>
+
+<ul>
+<li>Residuals and Errors</li>
+<li>R-square: A “goodness of fit” measure.</li>
+</ul>
+
+
+<p><strong>Why do we have errors in the regression model ?</strong></p>
+
+<ul>
+<li>Omitted variables.</li>
+<li>Functional relationship between the Y and X variables.</li>
+<li>The theory of regression analysis is based on certain assumptions about these errors.</li>
+</ul>
+
+
+<p><img src="/images/tec/BA3/lrerr2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/sir.jpg" alt="image" /></p>
+
+<ul>
+<li>We have differentiated between the β’s and the b’s.</li>
+<li>In common usage people tend to mix these notations.</li>
+<li>However, as long as you understand the conceptual difference, you should be ok.</li>
+</ul>
+
+
+<h4>Week 2 &ndash; Hypothesis Testing and Goodness of Fit</h4>
+
+<h5>1. Hypothesis Testing in a Linear Regression</h5>
+
+<p><img src="/images/tec/BA3/htl.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/hterror.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step1.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step4.jpg" alt="image" /></p>
+
+<h5>2. Lesson Hypothesis Testing in a Linear Regression- &lsquo;p-values&rsquo;</h5>
+
+<p><img src="/images/tec/BA3/pv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv3.jpg" alt="image" /></p>
+
+<ol>
+<li>The t-cutoff approach</li>
+<li>The p-value approach</li>
+<li>The confidence interval approach</li>
+</ol>
+
+
+<p><img src="/images/tec/BA3/ci.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv4.jpg" alt="image" /></p>
+
+<h5>3. &lsquo;Goodness of Fit&rsquo; measures- R-square and Adjusted R-square</h5>
+
+<p><img src="/images/tec/BA3/ir.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir4.jpg" alt="image" /></p>
+
+<h5>4. Categorical Variables in a Regression- Dummy Variables</h5>
+
+<p><img src="/images/tec/BA3/dv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/dv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/dv3.jpg" alt="image" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>A parcel delivery service operates in two different regions, region 
+</span><span class='line'>“A” and region “B”. Delivery trucks leave the central warehouse and 
+</span><span class='line'>travel to region A and deliver parcels in that region. Similarly 
+</span><span class='line'>delivery trucks also leave the central warehouse and travel to region 
+</span><span class='line'>B and deliver parcels in that region.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA3/dv4.jpg" alt="image" /></p>
+
+<h4>Week 3 &ndash; Dummy Variables, Multicollinearity</h4>
+
+<h5>1. Dummy Variable Regression &ndash; Extension to Multiple Categories</h5>
+
+<p><img src="/images/tec/BA3/mutidv.jpg" alt="image" /></p>
+
+<p>We need one dummy variable less than the number of categories. Incorrect to have three dummies REGA, REGB and REGC.</p>
+
+<p><img src="/images/tec/BA3/mutidv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/mutidv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/mutidv3.jpg" alt="image" /></p>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2018 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3/';
+        var disqus_url = 'http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

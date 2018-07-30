@@ -1,0 +1,829 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Business Statistics and Analysis-2 - 陋室</title>
+	<meta name="author" content="Wanax">
+	
+	<meta name="description" content="Business Statistics and Analysis-2 课件来源于Rice University的Business Statistics and Analysis 三, Business Applications of Hypothesis Testing and &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="陋室" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!-- 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'> -->
+	<script src="/javascripts/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=31767964" charset="UTF-8"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts 
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+	      $(this).attr('target', '_blank');
+	  });
+	}
+
+	$(document).bind('DOMNodeInserted', function(event) {
+	  addBlankTargetForLinks();
+	});
+</script>
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	<img src='/images/avatar.png' alt='Profile Picture' style='width: 160px;' />
+</div>
+<hgroup>
+  <h1><a href="/">陋室</a></h1>
+  
+    <h2 class="subtitle">碌碌二十余载,自思无益于国家,每念及此,万念俱灰</h2>
+  
+</hgroup>
+
+<nav id="main-nav"><ul class="main-navigation">
+  <!--<li><a href="/">首页</a></li>-->
+  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/intro/index.html">关于我</a></li>
+</ul>
+<section>
+  <h3 class="catag">文章类别</h3>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
+<li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
+<li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (32)</a></li>
+
+  </ul>
+</section>
+
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		<a class="weibo" href="http://www.weibo.com/1829617555" title="Weibo">Weibo</a>
+		
+		
+		
+		
+		
+		<a class="github" href="https://github.com/wanax" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Business Statistics and Analysis-2</h1>
+	<div class="entry-content" itemprop="articleBody"><p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
+
+<h3>三, Business Applications of Hypothesis Testing and Confidence Interval Estimation</h3>
+
+<h4>Week 1 &ndash; Confidence Interval &ndash; Introduction</h4>
+
+<h5>1. Introducing the t-distribution, the T.DIST Function</h5>
+
+<p><img src="/images/tec/BA2/tdis.jpg" alt="image" /></p>
+
+<!--more-->
+
+
+<ul>
+<li>Does not have any standalone business application</li>
+<li>Used as an interim tool to calculate confidence intervals and hypothesis testing</li>
+<li>Has an associated probability density function</li>
+<li>Associated Excel functions are the =T.DIST and =T.INV</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/df.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/df2.jpg" alt="image" /></p>
+
+<h5>2. Introducing Confidence Interval</h5>
+
+<ul>
+<li>It is an ‘interval’ with some ‘confidence’ or probability attached to it</li>
+<li>An interval for some unknown characteristic of the population data</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example: US Presidential Election
+</span><span class='line'>• Only two candidates, A and B
+</span><span class='line'>• Wish to predict vote percentage for candidate A
+</span><span class='line'>• A random selection of 500 potential voters surveyed 
+</span><span class='line'>• 300 voters will votefor A and 200 for B
+</span><span class='line'>• That is, 60% of surveyed voters will vote for A
+</span><span class='line'>
+</span><span class='line'>Will candidate A get 60% of all votes in the actual election?</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A 95% confidence interval for the vote share of candidate A,</p>
+
+<p><strong>[55.7%, 64.3%]</strong></p>
+
+<ul>
+<li><p>95% of similarly constructed confidence intervals likely to have the actual vote share for A</p></li>
+<li><p>there is a 0.95 probability that the actual vote share for A will be between 55.7% and 64.3%</p></li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/ci.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/ci2.jpg" alt="image" /></p>
+
+<p>We wish to find out u</p>
+
+<p><img src="/images/tec/BA2/ci3.jpg" alt="image" /></p>
+
+<p>Example:</p>
+
+<p>US Presidential Election, predicting the proportion of votes for a particular candidate</p>
+
+<p><em>confidence interval for the ‘population proportion’</em></p>
+
+<p>Example:</p>
+
+<p>Average starting salary of all business students who graduated last year in New York city</p>
+
+<p><em>confidence interval for the ‘population mean’</em></p>
+
+<h5>3. The z-statistic and the t-statistic</h5>
+
+<p><img src="/images/tec/BA2/clt.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/zsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/tsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/tsta2.jpg" alt="image" /></p>
+
+<h5>4. Using z- and t- statistics to Construct Confidence Interval</h5>
+
+<p><img src="/images/tec/BA2/exp.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol4.jpg" alt="image" /></p>
+
+<h4>Week 2 &ndash; Confidence Interval &ndash; Applications</h4>
+
+<h5>1. Application of Confidence Interval</h5>
+
+<ul>
+<li>Conceptual understanding</li>
+<li>Examples</li>
+<li>Stylized problem</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/ci4.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/ci5.jpg" alt="image" /></p>
+
+<p>When the population standard deviation (σ) is not known,</p>
+
+<ul>
+<li>we replace it by the sample standard deviation (s)</li>
+<li>The z-statistic gets replaced by the t-statistic</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/cit.jpg" alt="image" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>A person wishes to explore the size of single family houses that are
+</span><span class='line'> typically available for purchase in a particular neighborhood of 
+</span><span class='line'> Houston in Texas. She manages to get hold of a list containing house 
+</span><span class='line'> sizes of a sample of 100 houses that were sold in the past two years.
+</span><span class='line'>
+</span><span class='line'>The data is provided in the excel data file Home_Sizes.xlsx, and given
+</span><span class='line'> this data she wishes to assess the average size of houses typically 
+</span><span class='line'> available for purchase in this neighborhood.
+</span><span class='line'>
+</span><span class='line'>1.Population standard deviation not known
+</span><span class='line'>2.Need to use calculation for confidence interval based on the 
+</span><span class='line'>t-statistic
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>A 95% confidence interval for the average (population mean) house size:
+[3048.2, 3428.3] square feet</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>A Consultancy firm surveyed a randomly selected set of 210 CEOs of 
+</span><span class='line'>‘fast growing small companies’ in the US and Europe. Only 51% of these
+</span><span class='line'> executives had a management succession plan in place, the remaining
+</span><span class='line'>  did not have one
+</span><span class='line'>
+</span><span class='line'>Use this information to compute a 90% confidence interval to estimate
+</span><span class='line'> the proportion of all ‘fast growing small companies’ that have a
+</span><span class='line'>  management succession plan.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/cip.jpg" alt="image" /></p>
+
+<p><strong>Answer:
+The 90% confidence interval is:
+[0.453, 0.567] or [45.3%, 56.7%]</strong></p>
+
+<p><em>Summary:</em></p>
+
+<p><img src="/images/tec/BA2/cis.jpg" alt="image" /></p>
+
+<h5>2. Sample Size Calculation</h5>
+
+<ul>
+<li><p>A pollster wanting to make a prediction about aparticular candidate’s vote share in the US presidential election.</p></li>
+<li><p>A quality control manager at a battery manufacturer wanting to  estimate the average number of defective batteries contained in a box shipped by the company.</p></li>
+</ul>
+
+
+<p><em>Different industries may have different rule of thumb strategies for sample size selection.</em></p>
+
+<ul>
+<li><p>The pollster may want to have a margin of error +/&ndash; 3% with a confidence level of 95%</p>
+
+<p>  <em>simply make some small survey get std = 0.9</em></p>
+
+<p>  <img src="/images/tec/BA2/number.jpg" alt="image" /></p></li>
+<li><p>The quality control manager may want to assess the average number of defectives in a box with a margin of error of plus minus 0.3 batteries and a confidence level of 95%</p>
+
+<p>  <img src="/images/tec/BA2/numberp.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA2/numberp2.jpg" alt="image" /></p></li>
+<li><p>Many industries use rule-of-thumb strategies/heuristics</p></li>
+<li><p>We provided here some basis for choosing an appropriate sample size</p></li>
+</ul>
+
+
+<h4>Week 3 &ndash; Hypothesis Testing</h4>
+
+<p>Hypothesis tests are an important tool to analyze data and make some inferences from it.</p>
+
+<p><em>All Hypothesis tests follow a basic logic&hellip;</em></p>
+
+<ol>
+<li>An assumption or a claim is made.</li>
+<li>If your data contradicts this assumption or claim then you conclude that the claim or assumption made must be wrong.</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>
+</span><span class='line'>As I drove to work one day recently, I assumed that the road that I
+</span><span class='line'>normally take to school would, as usual, take me to school.
+</span><span class='line'> 
+</span><span class='line'>There is the assumption, part 1 of the hypothesis.
+</span><span class='line'>
+</span><span class='line'>But I reached a construction barricade, the road was closed.
+</span><span class='line'>
+</span><span class='line'>There is the data.
+</span><span class='line'>It contradicts my assumption. So my original assumption or hypothesis 
+</span><span class='line'>was wrong.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Another Example
+</span><span class='line'>
+</span><span class='line'>You are the production manager at a beverage manufacturer and you
+</span><span class='line'>receive a bottling unit that has been recently re-adjusted so that it
+</span><span class='line'>puts 200 milliliter of beverage in disposable plastic bottles.
+</span><span class='line'>  
+</span><span class='line'>There is the assumption, You assume that the unit actually puts 200 milliliter of beverage in the bottles.
+</span><span class='line'>
+</span><span class='line'>Next, rather than accepting this assumption, you decide to test it
+</span><span class='line'>using data. You fill out 10 bottles using the unit at different times
+</span><span class='line'>so as to obtain a random sample and very carefully measure the amount
+</span><span class='line'>of beverage inside each bottle.
+</span><span class='line'>   
+</span><span class='line'>This is your data. A random sample of 10 observations on the amount of
+</span><span class='line'>beverage in the bottles.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 170 milliliter?</strong></p>
+
+<p><em>easy to conclude that the bottling unit is not properly adjusted.</em></p>
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 200 milliliter?</strong></p>
+
+<p><em>again, the conclusion seems easy given this evidence.</em></p>
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 199.9 milliliter or 200.1 milliliter?</strong></p>
+
+<p><em>perhaps, giving benefit of doubt you would conclude that the unit is properly adjusted.</em></p>
+
+<p><strong>if the average amount per bottle in the sample turns out to be 199.1 ml? 198ml? 202 ml? &hellip;</strong></p>
+
+<p><img src="/images/tec/BA2/hte.jpg" alt="image" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Is a widely used procedure to test a variety of claims...
+</span><span class='line'>
+</span><span class='line'>testing the fuel efficiency claim of a car manufacturer. testing the
+</span><span class='line'>claims of efficacy made by a new drug.
+</span><span class='line'> 
+</span><span class='line'>testing the claim that the defective rate in your production process is 
+</span><span class='line'>greater than the acceptable limit.
+</span><span class='line'>
+</span><span class='line'>testing the claim by an educational website that enrolling in its
+</span><span class='line'>courses leads to higher school scores.
+</span><span class='line'> 
+</span><span class='line'>... ...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>1. The Logic of Hypothesis Testing</h5>
+
+<p><img src="/images/tec/BA2/ht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htclt.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/normdis.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/normdis2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htzsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/httsta.jpg" alt="image" /></p>
+
+<h5>2. Conducting a Hypothesis Test, the Four Steps</h5>
+
+<p><img src="/images/tec/BA2/hts.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/hts3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/hts4.jpg" alt="image" /></p>
+
+<h5>3. Single Tail and Two Tail Hypothesis Tests</h5>
+
+<ol>
+<li>Formulate Hypothesis</li>
+<li>Calculate the t-statistic</li>
+<li>Cutoff values for the t-statistic</li>
+<li>Check whether t-statistic falls in the rejection region</li>
+</ol>
+
+
+<p><em>Interpret results of hypothesis test as applied to the particular business application</em></p>
+
+<p><code>1. Two tailed test</code></p>
+
+<p><img src="/images/tec/BA2/httt.jpg" alt="image" /></p>
+
+<p><code>2. Single tailed test</code></p>
+
+<p><img src="/images/tec/BA2/stht.jpg" alt="image" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>
+</span><span class='line'>A fuel additive manufacturer claims that through the use of its’ fuel
+</span><span class='line'>additive, automobiles in the small car category should achieve on 
+</span><span class='line'>average an increase of 3 miles or more per gallon of fuel.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Claim made: increase in fuel efficiency is 3 miles per gallon or more</strong></p>
+
+<p>To test the claim :</p>
+
+<ol>
+<li>Random selection of 150 small cars.</li>
+<li>Their fuel efficiency measured before and after the use of fuel
+  additive.</li>
+<li>150 measurements obtained for the increase in miles per gallon
+  achieved.</li>
+</ol>
+
+
+<p><img src="/images/tec/BA2/sthte.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/stht2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sthte2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sthte3.jpg" alt="image" /></p>
+
+<h5>4. Guidelines, Formulas and an Application of Hypothesis Test</h5>
+
+<p><img src="/images/tec/BA2/nhg.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htg.jpg" alt="image" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>(when the Null hypothesis naturally turns out to have a strict inequality)
+</span><span class='line'>We wish to test a claim that the average age of Men MBA students across
+</span><span class='line'>various MBA programs in the US is greater than 28 years. For this we
+</span><span class='line'>collect data on average ages of men MBA students across a sample of
+</span><span class='line'>40 MBA programs in the US.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/nht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/nht2.jpg" alt="image" /></p>
+
+<h5>5. Hypothesis Test for a Population Proportion</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>A medium sized university in the US introduces a new lunch facility on 
+</span><span class='line'>campus on a trial basis. The university operates the Lunch facility for
+</span><span class='line'>a few months and then decides to survey the student body. Based on the
+</span><span class='line'>survey, university would make this facility a permanent fixture or do
+</span><span class='line'>away with it. Specifically, if more than or equal to 70% of the
+</span><span class='line'>student body approves of it then the facility would be made 
+</span><span class='line'>permanent else it would shut down.
+</span><span class='line'>
+</span><span class='line'>The university conducts a survey with 750 randomly selected students on
+</span><span class='line'>campus and finds that 510 of these students (or 68% of the sampled
+</span><span class='line'>students) approve of the new facility and the remaining 240 students
+</span><span class='line'>or 32% students do not approve of it.
+</span><span class='line'>   
+</span><span class='line'>Based on the criteria set by University should the facility be made
+</span><span class='line'>permanent?</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/htp1.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htp2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htp3.jpg" alt="image" /></p>
+
+<h5>6. Type I and Type II Errors in a Hypothesis Test</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>Your friend Sam claims that he can shoot 40 or more baskets in an hour
+</span><span class='line'>from the 3-point line in a Basketball court. So, Sam is making a claim 
+</span><span class='line'>about a population parameter, in this case it is his true shooting 
+</span><span class='line'>ability from the 3-point line in a Basketball court. This can be 
+</span><span class='line'>likened to the population mean mu. Thus Sam is claiming that the
+</span><span class='line'>population mean mu of his shooting ability is greater than or equal 
+</span><span class='line'>to 40 baskets in an hour from the 3-point line in a Basketball court.
+</span><span class='line'>
+</span><span class='line'>Next, you decide to test this claim. For that, you take Sam to the 
+</span><span class='line'>Basketball court everyday for 10 days and make him shoot baskets from
+</span><span class='line'>the 3 point line for an hour every day. You end up with 10 data points 
+</span><span class='line'>which are the number of baskets Sam shot in those 10 days. You can 
+</span><span class='line'>calculate the sample mean and the sample standard deviation from these
+</span><span class='line'>ten observations.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/hterror.jpg" alt="image" /></p>
+
+<p>Suppose that Sam’s true ability is indeed ≥ 40.</p>
+
+<p>However the 10 days were not good for Sam.</p>
+
+<p>He gave a low sample average.</p>
+
+<p>You reject the Null hypothesis.</p>
+
+<p><strong>Type I error: Rejecting the Null Hypothesis when it is true.</strong></p>
+
+<p><strong>Type II error: Not rejecting the Null Hypothesis when it is false</strong></p>
+
+<p>Sam’s true ability is NOT ≥ 40.</p>
+
+<p>However the 10 days were lucky for Sam. He gave a high sample average.</p>
+
+<p>You DID NOT reject the Null hypothesis.</p>
+
+<p><em>Reducing the probability of Type I and Type II errors</em></p>
+
+<ul>
+<li>Probability of Type I error is set by our choice of α</li>
+<li><p>Typically α = 0.05 or 0.01</p></li>
+<li><p>Probability of Type II error can be reduced by taking a larger sample size.</p></li>
+</ul>
+
+
+<h4>Week 4 &ndash; Hypothesis Test &ndash; Differences in Mean</h4>
+
+<h5>1. Introducing the Difference-In-Means Hypothesis Test</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>An empirical study using data on heights of people claimed that the 
+</span><span class='line'>average height of men aged 18 years to 45 years across the world was
+</span><span class='line'>173 cm.
+</span><span class='line'> 
+</span><span class='line'>This study included men not only from the sports fraternity but across 
+</span><span class='line'>a wide spectrum of professions and walks of life.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/dfht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/dfht2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/dfht3.jpg" alt="image" /></p>
+
+<ul>
+<li>Equal variance t-test for differences in means.</li>
+<li>Unequal variance t-test for differences in means.</li>
+<li>Paired t-test for differences in means.</li>
+</ul>
+
+
+<h5>2. The Paired t-Test for Means</h5>
+
+<ul>
+<li>Used to test claims around difference in two population means.</li>
+<li>Requires a sense of ‘pairing’ across individual observations in the two samples.</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Paired t-test (Example)
+</span><span class='line'>
+</span><span class='line'>You are the training manager for a large organization. It is your jo to
+</span><span class='line'>ensure that training needs of employees are met. One such training need 
+</span><span class='line'>is that of computer skills. You regularly send out batches of employees
+</span><span class='line'>to such computer skills training organized by a third party vendor. 
+</span><span class='line'>Since the training costs money you wish to evaluate whether the 
+</span><span class='line'>training is indeed effective in improving the computer skills of 
+</span><span class='line'>employees. You decide to give a standardized computer skills test to 
+</span><span class='line'>employees before they go for such training and you again administer
+</span><span class='line'>similar test when they come back from training. You also set a bench 
+</span><span class='line'>mark that the training would be considered effective if on average 
+</span><span class='line'>the ‘after scores’ are at least 10 points greater than the ‘before 
+</span><span class='line'>scores’.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/tec/BA2/pht.jpg" alt="image" /></p>
+
+<p><strong>Paired t-test, some important considerations</strong></p>
+
+<ol>
+<li>Sense of pairing across individual observations of the two samples.</li>
+<li>The two samples should have equal number of observations.</li>
+<li>You may have your conclusion reversed in using a paired t-test versus either the equal or unequal variances t-test.</li>
+</ol>
+
+
+<p><code>Three kinds:</code></p>
+
+<ol>
+<li>Paired t-test for differences in means.
+
+<ul>
+<li>Used when there is a sense of ‘pairing’ in the data</li>
+</ul>
+</li>
+<li>t-test for differences in means ‘assuming equal variance’.</li>
+<li>t-test for differences in means ‘assuming unequal variance’.</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Example
+</span><span class='line'>The data can be thought of as a sample from a larger population.
+</span><span class='line'>
+</span><span class='line'>We wish to test whether the monthly dollar sales across the provinces
+</span><span class='line'>of Alberta and British Columbia are the same.
+</span><span class='line'> 
+</span><span class='line'>In other words we wish to check if there is any difference in monthly
+</span><span class='line'>dollar sales across these two provinces.
+</span><span class='line'> 
+</span><span class='line'>We will be making this inference using the 48 months of sample sales 
+</span><span class='line'>data we have.</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Difference in means test</strong></p>
+</div>
+
+</article>
+
+	<!--<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+-->
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2018 - Wanax -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			
+
+<script type="text/javascript">
+      var disqus_shortname = 'wanax';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2/';
+        var disqus_url = 'http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6e9d609916419478e19b64e7fcbc720c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+		</div>
+	</div>
+</body>
+</html>

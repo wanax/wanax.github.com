@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Mar 12th, 2014 Tec UNIX下Socket工具包libunp.a编译笔记 1.README很重要，基本上跟着README走一遍就妥了，报错的话一定要仔细得去读错误信息，可以对错误的解决提供很大的帮助。我遇到的错误比较简单，是电脑里没有ar的打包指令， &hellip;">
+	<meta name="description" content="Mar 20th, 2014 Tec UNIX下的Socket通信-TCP/IP基本概念 总览 All problems in computer science can be solved by another level of indirection 觉得这句话对TCP的分层也很适用。 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,7 +71,7 @@
     <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
-<li class='category'><a href='/blog/categories/tec/'>Tec (29)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (32)</a></li>
 
   </ul>
 </section>
@@ -109,6 +109,147 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-20T18:44:00+08:00" data-updated="true" itemprop="datePublished">Mar 20<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/" itemprop="url">UNIX下的Socket通信-TCP/IP基本概念</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>总览</h2>
+
+<blockquote><p>All problems in computer science can be solved by another level of indirection</p></blockquote>
+
+<p>觉得这句话对TCP的分层也很适用。</p>
+
+<p>对TCP/IP协议来说，大体分为五层，</p>
+
+<ol>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>链路层</li>
+<li>物理层</li>
+</ol>
+
+
+<p>应用层我们接触的比较多，流行的如HTTP，FTP之类都算，像我在大学里做的PHP开发时基本对HTTP发包没有任何概念，照着教程开eclipse，apache，在浏览器里敲个<code>locahost:8080</code>出来个猫的图案就很开心了。再建个index，上面写句“未满18周岁禁止进入”，就有种天下在手的感觉。</p>
+
+
+		
+		<a href="/blog/2014/03/20/unixxia-de-sockettong-xin-tcp-slash-ipji-ben-gai-nian/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-20T15:55:00+08:00" data-updated="true" itemprop="datePublished">Mar 20<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/" itemprop="url">UNIX下的Socket通信-Socket的连接</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>一.关于Socket</h2>
+
+<p>如我，刚见这个名词的时候不知所云，因为起点就没找对，首先要在基于对UNIX有所了解的情况下才利于开展工作，便是“一切皆文件”。</p>
+
+<p>在UNIX下，一般的文件可以通过open打开，并返回一个小整数作为标记，后续的操作便是针对这个小整数进行读写。这个小整数被称作<em>描述符</em>，描述符只是引用file的proc结构中一个数组的某个元素的下标而已，它可以代表该文件，但并不是文件本身，我们通过它来与文件建立联系，方便操作。</p>
+
+<p>以此为前提，Socket便是一种特殊的文件，通过<em>socket</em>函数可以创建一个套接字（特殊的文件），它也返回给我们一个小整数，以后所有的函数调用就用该描述符来标示这个套接字。</p>
+
+<p>在UNIX下文件的种类有很多，打开与使用的方式虽然遵循着一定的模式，但也不尽相同。比如想打开一个文本文件需要借助open函数，而且在打开的时候需要告诉open函数该文本的路径位置，以明确打开的目标。</p>
+
+
+		
+		<a href="/blog/2014/03/20/unixxia-de-sockettong-xin-Socket-de-lian-jie/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-13T15:38:00+08:00" data-updated="true" itemprop="datePublished">Mar 13<span>th</span>, 2014</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2014/03/13/glibbian-yi-bi-ji/" itemprop="url">GLib编译笔记</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>缘起</h3>
+
+<p>最近做的一个项目是使用C写的，随着项目的深入发现需要通过不同的数据结构来完成需求，自己简单地去编写已经不能满足要求且在健壮性方面也存在着隐患，于是就琢磨着在网上找找看看有没有什么现成的C工具包来用，就这样，发现了GLib。</p>
+
+<p>先来看下维基上的介绍：</p>
+
+<blockquote><p>GLib是一个跨平台的、用C语言编写的库，起初是GTK+的一部分，但到了GTK+第二版，开发者决定把跟图形界面无关的代码分开，这些代码于是就组装成了GLib。GLib提供了多种高级的数据结构，如内存块、双向和单向链表、哈希表、动态字符串等。</p></blockquote>
+
+<p>感觉功能刚好满足需要，类似于C++中的STL，果断搞起。</p>
+
+
+		
+		<a href="/blog/2014/03/13/glibbian-yi-bi-ji/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -495,173 +636,6 @@
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-28T00:27:00+08:00" data-updated="true" itemprop="datePublished">Oct 28<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ontheroad/'>OnTheRoad</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/28/xi-chong-xing-ji/" itemprop="url">西冲行记</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><img src="/images/road/xichong.jpg" alt="image" /></p>
-
-<p>又是一年花开日，江上数青峰。</p>
-
-<p>记得第一次去西冲是大一，那时刚加入励志社，因为在招新的时候看到说励志社中有骑行队。</p>
-
-<p>高三的时候跟CJ骑着7,80一辆的二手单车差不多快游遍了深圳，比如说推车推上了梧桐山顶，吸着八百里的尘与土跑到CZJ家蹭饭，当时只道是寻常，而今回忆无语凝噎。现在还记得CJ跟我说有的单车价格会上千时洒家的哈喇子流地一会是个S型一会是个B型的窘状，也想起了在推车上梧桐山的时候在一个休息的平台看到的有辆感觉与我们座下的破驴截然不同状的单车上的码表时那副不懂装懂难掩好奇的心态。</p>
-
-<p>于是在社团招新的时候，看到有骑行队这么一个组织也就毫不犹豫地报名参加了。记得在迎新大会上，社团先隆重介绍了骑行川藏归来的两位学长，在提问环节的时候也不知是哪股子二彪子气发作站起来说我也要骑车去，希望以后多交流云云。现在想来大概有两个原因，第一个貌似类似于现在失恋去西藏，失业去西藏，我家猫发胖了我要去西藏之类的心态，第二个则是据说提问有奖……不要鄙视我，朕就是这样汉子。</p>
-
-
-		
-		<a href="/blog/2013/10/28/xi-chong-xing-ji/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-25T14:36:00+08:00" data-updated="true" itemprop="datePublished">Oct 25<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/10/25/scalazai-macxia-de-an-zhuang-fang-fa/" itemprop="url">Scala在Mac下的安装方法</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h3>第一种方法</h3>
-
-<p>1.访问scala的官网<a href="http://www.scala-lang.org/">这里</a>下载最新版的scala。</p>
-
-<p>2.解压缩文件包，可将其移动至<code>/usr/local/share</code>下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mv /download/scalapath /usr/local/share</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.修改环境变量，在mac下使用<code>sudo su</code>进入管理员权限，修改配置文件profile，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vim /etc/profile</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在文件的末尾加入</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export PATH="$PATH:/usr/local/share/scala/bin"</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>:wq!</code>保存退出，重启终端，完成scala的配置安装。</p>
-
-<h3>第二种方法</h3>
-
-<p>如果本机有安装Ruby的话则安装更加简单，可以借助Homebrew进行安装。
-首先安装Homebrew</p>
-
-<blockquote><p>ruby -e “$(curl -fsSL <a href="https://raw.github.com/mxcl/homebrew/go">https://raw.github.com/mxcl/homebrew/go</a>)”</p></blockquote>
-
-<p>再进行scala的安装<code>brew install scala</code></p>
-
-<p>大功告成~</p>
-
-		
-		
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-09T10:30:00+08:00" data-updated="true" itemprop="datePublished">Jun 9<span>th</span>, 2013</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/" itemprop="url">UIView三种动画笔记</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">0.6f</span>
-</span><span class='line'>        <span class="nl">delay:</span><span class="mi">0</span>
-</span><span class='line'>        <span class="nl">options:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-</span><span class='line'>      <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>         <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>      <span class="nl">completion:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-</span><span class='line'><span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>  
-		
-		<a href="/blog/2013/06/09/uiviewsan-chong-dong-hua-bi-ji/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
 </div>
 
 <nav id="pagenavi">
@@ -675,7 +649,7 @@
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2016 - Wanax -
+  Copyright &copy; 2018 - Wanax -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

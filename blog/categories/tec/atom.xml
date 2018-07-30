@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2016-11-24T20:10:59+08:00</updated>
+  <updated>2018-07-30T08:04:56+08:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -12,6 +12,943 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Business Statistics and Analysis-3]]></title>
+    <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3/"/>
+    <updated>2018-07-30T07:55:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3</id>
+    <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
+
+<h3>四，Linear Regression for Business Statistics</h3>
+
+<h4>Week 1 &ndash; Regression Analysis</h4>
+
+<h5>1. Introducing Linear Regression- Building the Model</h5>
+
+<p><strong>What is Linear Regression?</strong></p>
+
+<p><em>Linear regression attempts to fit a linear relation between a variable of interest and a set of variables that may be related to the variable of interest.</em></p>
+
+<!--more-->
+
+
+<p>```
+Example
+There is a Sales manager of a toys retail company which sells various
+kinds of toys in the local market. This sales manager needs to make
+some kind of projections about the number of monthly units that the retail company will be able to sell of this particular toy in the
+coming half year. In the past she has been making such projections
+based on her gut feeling and now wishes to be a little more
+scientific about the whole process.</p>
+
+<p>Based on her experience, the manager figures out that the monthly unit
+sales depend on three important variables, the price at which the toy
+is sold, the monthly amount that the company spends on advertising the
+toy and the monthly amount spent on promotions for the toy.
+```</p>
+
+<p><strong>Overview of Regression:</strong></p>
+
+<p><strong>Simple Regression:</strong></p>
+
+<p>A regression with only one explanatory or X variable</p>
+
+<p><strong>Multiple Regression:</strong></p>
+
+<p>A regression with two or more explanatory or X variables</p>
+
+<ol>
+<li>Modeling Developing a regression model</li>
+<li>Estimation Using software to estimate the model</li>
+<li>Inference Interpreting the estimated regression model</li>
+<li>Prediction Making predictions about the variable of interest</li>
+</ol>
+
+
+<p><img src="/images/tec/BA3/lrm.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lre.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lbi.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lbi2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lrp.jpg" alt="image" /></p>
+
+<h5>2. Errors, Residuals and R-square</h5>
+
+<p><img src="/images/tec/BA3/lrerr.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/lrr.jpg" alt="image" /></p>
+
+<p><strong>Regression is a process that has errors</strong></p>
+
+<ul>
+<li>Residuals and Errors</li>
+<li>R-square: A “goodness of fit” measure.</li>
+</ul>
+
+
+<p><strong>Why do we have errors in the regression model ?</strong></p>
+
+<ul>
+<li>Omitted variables.</li>
+<li>Functional relationship between the Y and X variables.</li>
+<li>The theory of regression analysis is based on certain assumptions about these errors.</li>
+</ul>
+
+
+<p><img src="/images/tec/BA3/lrerr2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/sir.jpg" alt="image" /></p>
+
+<ul>
+<li>We have differentiated between the β’s and the b’s.</li>
+<li>In common usage people tend to mix these notations.</li>
+<li>However, as long as you understand the conceptual difference, you should be ok.</li>
+</ul>
+
+
+<h4>Week 2 &ndash; Hypothesis Testing and Goodness of Fit</h4>
+
+<h5>1. Hypothesis Testing in a Linear Regression</h5>
+
+<p><img src="/images/tec/BA3/htl.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/hterror.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step1.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/step4.jpg" alt="image" /></p>
+
+<h5>2. Lesson Hypothesis Testing in a Linear Regression- &lsquo;p-values&rsquo;</h5>
+
+<p><img src="/images/tec/BA3/pv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv3.jpg" alt="image" /></p>
+
+<ol>
+<li>The t-cutoff approach</li>
+<li>The p-value approach</li>
+<li>The confidence interval approach</li>
+</ol>
+
+
+<p><img src="/images/tec/BA3/ci.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/pv4.jpg" alt="image" /></p>
+
+<h5>3. &lsquo;Goodness of Fit&rsquo; measures- R-square and Adjusted R-square</h5>
+
+<p><img src="/images/tec/BA3/ir.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/ir4.jpg" alt="image" /></p>
+
+<h5>4. Categorical Variables in a Regression- Dummy Variables</h5>
+
+<p><img src="/images/tec/BA3/dv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/dv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/dv3.jpg" alt="image" /></p>
+
+<p><code>
+Example
+A parcel delivery service operates in two different regions, region
+“A” and region “B”. Delivery trucks leave the central warehouse and
+travel to region A and deliver parcels in that region. Similarly
+delivery trucks also leave the central warehouse and travel to region
+B and deliver parcels in that region.
+</code></p>
+
+<p><img src="/images/tec/BA3/dv4.jpg" alt="image" /></p>
+
+<h4>Week 3 &ndash; Dummy Variables, Multicollinearity</h4>
+
+<h5>1. Dummy Variable Regression &ndash; Extension to Multiple Categories</h5>
+
+<p><img src="/images/tec/BA3/mutidv.jpg" alt="image" /></p>
+
+<p>We need one dummy variable less than the number of categories. Incorrect to have three dummies REGA, REGB and REGC.</p>
+
+<p><img src="/images/tec/BA3/mutidv.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/mutidv2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA3/mutidv3.jpg" alt="image" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Business Statistics and Analysis-2]]></title>
+    <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2/"/>
+    <updated>2018-07-30T07:54:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2</id>
+    <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
+
+<h3>三, Business Applications of Hypothesis Testing and Confidence Interval Estimation</h3>
+
+<h4>Week 1 &ndash; Confidence Interval &ndash; Introduction</h4>
+
+<h5>1. Introducing the t-distribution, the T.DIST Function</h5>
+
+<p><img src="/images/tec/BA2/tdis.jpg" alt="image" /></p>
+
+<!--more-->
+
+
+<ul>
+<li>Does not have any standalone business application</li>
+<li>Used as an interim tool to calculate confidence intervals and hypothesis testing</li>
+<li>Has an associated probability density function</li>
+<li>Associated Excel functions are the =T.DIST and =T.INV</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/df.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/df2.jpg" alt="image" /></p>
+
+<h5>2. Introducing Confidence Interval</h5>
+
+<ul>
+<li>It is an ‘interval’ with some ‘confidence’ or probability attached to it</li>
+<li>An interval for some unknown characteristic of the population data</li>
+</ul>
+
+
+<p>```
+Example: US Presidential Election
+• Only two candidates, A and B
+• Wish to predict vote percentage for candidate A
+• A random selection of 500 potential voters surveyed
+• 300 voters will votefor A and 200 for B
+• That is, 60% of surveyed voters will vote for A</p>
+
+<p>Will candidate A get 60% of all votes in the actual election?
+```</p>
+
+<p>A 95% confidence interval for the vote share of candidate A,</p>
+
+<p><strong>[55.7%, 64.3%]</strong></p>
+
+<ul>
+<li><p>95% of similarly constructed confidence intervals likely to have the actual vote share for A</p></li>
+<li><p>there is a 0.95 probability that the actual vote share for A will be between 55.7% and 64.3%</p></li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/ci.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/ci2.jpg" alt="image" /></p>
+
+<p>We wish to find out u</p>
+
+<p><img src="/images/tec/BA2/ci3.jpg" alt="image" /></p>
+
+<p>Example:</p>
+
+<p>US Presidential Election, predicting the proportion of votes for a particular candidate</p>
+
+<p><em>confidence interval for the ‘population proportion’</em></p>
+
+<p>Example:</p>
+
+<p>Average starting salary of all business students who graduated last year in New York city</p>
+
+<p><em>confidence interval for the ‘population mean’</em></p>
+
+<h5>3. The z-statistic and the t-statistic</h5>
+
+<p><img src="/images/tec/BA2/clt.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/zsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/tsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/tsta2.jpg" alt="image" /></p>
+
+<h5>4. Using z- and t- statistics to Construct Confidence Interval</h5>
+
+<p><img src="/images/tec/BA2/exp.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sol4.jpg" alt="image" /></p>
+
+<h4>Week 2 &ndash; Confidence Interval &ndash; Applications</h4>
+
+<h5>1. Application of Confidence Interval</h5>
+
+<ul>
+<li>Conceptual understanding</li>
+<li>Examples</li>
+<li>Stylized problem</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/ci4.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/ci5.jpg" alt="image" /></p>
+
+<p>When the population standard deviation (σ) is not known,</p>
+
+<ul>
+<li>we replace it by the sample standard deviation (s)</li>
+<li>The z-statistic gets replaced by the t-statistic</li>
+</ul>
+
+
+<p><img src="/images/tec/BA2/cit.jpg" alt="image" /></p>
+
+<p>```
+Example
+A person wishes to explore the size of single family houses that are
+ typically available for purchase in a particular neighborhood of
+ Houston in Texas. She manages to get hold of a list containing house
+ sizes of a sample of 100 houses that were sold in the past two years.</p>
+
+<p>The data is provided in the excel data file Home_Sizes.xlsx, and given
+ this data she wishes to assess the average size of houses typically
+ available for purchase in this neighborhood.</p>
+
+<p>1.Population standard deviation not known
+2.Need to use calculation for confidence interval based on the
+t-statistic</p>
+
+<p>```</p>
+
+<p><strong>A 95% confidence interval for the average (population mean) house size:
+[3048.2, 3428.3] square feet</strong></p>
+
+<p>```
+Example
+A Consultancy firm surveyed a randomly selected set of 210 CEOs of
+‘fast growing small companies’ in the US and Europe. Only 51% of these
+ executives had a management succession plan in place, the remaining
+  did not have one</p>
+
+<p>Use this information to compute a 90% confidence interval to estimate
+ the proportion of all ‘fast growing small companies’ that have a
+  management succession plan.
+```</p>
+
+<p><img src="/images/tec/BA2/cip.jpg" alt="image" /></p>
+
+<p><strong>Answer:
+The 90% confidence interval is:
+[0.453, 0.567] or [45.3%, 56.7%]</strong></p>
+
+<p><em>Summary:</em></p>
+
+<p><img src="/images/tec/BA2/cis.jpg" alt="image" /></p>
+
+<h5>2. Sample Size Calculation</h5>
+
+<ul>
+<li><p>A pollster wanting to make a prediction about aparticular candidate’s vote share in the US presidential election.</p></li>
+<li><p>A quality control manager at a battery manufacturer wanting to  estimate the average number of defective batteries contained in a box shipped by the company.</p></li>
+</ul>
+
+
+<p><em>Different industries may have different rule of thumb strategies for sample size selection.</em></p>
+
+<ul>
+<li><p>The pollster may want to have a margin of error +/&ndash; 3% with a confidence level of 95%</p>
+
+<p>  <em>simply make some small survey get std = 0.9</em></p>
+
+<p>  <img src="/images/tec/BA2/number.jpg" alt="image" /></p></li>
+<li><p>The quality control manager may want to assess the average number of defectives in a box with a margin of error of plus minus 0.3 batteries and a confidence level of 95%</p>
+
+<p>  <img src="/images/tec/BA2/numberp.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA2/numberp2.jpg" alt="image" /></p></li>
+<li><p>Many industries use rule-of-thumb strategies/heuristics</p></li>
+<li><p>We provided here some basis for choosing an appropriate sample size</p></li>
+</ul>
+
+
+<h4>Week 3 &ndash; Hypothesis Testing</h4>
+
+<p>Hypothesis tests are an important tool to analyze data and make some inferences from it.</p>
+
+<p><em>All Hypothesis tests follow a basic logic&hellip;</em></p>
+
+<ol>
+<li>An assumption or a claim is made.</li>
+<li>If your data contradicts this assumption or claim then you conclude that the claim or assumption made must be wrong.</li>
+</ol>
+
+
+<p>```
+Example</p>
+
+<p>As I drove to work one day recently, I assumed that the road that I
+normally take to school would, as usual, take me to school.</p>
+
+<p>There is the assumption, part 1 of the hypothesis.</p>
+
+<p>But I reached a construction barricade, the road was closed.</p>
+
+<p>There is the data.
+It contradicts my assumption. So my original assumption or hypothesis
+was wrong.
+```</p>
+
+<p>```
+Another Example</p>
+
+<p>You are the production manager at a beverage manufacturer and you
+receive a bottling unit that has been recently re-adjusted so that it
+puts 200 milliliter of beverage in disposable plastic bottles.</p>
+
+<p>There is the assumption, You assume that the unit actually puts 200 milliliter of beverage in the bottles.</p>
+
+<p>Next, rather than accepting this assumption, you decide to test it
+using data. You fill out 10 bottles using the unit at different times
+so as to obtain a random sample and very carefully measure the amount
+of beverage inside each bottle.</p>
+
+<p>This is your data. A random sample of 10 observations on the amount of
+beverage in the bottles.
+```</p>
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 170 milliliter?</strong></p>
+
+<p><em>easy to conclude that the bottling unit is not properly adjusted.</em></p>
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 200 milliliter?</strong></p>
+
+<p><em>again, the conclusion seems easy given this evidence.</em></p>
+
+<p><strong>if the average amount of beverage per bottle across these 10 bottles is 199.9 milliliter or 200.1 milliliter?</strong></p>
+
+<p><em>perhaps, giving benefit of doubt you would conclude that the unit is properly adjusted.</em></p>
+
+<p><strong>if the average amount per bottle in the sample turns out to be 199.1 ml? 198ml? 202 ml? &hellip;</strong></p>
+
+<p><img src="/images/tec/BA2/hte.jpg" alt="image" /></p>
+
+<p>```
+Is a widely used procedure to test a variety of claims&hellip;</p>
+
+<p>testing the fuel efficiency claim of a car manufacturer. testing the
+claims of efficacy made by a new drug.</p>
+
+<p>testing the claim that the defective rate in your production process is
+greater than the acceptable limit.</p>
+
+<p>testing the claim by an educational website that enrolling in its
+courses leads to higher school scores.</p>
+
+<p>&hellip; &hellip;</p>
+
+<p>```</p>
+
+<h5>1. The Logic of Hypothesis Testing</h5>
+
+<p><img src="/images/tec/BA2/ht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htclt.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/normdis.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/normdis2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htzsta.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/httsta.jpg" alt="image" /></p>
+
+<h5>2. Conducting a Hypothesis Test, the Four Steps</h5>
+
+<p><img src="/images/tec/BA2/hts.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/hts3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/hts4.jpg" alt="image" /></p>
+
+<h5>3. Single Tail and Two Tail Hypothesis Tests</h5>
+
+<ol>
+<li>Formulate Hypothesis</li>
+<li>Calculate the t-statistic</li>
+<li>Cutoff values for the t-statistic</li>
+<li>Check whether t-statistic falls in the rejection region</li>
+</ol>
+
+
+<p><em>Interpret results of hypothesis test as applied to the particular business application</em></p>
+
+<p><code>1. Two tailed test</code></p>
+
+<p><img src="/images/tec/BA2/httt.jpg" alt="image" /></p>
+
+<p><code>2. Single tailed test</code></p>
+
+<p><img src="/images/tec/BA2/stht.jpg" alt="image" /></p>
+
+<p>```
+Example</p>
+
+<p>A fuel additive manufacturer claims that through the use of its’ fuel
+additive, automobiles in the small car category should achieve on
+average an increase of 3 miles or more per gallon of fuel.
+```</p>
+
+<p><strong>Claim made: increase in fuel efficiency is 3 miles per gallon or more</strong></p>
+
+<p>To test the claim :</p>
+
+<ol>
+<li>Random selection of 150 small cars.</li>
+<li>Their fuel efficiency measured before and after the use of fuel
+  additive.</li>
+<li>150 measurements obtained for the increase in miles per gallon
+  achieved.</li>
+</ol>
+
+
+<p><img src="/images/tec/BA2/sthte.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/stht2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sthte2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/sthte3.jpg" alt="image" /></p>
+
+<h5>4. Guidelines, Formulas and an Application of Hypothesis Test</h5>
+
+<p><img src="/images/tec/BA2/nhg.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htg.jpg" alt="image" /></p>
+
+<p><code>
+Example
+(when the Null hypothesis naturally turns out to have a strict inequality)
+We wish to test a claim that the average age of Men MBA students across
+various MBA programs in the US is greater than 28 years. For this we
+collect data on average ages of men MBA students across a sample of
+40 MBA programs in the US.
+</code></p>
+
+<p><img src="/images/tec/BA2/nht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/nht2.jpg" alt="image" /></p>
+
+<h5>5. Hypothesis Test for a Population Proportion</h5>
+
+<p>```
+Example
+A medium sized university in the US introduces a new lunch facility on
+campus on a trial basis. The university operates the Lunch facility for
+a few months and then decides to survey the student body. Based on the
+survey, university would make this facility a permanent fixture or do
+away with it. Specifically, if more than or equal to 70% of the
+student body approves of it then the facility would be made
+permanent else it would shut down.</p>
+
+<p>The university conducts a survey with 750 randomly selected students on
+campus and finds that 510 of these students (or 68% of the sampled
+students) approve of the new facility and the remaining 240 students
+or 32% students do not approve of it.</p>
+
+<p>Based on the criteria set by University should the facility be made
+permanent?
+```</p>
+
+<p><img src="/images/tec/BA2/htp1.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htp2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/htp3.jpg" alt="image" /></p>
+
+<h5>6. Type I and Type II Errors in a Hypothesis Test</h5>
+
+<p>```
+Example
+Your friend Sam claims that he can shoot 40 or more baskets in an hour
+from the 3-point line in a Basketball court. So, Sam is making a claim
+about a population parameter, in this case it is his true shooting
+ability from the 3-point line in a Basketball court. This can be
+likened to the population mean mu. Thus Sam is claiming that the
+population mean mu of his shooting ability is greater than or equal
+to 40 baskets in an hour from the 3-point line in a Basketball court.</p>
+
+<p>Next, you decide to test this claim. For that, you take Sam to the
+Basketball court everyday for 10 days and make him shoot baskets from
+the 3 point line for an hour every day. You end up with 10 data points
+which are the number of baskets Sam shot in those 10 days. You can
+calculate the sample mean and the sample standard deviation from these
+ten observations.
+```</p>
+
+<p><img src="/images/tec/BA2/hterror.jpg" alt="image" /></p>
+
+<p>Suppose that Sam’s true ability is indeed ≥ 40.</p>
+
+<p>However the 10 days were not good for Sam.</p>
+
+<p>He gave a low sample average.</p>
+
+<p>You reject the Null hypothesis.</p>
+
+<p><strong>Type I error: Rejecting the Null Hypothesis when it is true.</strong></p>
+
+<p><strong>Type II error: Not rejecting the Null Hypothesis when it is false</strong></p>
+
+<p>Sam’s true ability is NOT ≥ 40.</p>
+
+<p>However the 10 days were lucky for Sam. He gave a high sample average.</p>
+
+<p>You DID NOT reject the Null hypothesis.</p>
+
+<p><em>Reducing the probability of Type I and Type II errors</em></p>
+
+<ul>
+<li>Probability of Type I error is set by our choice of α</li>
+<li><p>Typically α = 0.05 or 0.01</p></li>
+<li><p>Probability of Type II error can be reduced by taking a larger sample size.</p></li>
+</ul>
+
+
+<h4>Week 4 &ndash; Hypothesis Test &ndash; Differences in Mean</h4>
+
+<h5>1. Introducing the Difference-In-Means Hypothesis Test</h5>
+
+<p>```
+An empirical study using data on heights of people claimed that the
+average height of men aged 18 years to 45 years across the world was
+173 cm.</p>
+
+<p>This study included men not only from the sports fraternity but across
+a wide spectrum of professions and walks of life.
+```</p>
+
+<p><img src="/images/tec/BA2/dfht.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/dfht2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA2/dfht3.jpg" alt="image" /></p>
+
+<ul>
+<li>Equal variance t-test for differences in means.</li>
+<li>Unequal variance t-test for differences in means.</li>
+<li>Paired t-test for differences in means.</li>
+</ul>
+
+
+<h5>2. The Paired t-Test for Means</h5>
+
+<ul>
+<li>Used to test claims around difference in two population means.</li>
+<li>Requires a sense of ‘pairing’ across individual observations in the two samples.</li>
+</ul>
+
+
+<p>```
+Paired t-test (Example)</p>
+
+<p>You are the training manager for a large organization. It is your jo to
+ensure that training needs of employees are met. One such training need
+is that of computer skills. You regularly send out batches of employees
+to such computer skills training organized by a third party vendor.
+Since the training costs money you wish to evaluate whether the
+training is indeed effective in improving the computer skills of
+employees. You decide to give a standardized computer skills test to
+employees before they go for such training and you again administer
+similar test when they come back from training. You also set a bench
+mark that the training would be considered effective if on average
+the ‘after scores’ are at least 10 points greater than the ‘before
+scores’.
+```
+<img src="/images/tec/BA2/pht.jpg" alt="image" /></p>
+
+<p><strong>Paired t-test, some important considerations</strong></p>
+
+<ol>
+<li>Sense of pairing across individual observations of the two samples.</li>
+<li>The two samples should have equal number of observations.</li>
+<li>You may have your conclusion reversed in using a paired t-test versus either the equal or unequal variances t-test.</li>
+</ol>
+
+
+<p><code>Three kinds:</code></p>
+
+<ol>
+<li>Paired t-test for differences in means.
+
+<ul>
+<li>Used when there is a sense of ‘pairing’ in the data</li>
+</ul>
+</li>
+<li>t-test for differences in means ‘assuming equal variance’.</li>
+<li>t-test for differences in means ‘assuming unequal variance’.</li>
+</ol>
+
+
+<p>```
+Example
+The data can be thought of as a sample from a larger population.</p>
+
+<p>We wish to test whether the monthly dollar sales across the provinces
+of Alberta and British Columbia are the same.</p>
+
+<p>In other words we wish to check if there is any difference in monthly
+dollar sales across these two provinces.</p>
+
+<p>We will be making this inference using the 48 months of sample sales
+data we have.
+```</p>
+
+<p><strong>Difference in means test</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Business Statistics and Analysis-1]]></title>
+    <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-1/"/>
+    <updated>2018-07-30T07:31:00+08:00</updated>
+    <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-1</id>
+    <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
+
+<p><img src="/images/tec/BA1/summary.png" alt="image" /></p>
+
+<h3>一，Introduction to Data Analysis Using Excel</h3>
+
+<ol>
+<li>txt文本几种导入方式</li>
+<li>Excel中公式的使用
+
+<ul>
+<li>IF</li>
+<li>VLOOKUP</li>
+<li>HLOOKUP</li>
+</ul>
+</li>
+<li>Filter的使用</li>
+<li>Pivot Table</li>
+<li>Charts
+
+<ul>
+<li>Line，Bar Graphs</li>
+<li>Pie Charts</li>
+<li>Pivot Charts</li>
+<li>Scatter Plots</li>
+<li>Histograms</li>
+</ul>
+</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>二，Basic Data Descriptors, Statistical Distributions, and Application to Business Decisions</h3>
+
+<h4>Week 1 &ndash; Basic Data Descriptors</h4>
+
+<h5>1. Descriptive Statistics</h5>
+
+<p><img src="/images/tec/BA1/desstatis.jpg" alt="image" /></p>
+
+<ul>
+<li>Mean</li>
+<li>Median</li>
+<li>Mode</li>
+<li>IQR
+<img src="/images/tec/BA1/./IQR.png" alt="image" /></li>
+<li>Box Plot
+<img src="/images/tec/BA1/boxplot.png" alt="image" /></li>
+<li>Standard Deviation</li>
+<li>Variance</li>
+<li><p>Rule of Thumb</p>
+
+<p>  Approximately 68% of the data lie within one    standard    deviation, and approximately 95% lie    within 2    standard deviations from the mean</p></li>
+<li><p>Chebyshev’s Theorem</p></li>
+</ul>
+
+
+<p><img src="/images/tec/BA1/Chebyshev.jpg" alt="image" /></p>
+
+<h4>Week 2 &ndash; Descriptive Measures of Association, Probability, and Statistical Distributions</h4>
+
+<h5>1. Descriptive Measures of Association</h5>
+
+<ul>
+<li>Covariance</li>
+</ul>
+
+
+<p><img src="/images/tec/BA1/covariance.jpg" alt="image" /></p>
+
+<ul>
+<li><p>Correltion</p>
+
+<p>  The covariance measure is susceptible to the unit   of measurement, we can arbitrarily inflate or   deflate     the covariance by choice of units.</p>
+
+<p>  <img src="/images/tec/BA1/correlation.jpg" alt="image" /></p>
+
+<p>  • Range: 1 to 1</p>
+
+<p>  • Not affected by the units of measurement.</p>
+
+<p>  Loosely speaking, correlations > +0.5 or &lt; -0.5     are considered indicative of a strong positive  or  strong negative relationship between two    variables.</p></li>
+<li><p>Causation</p></li>
+</ul>
+
+
+<h5>2. Probability</h5>
+
+<p>Probability is a numerical measure of the frequency of occurrence of an event. It is    measured on a scale from 0 to 1. An event of probability 0 will definitely not occur. An event with probability 1 will occur with certainty</p>
+
+<p><img src="/images/tec/BA1/probability.jpg" alt="image" /></p>
+
+<p>Viewing business processes as Random Experiment with an associated Random Variable is helpful in    characterizing them and making predictions about the outcome</p>
+
+<h5>3. Statistical Distributions</h5>
+
+<p><img src="/images/tec/BA1/distype.jpg" alt="image" /></p>
+
+<p>It is common in business applications to use a continuous distribution such as the Normal (the  Bell curve) for discrete data</p>
+
+<p><code>Normal distribution</code></p>
+
+<p><code>t - distribution</code></p>
+
+<h4>Week 3 &ndash; The Normal Distribution</h4>
+
+<h5>1. Probability Mass Function VS Probability Density Function</h5>
+
+<p>It is a rule that assigns probabilities to various possible values that a random variable takes when it is being approximated by a particular statistical distribution.</p>
+
+<p><img src="/images/tec/BA1/pmf.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/pdf.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/prodis.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/prodis2.jpg" alt="image" /></p>
+
+<h5>2. The Normal Distribution</h5>
+
+<p>Normal Distribution, aka the Bell Curve</p>
+
+<p><img src="/images/tec/BA1/normdis.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/pdff.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/normdist.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/normdist2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/norminv.jpg" alt="image" /></p>
+
+<h4>Week 4 &ndash; Working with Distributions (Normal, Binomial, Poisson), Population and Sample Data</h4>
+
+<h5>1. Applications of the Normal Distribution</h5>
+
+<p>A fast-food restaurant sells ‘falafel’ sandwiches. On a typical weekday, the demand for these sandwiches can be approximated by a normal distribution with mean 313 sandwiches and standard deviation of 57 sandwiches</p>
+
+<p><em>Ques: What is the probability that on a particular day the demand for falafel sandwiches is less than 300 at the restaurant?</em></p>
+
+<p><code>Demand ~ Normal(313 sandwiches, 57 sandwiches)</code></p>
+
+<p>John can take either of two roads to the airport from his home (Road A or Road B). Owing to varying traffic conditions the travel times on the two roads are not fixed, rather on a Friday around midday the travel times across these roads can be well approximated per normal distributions as follows,</p>
+
+<p>Road A: mean =54 minutes, std = 3 minutes</p>
+
+<p>Road B: mean =60 minutes, std = 10 minutes</p>
+
+<p><em>Ques: Which road should he choose if on midday Friday he must be at the airport within 50 minutes to pick up his spouse?</em></p>
+
+<p>```
+Road A
+Prob(Time &lt; 50) = NORM.DIST(50,54,3,TRUE)
+= 0.0912</p>
+
+<p>Road B
+Prob(Time &lt; 50) = NORM.DIST(50,60,10,TRUE)
+= 0.1586</p>
+
+<p>B is better
+```</p>
+
+<p><img src="/images/tec/BA1/stdnorm.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/stdnorm2.jpg" alt="image" /></p>
+
+<h5>2. Population and a Sample</h5>
+
+<p><strong>Sample</strong></p>
+
+<p>It is a subset of the relevant population and is used to make inferences about the population.</p>
+
+<p><img src="/images/tec/BA1/sample.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/population.jpg" alt="image" /></p>
+
+<h5>3. The Central Limit Theorem</h5>
+
+<p><img src="/images/tec/BA1/clt.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/clt2.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/clt3.jpg" alt="image" /></p>
+
+<p><img src="/images/tec/BA1/clt4.jpg" alt="image" /></p>
+
+<p>In Plain Language,</p>
+
+<p>Sample averages are normally distributed irrespective of where the sample came from. Not only are they normally distributed but more importantly they are normally distributed with mean equal to the population mean.</p>
+
+<h5>4. The Binomial Distribution</h5>
+
+<p>Two Popular Discrete Distributions</p>
+
+<ul>
+<li><p>The Binomial</p>
+
+<p>  <img src="/images/tec/BA1/bidis.jpg" alt="image" /></p>
+
+<p>  Consider a situation where there are n independent trials, where the    probability of success on each trial is p and the probability of    failure is 1-p.
+  Define random variable X to denote number of successes in n trials.     Then this random variable is said to have a Binomial distribution.</p>
+
+<p>  <img src="/images/tec/BA1/bidis2.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/bidis3.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/bidis4.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/bidis5.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/bidis6.jpg" alt="image" /></p></li>
+<li><p>The Poisson</p>
+
+<p>  <img src="/images/tec/BA1/podis.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/podis2.jpg" alt="image" /></p>
+
+<p>  <img src="/images/tec/BA1/podis3.jpg" alt="image" /></p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[React Native入门指南]]></title>
@@ -257,927 +1194,6 @@ bridge.callHandler(&lsquo;testObjcCallback&rsquo;, {&lsquo;foo&rsquo;: &lsquo;ba
 <p><img src="/images/tec/jsbridge/H5%20Call%20Native.png" alt="image" /></p>
 
 <p><img src="/images/tec/jsbridge/Native%20Call%20H5.png" alt="image" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS图形原理与离屏渲染]]></title>
-    <link href="http://sonnewilling.com/blog/2016/10/19/iostu-xing-yuan-li-yu-chi-ping-xuan-ran/"/>
-    <updated>2016-10-19T20:28:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2016/10/19/iostu-xing-yuan-li-yu-chi-ping-xuan-ran</id>
-    <content type="html"><![CDATA[<p><em>Outline</em>:</p>
-
-<p>一，<a href="#anchor1.0">iOS图形显示基本知识</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.1 <a href="#anchor1.1">图形显示原理</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.2 <a href="#anchor1.2">iOS的显示架构</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.3 <a href="#anchor1.3">iOS图形显示流程</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.4 <a href="#anchor1.4">补充知识</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.1 <a href="#anchor1.4.1">图像多层次的合成&mdash;为何设置透明会增加GPU工作量</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.2 <a href="#anchor1.4.2">图层对其&mdash;为何图片缩放会增加GPU工作量</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.3 <a href="#anchor1.4.3">关于卡顿的简单原理解释</a></p>
-
-<p>二，<a href="#anchor2.0">iOS中离屏渲染相关知识</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.1 <a href="#anchor2.1">什么是离屏渲染</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.2 <a href="#anchor2.2">为什么要谨慎避免离屏渲染</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.3 <a href="#anchor2.3">离屏渲染与光栅化</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.4 <a href="#anchor2.4">一些触发离屏渲染的基本case与替换方式</a></p>
-
-<p>三，<a href="#anchor3.0">iOS的一些显示性能检测方法的简单介绍</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.1 <a href="#anchor3.1">显示性能检测一些小Tip</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.2 <a href="#anchor3.2">Instruments &ndash; Core Animation</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.3 <a href="#anchor3.3">Instruments &ndash; OpenGL ES</a></p>
-
-<p>四，<a href="#anchor4.0">AsyncDisplayKit分享</a></p>
-
-<p>&mdash;&mdash;&mdash; 4.1 <a href="#anchor4.1">AsyncDisplayKit是干什么的</a></p>
-
-<p>&mdash;&mdash;&mdash; 4.2 <a href="#anchor4.2">AsyncDisplayKit的一些性能上的优势</a></p>
-
-<h3><span id="anchor1.0">一，iOS图形显示基本知识</span></h3>
-
-<p>从一个像素点到真正显示在屏幕上，iOS到底在里面做了哪些工作，涉及到哪些Frameworks与Libraries？这是这一章想搞明白的问题。</p>
-
-<!--more-->
-
-
-<h4>1.1 <span id="anchor1.1">图形显示原理</span></h4>
-
-<p>图像想显示到屏幕上使人肉眼可见都需借助像素的力量。简单地说，每个像素由红，绿，蓝三种颜色组成，它们密集的排布在手机屏幕上，将任何图形通过不同的色值表现出来。</p>
-
-<p>计算机显示的流程大致可以描述为将图像转化为一系列像素点的排列然后打印在屏幕上，由图像转化为像素点的过程又可以称之为<a href="https://www.zhihu.com/question/29163054">光栅化</a>，就是从矢量的点线面的描述，变成像素的描述。</p>
-
-<p><img src="/images/tec/offscreen/offscreen011.png" width="250" alt="image" /></p>
-
-<p>回溯历史，可以从过去的 CRT 显示器原理说起。CRT 的电子枪按照上面方式，从上到下一行行扫描，扫描完成后显示器就呈现一帧画面，随后电子枪回到初始位置继续下一次扫描。为了把显示器的显示过程和系统的视频控制器进行同步，显示器（或者其他硬件）会用硬件时钟产生一系列的定时信号。当电子枪换到新的一行，准备进行扫描时，显示器会发出一个水平同步信号（horizonal synchronization），简称 HSync；而当一帧画面绘制完成后，电子枪回复到原位，准备画下一帧前，显示器会发出一个垂直同步信号（vertical synchronization），简称 VSync。显示器通常以固定频率进行刷新，这个刷新率就是 VSync 信号产生的频率。尽管现在的设备大都是液晶显示屏了，但原理仍然没有变。<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
-
-<p>如在 iPhone5 的上就有1,136×640=727,040个像素，而在15寸Retain的MBP上，这一数字达到15.5百万以上，当你滚动整个屏幕的时候，数以百万计的颜色单元必须以每秒60次的速度刷新，计算量可想而知。</p>
-
-<h4>1.2 <span id="anchor1.2">iOS的显示架构</span></h4>
-
-<p>从软件层面上，iOS借助<code>Core Graohics</code>，<code>Core Animation</code>，<code>Core Image</code>完成图形的处理，它们又都是借助<code>OpenGL ES</code>来完成底层的工作，其结构如下图所示：</p>
-
-<p><img src="/images/tec/offscreen/arch01.png" width="500" alt="image" /></p>
-
-<p>Display 的上一层便是图形处理单元 GPU，GPU 是一个专门为图形高并发计算而量身定做的处理单元。这也是为什么它能同时更新所有的像素，并呈现到显示器上。它并发的本性让它能高效的将不同纹理合成起来。因为涉及到各种图形矩阵的计算，它跟CPU最直观的区别在于浮点计算能力要超出CPU很多。所以在开发中，<strong>我们应该尽量让CPU负责主线程的UI调动，把图形显示相关的工作交给GPU来处理</strong>，因为涉及到光栅化等一些工作时，CPU也会参与进来，这点在后面再详细描述。</p>
-
-<p><code>GPU Driver</code> 是直接和 GPU 交流的代码块。不同的GPU是不同的性能怪兽，但是驱动使他们在下一个层级上显示的更为统一，典型的下一层级有 OpenGL/OpenGL ES.</p>
-
-<p><code>OpenGL</code>(Open Graphics Library) 是一个提供了 2D 和 3D 图形渲染的 API。GPU 是一块非常特殊的硬件，OpenGL 和 GPU 密切的工作以提高GPU的能力，并实现硬件加速渲染。</p>
-
-<p>OpenGL 之上扩展出很多东西。在 iOS 上，几乎所有的东西都是通过 Core Animation 绘制出来，然而在 OS X 上，绕过 Core Animation 直接使用 Core Graphics 绘制的情况并不少见。<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup></p>
-
-<p>在硬件层面的调度我们可以看下图所示：</p>
-
-<p><img src="/images/tec/offscreen/arch03.png" width="500" alt="image" /></p>
-
-<p>计算机系统中 CPU、GPU、显示器是以上面这种方式协同工作的。CPU 计算好显示内容提交到 GPU，GPU 渲染完成后将渲染结果放入帧缓冲区，随后视频控制器会按照 VSync 信号逐行读取帧缓冲区的数据，经过可能的数模转换传递给显示器显示。</p>
-
-<p>在最简单的情况下，帧缓冲区只有一个，这时帧缓冲区的读取和刷新都都会有比较大的效率问题。为了解决效率问题，显示系统通常会引入两个缓冲区，即双缓冲机制。在这种情况下，GPU 会预先渲染好一帧放入一个缓冲区内，让视频控制器读取，当下一帧渲染好后，GPU 会直接把视频控制器的指针指向第二个缓冲器。如此一来效率会有很大的提升。</p>
-
-<h4>1.3 <span id="anchor1.3">iOS图形显示流程</span></h4>
-
-<p>我们可以再从上层看一下iOS中不同的Frameworks和Libraries之间的一些联系：</p>
-
-<p><img src="/images/tec/offscreen/offscreen06.png" width="500" alt="image" /></p>
-
-<p>在最顶层的就是UIKit，一个在iOS中用来管理用户图形交互的Objc高级的框架，它由一系列的集合类构成，例如UIButton、UILabel，每一个都负责他们指定的UI Control角色。UIKit本身构建在一个叫Core Animation的框架之上。最后一部分是Core Graphics，曾经在Quartz（一个基于CPU的绘制引擎，在OS X系统上初次露脸）中被引入。这两个较为底层的框架都是用C语言编写的。</p>
-
-<p>我们经常说到的硬件加速其实是指OpenGL,Core Animation/UIKit基于GPU之上对计算机图形合成以及绘制的实现，直到目前为止，iOS上的硬件加速能力还是大大领先与android，后者由于依赖CPU的绘制，绝大多数的动画实现都会让人感觉明显的卡顿<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup></p>
-
-<p>CoreAnimation的渲染流程可以用下图来概括:</p>
-
-<p><img src="/images/tec/offscreen/offscreen07.png" width="500" alt="image" /></p>
-
-<p>在GPU的渲染过程中,我们能看到顶点着色器与像素着色器参与到图像的处理。</p>
-
-<p>在objc.io中有一篇文章进一步地阐明了顶点着色器与像素着色器 (<a href="http://objccn.io/issue-21-7/">GPU 加速下的图像处理</a>)<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></p>
-
-<h4>1.4 <span id="anchor1.4">补充知识</span></h4>
-
-<h5>1.4.1 <span id="anchor1.4.1">图像多层次的合成&mdash;为何设置透明会增加GPU工作量</span><sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup></h5>
-
-<p><em>合成 | Blended</em></p>
-
-<p>在图形世界中，合成是一个描述不同位图如何放到一起来创建你最终在屏幕上看到图像的过程。</p>
-
-<p>一个不透明的红色盖在蓝色上那我们看到的就是一个蓝色，但一个半透明的红色盖在蓝色让我们得到的却是一个紫色，这便是合成所要做的工作。</p>
-
-<p>我们可以用下面这个公式来计算每一个像素：</p>
-
-<pre><code>R = S + D * ( 1 – Sa )
-</code></pre>
-
-<p>结果的颜色是源色彩(顶端纹理)+目标颜色(低一层的纹理)*(1-源颜色的透明度)。在这个公式中所有的颜色都假定已经预先乘以了他们的透明度。</p>
-
-<p>假定两个纹理都完全不透明，比如 alpha=1.如果目标纹理(低一层的纹理)是蓝色(RGB=0,0,1)，并且源纹理(顶层的纹理)颜色是红色(RGB=1,0,0)，因为 Sa 为1，所以结果为：</p>
-
-<pre><code>R = S
-</code></pre>
-
-<p>如果源颜色层为50%的透明，比如 alpha=0.5，既然 alpha 组成部分需要预先乘进 RGB 的值中，那么 S 的 RGB 值为(0.5, 0, 0)，公式看起来便会像这样:</p>
-
-<p><img src="/images/tec/offscreen/arch04.png" width="800" alt="image" /></p>
-
-<p>所以当源纹理是完全不透明的时候，目标像素就等于源纹理。这可以省下 GPU 很大的工作量</p>
-
-<p>这也是为什么 CALayer 有一个叫做 opaque 的属性了。如果这个属性为 NO，GPU 将不会做任何合成，而是简单从这个层拷贝，不需要考虑它下方的任何东西(因为都被它遮挡住了)。</p>
-
-<h5>1.4.2 <span id="anchor1.4.2">图层对齐&mdash;为何图片缩放会增加GPU工作量</span></h5>
-
-<p>当所有的像素是对齐的时候我们得到相对简单的计算公式。每当 GPU 需要计算出屏幕上一个像素是什么颜色的时候，它只需要考虑在这个像素之上的所有 layer 中对应的单个像素，并把这些像素合并到一起。或者，如果最顶层的纹理是不透明的(即图层树的最底层)，这时候 GPU 就可以简单的拷贝它的像素到屏幕上。</p>
-
-<p>当一个 layer 上所有的像素和屏幕上的像素完美的对应整齐，那这个 layer 就是像素对齐的。主要有两个原因可能会造成不对齐。第一个便是滚动；当一个纹理上下滚动的时候，纹理的像素便不会和屏幕的像素排列对齐。另一个原因便是当纹理的起点不在一个像素的边界上。</p>
-
-<p>在这两种情况下，GPU 需要再做额外的计算。它需要将源纹理上多个像素混合起来，生成一个用来合成的值。当所有的像素都是对齐的时候，GPU 只剩下很少的工作要做。</p>
-
-<p>Core Animation 工具和模拟器有一个叫做 color misaligned images 的选项，当这些在你的 CALayer 实例中发生的时候，这个功能便可向你展示。</p>
-
-<p>关于iOS设备的一些尺寸限制可以看这里：<a href="http://iosres.com/">iOSRes</a></p>
-
-<h5>1.4.3 <span id="anchor1.4.3">关于卡顿的简单原理解释</span><sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup></h5>
-
-<p><img src="/images/tec/offscreen/offscreen022.png" width="500" alt="image" /></p>
-
-<p>在 VSync 信号到来后，系统图形服务会通过 CADisplayLink 等机制通知 App，App 主线程开始在 CPU 中计算显示内容，比如视图的创建、布局计算、图片解码、文本绘制等。随后 CPU 会将计算好的内容提交到 GPU 去，由 GPU 进行变换、合成、渲染。随后 GPU 会把渲染结果提交到帧缓冲区去，等待下一次 VSync 信号到来时显示到屏幕上。由于垂直同步的机制，如果在一个 VSync 时间内，CPU 或者 GPU 没有完成内容提交，则那一帧就会被丢弃，等待下一次机会再显示，而这时显示屏会保留之前的内容不变。这就是界面卡顿的原因。</p>
-
-<p>从上面的图中可以看到，CPU 和 GPU 不论哪个阻碍了显示流程，都会造成掉帧现象。所以开发时，也需要分别对 CPU 和 GPU 压力进行评估和优化。</p>
-
-<h3><span id="anchor2.0">二，iOS中离屏渲染相关知识</span></h3>
-
-<h4><span id="anchor2.1">2.1 什么是离屏渲染</span></h4>
-
-<ul>
-<li><p>On-Screen Rendering<sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup></p>
-
-<p>  意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行。</p></li>
-<li><p>Off-Screen Rendering</p>
-
-<p>  意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。</p></li>
-</ul>
-
-
-<p>当图层属性的混合体被指定为在未预合成之前不能直接在屏幕中绘制时，屏幕外渲染就被唤起了。屏幕外渲染并不意味着软件绘制，但是它意味着图层必须在被显示之前在一个屏幕外上下文中被渲染（不论CPU还是GPU）<sup id="fnref:8"><a href="#fn:8" rel="footnote">8</a></sup>。</p>
-
-<p>离屏渲染可以被 Core Animation 自动触发，或者被应用程序强制触发。屏幕外的渲染会合并/渲染图层树的一部分到一个新的缓冲区，然后该缓冲区被渲染到屏幕上。<sup id="fnref:9"><a href="#fn:9" rel="footnote">9</a></sup></p>
-
-<p>这里提到的offscreen rendering主要讲的是通过GPU执行的offscreen,事实上还有的offscreen rendering是通过CPU来执行的。</p>
-
-<p>如果我们重写了drawRect方法，并且使用任何Core Graphics的技术进行了绘制操作，就涉及到了CPU渲染。整个渲染过程由CPU在App内同步地完成，渲染得到的bitmap最后再交由GPU用于显示。其它类似cornerRadios, masks, shadows等触发的offscreen是基于GPU的。</p>
-
-<p><strong><em>PS：CoreGraphic通常是线程安全的，所以可以进行异步绘制，显示的时候再放回主线程</em></strong></p>
-
-<p>许多人有误区,认为offscreen rendering就是software rendering,只是纯粹地靠CPU运算。实际上并不是的,offscreen rendering是个比较复杂,涉及许多方面的内容。我们在开发应用,提高性能通常要注意的是避免offscreen rendering。不需要纠结和拘泥于它的定义。<sup id="fnref:10"><a href="#fn:10" rel="footnote">10</a></sup></p>
-
-<h4><span id="anchor2.2">2.2 为什么要谨慎避免离屏渲染</span></h4>
-
-<p><a href="https://developer.apple.com/videos/#121">WWDC 2011 Understanding UIKit Rendering</a>指出一般导致图形性能的问题大部分都出在了offscreen rendering,因此如果我们发现列表滚动不流畅,动画卡顿等问题,就可以想想和找出我们哪部分代码导致了大量的offscreen 渲染。</p>
-
-<p>离屏渲染主要在两个地方开销较大：</p>
-
-<ol>
-<li><p>创建新缓冲区</p>
-
-<p> 要想进行离屏渲染，首先要创建一个新的缓冲区。</p></li>
-<li><p>上下文切换</p>
-
-<p> 离屏渲染的整个过程，需要多次切换上下文环境：先是从当前屏幕（On-Screen）切换到离屏（Off-Screen）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上有需要将上下文环境从离屏切换到当前屏幕。而上下文环境的切换是要付出很大代价的。</p></li>
-</ol>
-
-
-<h4><span id="anchor2.3">2.3 离屏渲染与光栅化</span></h4>
-
-<p>光栅化的概念前文有介绍，这里再次跟离屏渲染同时提出来是因为在看过的文章中对这两者的区分有些混淆，这里坐下记录。</p>
-
-<p><em>光栅化</em>：</p>
-
-<p>我们屏幕上显示的画面都是由像素组成，而三维物体都是点线面构成的。要让点线面，变成能在屏幕上显示的像素，就需要Rasterize这个过程。就是从矢量的点线面的描述，变成像素的描述。</p>
-
-<ul>
-<li>光栅化概念：将图转化为一个个栅格组成的图像</li>
-<li>光栅化特点：每个元素对应帧缓冲区中的一像素<sup id="fnref:11"><a href="#fn:11" rel="footnote">11</a></sup></li>
-</ul>
-
-
-<p><img src="/images/tec/offscreen/rasterize01.png" width="500" alt="image" /></p>
-
-<p>iOS中，光栅化的过程是将图形转化为可以存储的bitmap，放在缓存中，以被程序循环使用，减少渲染的频率。</p>
-
-<p>我的理解是光栅化是一种特殊的离屏渲染，它的主要工作量集中在CPU上，而不是前文介绍的那种GPU单独开辟缓存进行图形生成计算，并且CPU光栅化完成后会将该bitmap缓存于本地，以便重复利用，它在形式上也是一种离屏渲染，但不属于<code>OpenGL</code>名字中特指的那种GPU新开buffer生成图形的过程。</p>
-
-<p>在<code>CALayer</code>中，设置<code>shouldRasterize = YES</code>便会触发光栅化，且会将光栅化后的内容缓存起来。相当于光栅化是把GPU的操作转到CPU上了，生成位图缓存，直接读取复用。</p>
-
-<p>因为离屏渲染本身开销较大，所以对于是否需要光栅化，应该因地制宜地使用。且系统设置了对这个光栅化的内存使用限制，有两点需要注意：</p>
-
-<ol>
-<li><p>不要过度使用,系统限制了缓存的大小为2.5X Screen Size.</p>
-
-<p> 如果过度使用,超出缓存之后,同样会造成大量的offscreen渲染。</p></li>
-<li><p>被光栅化的图片如果超过100ms没有被使用,则会被移除</p>
-
-<p> 因此我们应该只对连续不断使用的图片进行缓存。对于不常使用的图片缓存是没有意义,且耗费资源的。</p></li>
-</ol>
-
-
-<h4><span id="anchor2.4">2.4 一些触发离屏渲染的基本case与替换方式</span></h4>
-
-<p>除了上面介绍的光栅化可以触发离屏渲染，还有很多种情况可以触发：</p>
-
-<ul>
-<li>圆角（当和maskToBounds一起使用时）</li>
-<li>图层蒙版</li>
-<li>阴影</li>
-</ul>
-
-
-<p>对于那些需要动画而且要在屏幕外渲染的图层来说，你可以用<code>CAShapeLayer</code>，<code>contentsCenter</code>或者<code>shadowPath</code>来获得同样的表现而且较少地影响到性能<sup id="fnref:12"><a href="#fn:12" rel="footnote">12</a></sup>。</p>
-
-<h3>三，<span id="anchor3.0">iOS的一些显示性能检测方法的简单介绍</span></h3>
-
-<h4>3.1 <span id="anchor3.1">显示性能检测一些小Tip</span></h4>
-
-<ul>
-<li><p>关注FPS</p>
-
-<p>  FPS-Frame per Second,帧率或画面更新率是用于测量显示帧数的量度。，一般来说FPS用于描述视频、电子绘图或游戏每秒播放多少帧，而赫兹则描述显示器的画面每秒更新多少次。在实际体验中，60帧相对于30帧有着更好的体验。<sup id="fnref:13"><a href="#fn:13" rel="footnote">13</a></sup></p>
-
-<p>  在开发中，我们应该对FPS的数值保持关注，若发现掉帧严重则可以进一步使用Instruments分析是哪里出现的问题。现在工程里的beta版本的debug包已经附加了此功能。</p></li>
-<li><p>CPU &amp;&amp; GPU<sup id="fnref:14"><a href="#fn:14" rel="footnote">14</a></sup></p>
-
-<p>  CPU，中央处理器。GPU，图形处理器。两者都有总线和外界联系，有自己的缓存体系，以及数字和逻辑运算单元。一句话，两者都为了完成计算任务而设计。</p>
-
-<p>  两者的区别在于存在于片内的缓存体系和数字逻辑运算单元的结构差异：CPU虽然有多核，但总数没有超过两位数，GPU的核数远超CPU，被称为众核（NVIDIA Fermi有512个核）。从结果上导致CPU擅长处理具有复杂计算步骤和复杂数据依赖的计算任务，GPU的众核架构非常适合把同样的指令流并行发送到众核上，采用不同的输入数据执行。</p>
-
-<p>  并且GPU拥有为视频运算专门设计的运算单元: 光栅单元和纹理填充单元。是专为图形而生的。</p>
-
-<p>  <img src="/images/tec/offscreen/opti04.png" width="500" alt="image" /></p>
-
-<p>  所以在开发过程中，心中应该有个尺度，对于主线程的UI响应等一些逻辑工作，我们尽量交给CPU来完成，而图形渲染的工作则多交给GPU搞定，检查有没有做无必要的CPU渲染，例如有些地方我们重写了drawRect或开启了光栅化，而其实是我们不需要也不应该的。</p></li>
-<li><p>离屏渲染的消耗</p>
-
-<p>  这会耗费GPU的资源，像前面已经分析的到的。offscreen 渲染会导致GPU需要不断地onScreen和offscreen进行上下文切换。</p></li>
-<li><p>Blended Layers | Misaligned Images</p>
-
-<p>  检查我们有无过多的合成 | Blending，图片的格式是否为常用格式，大小是否正常。如果一个图片格式不被GPU所支持，则只能通过CPU来渲染。</p></li>
-</ul>
-
-
-<h4>3.2 <span id="anchor3.2">Instruments &ndash; Core Animation</span></h4>
-
-<p>使用Core Animation可以帮助我们通过观察FPS来定位问题所在。如下图所示，两个红框处便是掉帧比较严重的地方，分别是股票详情页与牛圈首页，然后我们在选取此处，观察调用栈，便可以找出哪里吃性能比较严重了。</p>
-
-<p><img src="/images/tec/offscreen/opti01.png" width="500" alt="image" /></p>
-
-<p>又如下图，可以通过勾选不同的选项，观察页面中是否存在，<em>Blended Layers</em>，<em>Misaligned Images</em>等一系列前文提到的可优化点。</p>
-
-<p><img src="/images/tec/offscreen/opti03.png" width="500" alt="image" /></p>
-
-<ul>
-<li><p><code>Color Blended Layers</code>，这个选项选项基于渲染程度对屏幕中的混合区域进行绿到红的高亮显示，越红表示性能越差，会对帧率等指标造成较大的影响。红色通常是由于多个半透明图层叠加引起。<sup id="fnref:15"><a href="#fn:15" rel="footnote">15</a></sup></p></li>
-<li><p><code>Color Offscreen-Rendered Yellow</code>，这个选项会把那些离屏渲染的图层显示为黄色。黄色越多，性能越差。这些显示为黄色的图层很可能需要用 shadowPath 或者 shouldRasterize 来优化。</p></li>
-<li><p><code>Flash Updated Regions</code>，这个选项会把重绘的内容显示为黄色。不该出现的黄色越多，性能越差。通常我们希望只是更新的部分被标记完黄色。</p></li>
-</ul>
-
-
-<h4>3.3 <span id="anchor3.3">Instruments &ndash; OpenGL ES</span></h4>
-
-<p>OpenGL ES驱动工具可以帮你测量GPU的利用率，同样也是一个很好的来判断和GPU相关动画性能的指示器。它同样也提供了类似Core Animation那样显示FPS的工具</p>
-
-<p><img src="/images/tec/offscreen/opti05.png" width="500" alt="image" /></p>
-
-<p>Renderer Utilization &ndash; 如果这个值超过了~50%，就意味着你的动画可能对帧率有所限制，很可能因为离屏渲染或者是重绘导致的过度混合。</p>
-
-<p>Tiler Utilization &ndash; 如果这个值超过了~50%，就意味着你的动画可能限制于几何结构方面，也就是在屏幕上有太多的图层占用了。</p>
-
-<h3>四，<span id="anchor4.0">AsyncDisplayKit分享</span></h3>
-
-<h4>4.1 <span id="anchor4.1">AsyncDisplayKit是干什么的</span></h4>
-
-<p>AsyncDisplayKit is an iOS framework that keeps even the most complex user interfaces smooth and responsive. It was originally built to make Facebook&rsquo;s Paper possible, and goes hand-in-hand with pop&rsquo;s physics-based animations — but it&rsquo;s just as powerful with UIKit Dynamics and conventional app designs.<sup id="fnref:16"><a href="#fn:16" rel="footnote">16</a></sup></p>
-
-<h4>4.2 <span id="anchor4.2">AsyncDisplayKit的一些性能上的优势</span></h4>
-
-<p>AsyncDisplayKit Nodes are a thread-safe abstraction layer over UIViews and CALayers:</p>
-
-<p><img src="/images/tec/offscreen/asdk01.png" alt="image" /></p>
-
-<p>If you know how to use views, you know how to use nodes. ASImageNode and the Text Kit-powered ASTextNode can be used just like their UIKit counterparts. Unlike UIKit view hierarchies, node hierarchies for entire screenfuls of content can be initialized and laid out on background threads — and nodes make it easy to take advantage of the multicore CPUs in all current iOS devices.</p>
-
-<p>Nodes have many advantages over views. For example, you can often improve performance by replacing views with layers. Unfortunately, doing so requires the tedious process of porting view-based code to the different API and inevitably risks regressions. With nodes, it’s as easy as:<sup id="fnref:17"><a href="#fn:17" rel="footnote">17</a></sup></p>
-
-<p><img src="/images/tec/offscreen/asdk02.png" width="250" alt="image" /></p>
-
-<p>If you later need to switch from layers back to views, it’s a one-line change! This is a transformational difference. Instead of being cautious of layer-backed UI code, you can use it by default whenever you don’t need touch handling.</p>
-<div class="footnotes">
-<hr/>
-<ol>
-<li id="fn:1">
-<p><a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">屏幕显示图像的原理</a><a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
-<li id="fn:2">
-<p><a href="http://objccn.io/issue-3-1/">Getting Pixels onto the Screen</a><a href="#fnref:2" rev="footnote">&#8617;</a></p></li>
-<li id="fn:3">
-<p><a href="http://www.cocoachina.com/industry/20130821/6841.html">iOS图形处理和性能</a><a href="#fnref:3" rev="footnote">&#8617;</a></p></li>
-<li id="fn:4">
-<p><a href="https://github.com/100mango/zen/blob/master/WWDC%E5%BF%83%E5%BE%97%EF%BC%9AAdvanced%20Graphics%20and%20Animations%20for%20iOS%20Apps/Advanced%20Graphics%20and%20Animations%20for%20iOS%20Apps.md">WWDC心得与延伸:iOS图形性能 &mdash; 方秋枋</a><a href="#fnref:4" rev="footnote">&#8617;</a></p></li>
-<li id="fn:5">
-<p><a href="https://www.objc.io/issues/3-views/moving-pixels-onto-the-screen/">Compositing</a><a href="#fnref:5" rev="footnote">&#8617;</a></p></li>
-<li id="fn:6">
-<p><a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">卡顿产生的原因和解决方案</a><a href="#fnref:6" rev="footnote">&#8617;</a></p></li>
-<li id="fn:7">
-<p><a href="http://foggry.com/blog/2015/05/06/chi-ping-xuan-ran-xue-xi-bi-ji/">离屏渲染学习笔记</a><a href="#fnref:7" rev="footnote">&#8617;</a></p></li>
-<li id="fn:8">
-<p><a href="https://zsisme.gitbooks.io/ios-/content/chapter15/offscreen-rendering.html">ios核心动画高级技巧</a><a href="#fnref:8" rev="footnote">&#8617;</a></p></li>
-<li id="fn:9">
-<p><a href="http://objccn.io/issue-3-1/">离屏渲染(Offscreen Rendering)</a><a href="#fnref:9" rev="footnote">&#8617;</a></p></li>
-<li id="fn:10">
-<p><a href="https://github.com/100mango/zen/blob/master/WWDC%E5%BF%83%E5%BE%97%EF%BC%9AAdvanced%20Graphics%20and%20Animations%20for%20iOS%20Apps/Advanced%20Graphics%20and%20Animations%20for%20iOS%20Apps.md">关于offscreen rendering &mdash; 方秋枋</a><a href="#fnref:10" rev="footnote">&#8617;</a></p></li>
-<li id="fn:11">
-<p><a href="http://www.jianshu.com/p/6d24a4c29e18">iOS 离屏渲染的研究 &mdash; 齐滇大圣</a><a href="#fnref:11" rev="footnote">&#8617;</a></p></li>
-<li id="fn:12">
-<p><a href="https://zsisme.gitbooks.io/ios-/content/chapter15/offscreen-rendering.html">CAShapeLayer使用方式的介绍</a><a href="#fnref:12" rev="footnote">&#8617;</a></p></li>
-<li id="fn:13">
-<p><a href="https://zh.wikipedia.org/wiki/%E5%B8%A7%E7%8E%87">帧率 &ndash; wiki</a><a href="#fnref:13" rev="footnote">&#8617;</a></p></li>
-<li id="fn:14">
-<p><a href="https://www.zhihu.com/question/19903344">CPU 和 GPU 的区别是什么？ &ndash; 王洋子豪</a><a href="#fnref:14" rev="footnote">&#8617;</a></p></li>
-<li id="fn:15">
-<p><a href="http://www.samirchen.com/use-instruments/">使用 Instruments 做 iOS 程序性能调试</a><a href="#fnref:15" rev="footnote">&#8617;</a></p></li>
-<li id="fn:16">
-<p><a href="https://github.com/facebook/AsyncDisplayKit">facebook/AsyncDisplayKit</a><a href="#fnref:16" rev="footnote">&#8617;</a></p></li>
-<li id="fn:17">
-<p><a href="https://code.facebook.com/posts/721586784561674/introducing-asyncdisplaykit-for-smooth-and-responsive-apps-on-ios/">Introducing AsyncDisplayKit: For smooth and responsive apps on iOS</a><a href="#fnref:17" rev="footnote">&#8617;</a></p></li>
-</ol>
-</div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS New Feature -- 3D Touch]]></title>
-    <link href="http://sonnewilling.com/blog/2016/06/01/ios-new-feature-3d-touch/"/>
-    <updated>2016-06-01T14:39:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2016/06/01/ios-new-feature-3d-touch</id>
-    <content type="html"><![CDATA[<h3>一. 功能介绍</h3>
-
-<p>3D Touch 是苹果公司最新推出的一种应用在手机上的技术，基于iOS9系统与6s设备，它拓展了手机的操作维度，由平面的两维空间空间拓展为立体的三维空间。针对手机屏幕，在纵向上对压按进行响应，由此衍生出更多的操作场景。</p>
-
-<blockquote><p>   With iOS 9, new iPhone models add a third dimension to the user interface.</p>
-
-<ul>
-<li><p> A user can now press your Home screen icon to immediately access functionality provided by your app.></p></li>
-<li><p>Within your app, a user can now press views to see previews of additional content and gain accelerated access to features.</p></li>
-</ul>
-</blockquote>
-
-<!--more-->
-
-
-<p>根据苹果官方文档<a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/index.html#//apple_ref/doc/uid/TP40016543-CH1-SW1">Getting Started with 3D Touch</a>介绍，3D touch可增加以下三种UI新体验：</p>
-
-<h4>1. Home Screen Quick Actions</h4>
-
-<p>按压Home screen上特定App图标，提供快捷方式跳转去App的不同功能场景。</p>
-
-<p><img src="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/Art/maps_directions_home_2x.png" alt="image" /></p>
-
-<h4>2. Peek and Pop</h4>
-
-<p>App运行中时，按压某个View提供预览功能。</p>
-
-<blockquote><p>You can also enable peek and pop for links in web views, as described in <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/3DTouchAPIs.html#//apple_ref/doc/uid/TP40016543-CH4-SW5">Web View Peek and Pop</a>.</p></blockquote>
-
-<p><img src="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/Art/peek_2x.png" alt="image" /></p>
-
-<h4>3. Force Properties</h4>
-
-<blockquote><p>In iOS 9, the <code>UITouch</code> class has two new properties to support custom implementation of 3D Touch in your app: <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITouch_Class/index.html#//apple_ref/occ/instp/UITouch/force">force</a> and <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITouch_Class/index.html#//apple_ref/occ/instp/UITouch/maximumPossibleForce">maximumPossibleForce</a>. For the first time on iOS devices, these properties let you detect and respond to touch pressure in the <code>UIEvent</code> objects your app receives.</p>
-
-<p>The force of a touch has a high dynamic range, available as a floating point value to your app.</p></blockquote>
-
-<h3>二. 特性实现介绍</h3>
-
-<p>App内有统一接口判断当前设备与系统3D Touch是否可用。</p>
-
-<p>```c
-override func viewDidLoad() {</p>
-
-<pre><code>super.viewDidLoad()
-if traitCollection.forceTouchCapability == .Available {
-    registerForPreviewingWithDelegate(self, sourceView: view)
-}
-else {
-    // Create an alert to display to the user.
-    alertController = UIAlertController(title: "3D Touch Not Available", message: "Unsupported device.", preferredStyle: .Alert)
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<h4>1. Home Screen Quick Actions</h4>
-
-<p>基本数据结构：<code>UIApplicationShortcutItem</code></p>
-
-<p>```c
-public class UIApplicationShortcutItem : NSObject, NSCopying, NSMutableCopying {</p>
-
-<pre><code>public init(type: String, localizedTitle: String, localizedSubtitle: String?, icon: UIApplicationShortcutIcon?, userInfo: [NSObject : AnyObject]?)
-public convenience init(type: String, localizedTitle: String)   
-// An application-specific string that identifies the type of action to perform.
-public var type: String { get }
-// Properties controlling how the item should be displayed on the home screen.
-public var localizedTitle: String { get }
-public var localizedSubtitle: String? { get }
-@NSCopying public var icon: UIApplicationShortcutIcon? { get }
-// Application-specific information needed to perform the action.
-// Will throw an exception if the NSDictionary is not plist-encodable.
-public var userInfo: [String : NSSecureCoding]? { get }
-</code></pre>
-
-<p>}
-```</p>
-
-<p><code>UIApplicationShortcutItemType</code>与<code>UIApplicationShortcutItemTitle</code>是必填项，其它选填。</p>
-
-<p><em>注意事项：</em></p>
-
-<ol>
-<li>快捷标签最多可以创建四个，包括静态的和动态的。</li>
-<li>每个标签的题目和icon最多两行，多出的会用&hellip;省略</li>
-</ol>
-
-
-<p>添加<code>ShortcutItem</code>有两种方式：</p>
-
-<ul>
-<li><p><strong>Static quick actions</strong></p>
-
-<p>  直接在App的系统plist文件里添加</p>
-
-<p>  <img src="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Art/UIApplicationShortcutItems_plist_editor_2x.png" height="250" width="700" alt="image" /></p></li>
-<li><p><strong>Dynamic quick actions</strong></p></li>
-</ul>
-
-
-<p><code>c
-lazy var dynamicShortcuts = UIApplication.sharedApplication().shortcutItems ?? []
-</code></p>
-
-<p>```c
-shortcutItem = UIApplicationShortcutItem(type: selectedShortcutItem.type, localizedTitle: titleTextField.text ?? &ldquo;&rdquo;, localizedSubtitle: subtitleTextField.text, icon: icon, userInfo: [</p>
-
-<pre><code>               AppDelegate.applicationShortcutUserInfoIconKey: pickerView.selectedRowInComponent(0)
-           ]
-       )
-</code></pre>
-
-<p>```</p>
-
-<p><code>c
-dynamicShortcuts[selected.row] = updatedShortcutItem
-// Update the application's `shortcutItems`.
-UIApplication.sharedApplication().shortcutItems = dynamicShortcuts
-</code></p>
-
-<p>点击后的事件响应在App delegate里处理：</p>
-
-<p>```c</p>
-
-<pre><code>/* 
-    Called when the user activates your application by selecting a shortcut on the home screen, except when 
-    application(_:,willFinishLaunchingWithOptions:) or application(_:didFinishLaunchingWithOptions) returns `false`.
-    You should handle the shortcut in those callbacks and return `false` if possible. In that case, this 
-    callback is used if your application is already launched in the background.
-*/
-func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -&gt; Void) {
-    let handledShortCutItem = handleShortCutItem(shortcutItem)
-    completionHandler(handledShortCutItem)
-}
-</code></pre>
-
-<p>```</p>
-
-<h4>2. Peek and Pop</h4>
-
-<p>关键数据结构：<code>UIPreviewAction</code></p>
-
-<p>```c
-public class UIPreviewAction : NSObject, NSCopying, UIPreviewActionItem {</p>
-
-<pre><code>public var handler: (UIPreviewActionItem, UIViewController) -&gt; Void { get }
-public convenience init(title: String, style: UIPreviewActionStyle, handler: (UIPreviewAction, UIViewController) -&gt; Void)
-</code></pre>
-
-<p>}
-public class UIPreviewActionGroup : NSObject, NSCopying, UIPreviewActionItem {</p>
-
-<pre><code>public convenience init(title: String, style: UIPreviewActionStyle, actions: [UIPreviewAction])
-</code></pre>
-
-<p>}
-```</p>
-
-<p>```c
-lazy var previewActions: [UIPreviewActionItem] = {</p>
-
-<pre><code>    func previewActionForTitle(title: String, style: UIPreviewActionStyle = .Default) -&gt; UIPreviewAction {
-        return UIPreviewAction(title: title, style: style) { previewAction, viewController in
-            guard let detailViewController = viewController as? DetailViewController,
-                      sampleTitle = detailViewController.sampleTitle else { return }
-            print("\(previewAction.title) triggered from `DetailViewController` for item: \(sampleTitle)")
-        }
-    }
-    let action1 = previewActionForTitle("Default Action")
-    let action2 = previewActionForTitle("Destructive Action", style: .Destructive)
-    let subAction1 = previewActionForTitle("Sub Action 1")
-    let subAction2 = previewActionForTitle("Sub Action 2")
-    let groupedActions = UIPreviewActionGroup(title: "Sub Actions…", style: .Default, actions: [subAction1, subAction2] )
-    return [action1, action2, groupedActions]
-}()
-</code></pre>
-
-<p>```
-通过重载</p>
-
-<p><code>c
-func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -&gt; UIViewController?
-</code>
-生成对应的快速预览图，本身重载</p>
-
-<p><code>c
-override func previewActionItems() -&gt; [UIPreviewActionItem]
-</code>
-来生成下一步动作。</p>
-
-<h4>3. Force Properties</h4>
-
-<p>在<code>UITouch</code>对象中新增了<code>force</code>与<code>maximumPossibleForce</code>，可以根据<code>force</code>定制化自己的需求</p>
-
-<p>```c
-public class UITouch : NSObject {</p>
-
-<pre><code>// Force of the touch, where 1.0 represents the force of an average touch
-@available(iOS 9.0, *)
-public var force: CGFloat { get }
-// Maximum possible force with this input mechanism
-@available(iOS 9.0, *)
-public var maximumPossibleForce: CGFloat { get }
-</code></pre>
-
-<p>}
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[VC USB 串口通信]]></title>
-    <link href="http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin/"/>
-    <updated>2014-08-11T11:03:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2014/08/11/vc-usb-chuan-kou-tong-xin</id>
-    <content type="html"><![CDATA[<h2>楔子</h2>
-
-<p>前段时间搞完了聊天服务器后也没有很多事情，因为系统瓶颈停留在数据库读写层面，所以研究了一两周的NOSQL和Cache。NOSQL快是快但key-value型的数据结构实在太过简单，感觉真用起来并不是很方便，Cache倒相对来说可行一些，开多一个服务罢了，其实简单的逻辑自己也能实现。就这样纠结来纠结去的，发现其实现在的服务倒也完全够用，压力测试了下，能撑到1500的并发，想来刚上线估计也最多几百号人能同时聊天就不错了，所以就先研究至此，撑不住了再换，不要过早优化嘛。</p>
-
-<!--more-->
-
-
-<p>就这样决定先找别的事做做，恰好项目里有需要用到Flash的ANE技术来实现Flash与硬件通信，Flash自然不会写，但用VC进行串口通信打包成DLL给Flash调用这个还是可以研究下的。</p>
-
-<p>ANE这里就不再细谈，大体上就是Flash中调用其它语言的一种技术，通过它可以实现一些Flash做不到的东西，比如说底层通信啥的。这里主要讲USB串口通信这一块儿。</p>
-
-<p>串口通信翻了下书发现还是有很多标准的，而现行最流行的就是USB了，所以在网上关于此的资料还是很好找的。</p>
-
-<p>这篇文章的内容主要由三个部分组成：</p>
-
-<ol>
-<li>串口连接的建立与简单阻塞通讯</li>
-<li>通过API调用自动查询当前插入的USB设备并建立连接</li>
-<li>区别于简单阻塞的通讯方式，如重叠IO与事件通知</li>
-</ol>
-
-
-<h2>一，建立连接与阻塞通讯</h2>
-
-<p>在WIN下面，对于串口一类的硬件设备也是认定为文件的一种，所以也可以使用文件的方式来创建打开使用：</p>
-
-<p>```c
-HANDLE h_com = CreateFile((LPCWSTR)&ldquo;COM4&rdquo;,   //设备名</p>
-
-<pre><code>                GENERIC_READ || GENERIC_WRITE, //访问模式，可同时读写
-                0,                             //共享模式，0表示不共享
-                NULL,                          //安全性设置，一般使用NULL
-                OPEN_EXISTING,                 //该参数表示该设备必须存在否则创建失败，串口通讯需此设置
-                FILE_ATTRIBUTE_NORMAL
-                0);
-</code></pre>
-
-<p>```</p>
-
-<p>首先初始化一个句柄<code>h_com</code>，让它指向所要打开设备的串口号，之后对该设备的所有操作均需通过该句柄来执行。</p>
-
-<p>之后便是对此串口的一些基本设置，</p>
-
-<h4><em>超时选项</em></h4>
-
-<p><code>c
-/*设置串口的超时时间，均设为0，表示不使用超时限制*/
-COMMTIMEOUTS  CommTimeouts;
-CommTimeouts.ReadIntervalTimeout = 0;
-CommTimeouts.ReadTotalTimeoutMultiplier = 0;
-CommTimeouts.ReadTotalTimeoutConstant = 0;
-CommTimeouts.WriteTotalTimeoutMultiplier = 0;
-CommTimeouts.WriteTotalTimeoutConstant = 0;
-SetCommTimeouts(h_com, &amp;CommTimeouts);
-</code></p>
-
-<h4><em>DCB参数配置</em></h4>
-
-<p>因为DCB结构体中选项较多，故一般的配置方式是先通过<code>GetCommState</code>获取默认的DCB配置选项，再根据个人需求进行相应的修改。</p>
-
-<p>```c
-/<em>将ANSI字符串转换为UNICODE字符串</em>/
-DWORD dwNum = MultiByteToWideChar(CP_ACP, 0, szDCBparam, -1, NULL, 0);
-wchar_t *pwText = new wchar_t[dwNum];
-if (!MultiByteToWideChar(CP_ACP, 0, szDCBparam, -1, pwText, dwNum))
-{</p>
-
-<pre><code>bIsSuccess = TRUE;
-</code></pre>
-
-<p>}
-/<em>获取当前串口配置参数，并且构造自定义DCB参数</em>/
-bIsSuccess = GetCommState(h_com, &amp;dcb) &amp;&amp; BuildCommDCB(pwText, &amp;dcb);
-/<em>开启RTS flow控制</em>/
-dcb.fRtsControl = RTS_CONTROL_ENABLE;
-dcb.fRtsControl = RTS_CONTROL_ENABLE;
-dcb.fBinary = TRUE;
-dcb.fParity = TRUE;
-dcb.ByteSize = 8;
-dcb.Parity = ODDPARITY;
-dcb.StopBits = ONESTOPBIT;
-delete[] pwText;
-SetCommState(h_com, &amp;dcb);
-```</p>
-
-<h4><em>清空缓冲区</em></h4>
-
-<p>对句柄进行了一系列操作，保险起见清空一下缓冲区。</p>
-
-<p><code>c
-PurgeComm(h_com, PURGE_RXCLEAR | PURGE_TXCLEAR | PURGE_RXABORT | PURGE_TXABORT);
-</code></p>
-
-<p>如此，一个完整的串口句柄就构造完毕了。接下来是进行阻塞读的测试。</p>
-
-<p>首先，我们可以使用<code>ClearCommError</code>这个方法获取当前读缓冲区里的数据大小，通过轮询的方式阻塞在这里，当缓冲区里有数据的时候我们再进行下一步的动作。</p>
-
-<p>```c
-int get_dirty_len() {</p>
-
-<pre><code>DWORD dwError = 0;  
-COMSTAT  comstat;   
-memset(&amp;comstat, 0, sizeof(COMSTAT));
-UINT BytesInQue = 0;
-if (ClearCommError(h_com, &amp;dwError, &amp;comstat)) {
-    BytesInQue = comstat.cbInQue;
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>当有数据到来便可以直接读取了：</p>
-
-<p>```c
-while(h_comm->is_working) {</p>
-
-<pre><code>int len = get_dirty_len();
-if (len == 0) {
-    Sleep(SLEEP_TIME_INTERVAL);
-    continue;
-}
-char recv[10];
-int recv_len;
-ReadFile(h_com, recv, len, &amp;recv_len, NULL);
-</code></pre>
-
-<p>}
-```</p>
-
-<p>写与读类似</p>
-
-<p><code>c
-WriteFile(h_com, send, len, &amp;send_len, NULL);
-</code></p>
-
-<p>如上，一个简单的阻塞串口读写Demo便完成了。</p>
-
-<h2>二，检测查询插入的USB设备信息</h2>
-
-<p>因为是Flash直接对DLL调用进行设备连接，所以在C层面需要主动获取连接上的端口名建立连接，并将连接设备的信息返回给Flash调用者，故需要使用另一组工具完成任务。</p>
-
-<p>在WIN下面有一组API可以完成此项功能：</p>
-
-<p><code>c
-SetUpAPI
-</code></p>
-
-<p>摸索<code>setupapi</code>的使用方法着实费了些力气，归结起来主要有两点</p>
-
-<ol>
-<li>英文阅读能力不足，MSDN上面说明的使用方法并没有深刻理解</li>
-<li>整体知识把握不足，摸着石头过河，边试边蒙</li>
-</ol>
-
-
-<p>说到底还是要多看书，多读英文资料，大体结构把握了也知道从何下手，而且国内博客的资源大多抄来抄去，并没有多关注其所以然，代码贴来贴去，试着心烦远不如一点一点学起来得畅快。</p>
-
-<p>言归正传，获取端口信息依旧要从句柄入手。</p>
-
-<h4><em>1.借助API获取某一类设备的相关信息</em></h4>
-
-<p>```c
-HDEVINFO hDevInfo = SetupDiGetClassDevsA(</p>
-
-<pre><code>    (LPGUID)&amp;GUID_DEVCLASS_PORTS,
-    0,
-    0,
-    DIGCF_PRESENT);
-</code></pre>
-
-<p>```</p>
-
-<p>关于<code>LPGUID</code>可以自己初始化，一般的普通设备系统也提供了宏定义，可以看到我这里使用了<code>GUID_DEVCLASS_PORTS</code>，指明需要获取的是<code>PORT</code>（COM端口）一类的设备信息。</p>
-
-<h4><em>2.遍历连接设备，获取设备信息</em></h4>
-
-<p>```c
-char szBuf[MAX_PATH];
-ZeroMemory(szBuf, MAX_PATH);
-int i = 0;
-SP_DEVINFO_DATA   spDevInfoData = { sizeof(SP_DEVINFO_DATA) };
-for (i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &amp;spDevInfoData); i++) {</p>
-
-<pre><code>char *id = (char *)malloc(10 * sizeof(char));
-char *port = (char *)malloc(10 * sizeof(char));
-//get ID
-if (SetupDiGetDeviceInstanceId(hDevInfo, 
-    &amp;spDevInfoData, (PWSTR)szBuf, MAX_PATH, NULL)) {
-    char dest[MAX_PATH];
-    ZeroMemory(dest, MAX_PATH);
-    get_str(szBuf, dest);
-    get_id(dest, id);
-}
-ZeroMemory(szBuf, MAX_PATH);
-//get port
-if (SetupDiGetDeviceRegistryProperty(hDevInfo, 
-    &amp;spDevInfoData, SPDRP_FRIENDLYNAME, NULL, (PBYTE)szBuf, MAX_PATH, NULL)) {
-    char dest[MAX_PATH];
-    ZeroMemory(dest, MAX_PATH);
-    get_str(szBuf, dest);
-    get_com(dest, port);
-}
-strcpy(coms[i], port);
-strcpy(vids[i], id);
-*len = i;
-</code></pre>
-
-<p>}
-```</p>
-
-<p><code>c
-SetupDiEnumDeviceInfo
-</code></p>
-
-<p>这个函数通过<code>Index</code>进行依次查找设备，若设备不存在则返回空终止遍历。</p>
-
-<p>所以在最后我们可以通过初始化的句柄<code>hDevInfo</code>与遍历出来的设备信息<code>spDevInfoData</code>来查找我们想要获取的具体信息。</p>
-
-<h2>三，重叠IO与事件通知</h2>
-
-<h3>重叠IO</h3>
-
-<p>重叠IO解决的是受IO性能的影响不能第一时间将预期的字节数全部读完必须时阻塞等待在<code>ReadFile</code>，待全部数据传输完毕才返回的问题。</p>
-
-<p>简单说来便是假如我想读1000个字节的数据从串口设备，但当前传输速度只有100K/S，那岂不是要在<code>ReadFile</code>上阻塞10s才会返回？正常情况下是这样的，而重叠IO便是解决此一问题的正确方法。</p>
-
-<p>它的大体思路是当主线程第一时间没有从<code>ReadFile</code>中读出预期的字节数后便立即返回<code>FALSE</code>，继续其它操作，另一方面会在后台单开一个线程执行读取操作，真正读取完毕后再返回主线程进行相应的逻辑处理。</p>
-
-<p>下面看详细步骤：</p>
-
-<h4><em>1.句柄设置为可重叠模式</em></h4>
-
-<p>```c
-HANDLE h_com = CreateFileA(port,</p>
-
-<pre><code>    GENERIC_READ | GENERIC_WRITE, 
-    0,                           
-    NULL,                         
-    OPEN_EXISTING,                
-    FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED/*可重叠模式*/,
-    0);
-</code></pre>
-
-<p>```</p>
-
-<h4><em>2.使用可重叠模式进行读取</em></h4>
-
-<p>```c
-DWORD dwRes, deRead;
-char cRecved[100];
-int BytesRead;
-OVERLAPPED ol;
-ol.Offset = 0;
-ol.OffsetHigh = 0;
-ol.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-if (ReadFile(m_hComm, cRecved, len, &amp;BytesRead, &amp;ol)) {</p>
-
-<pre><code>//success!
-</code></pre>
-
-<p>} else { //无法第一时间读出数据</p>
-
-<pre><code>dwRes = WaitForSingleObject(ol.hEvent, 5000);//设置5s超时
-if (dwRes == WAIT_OBJECT_0) {
-    if (!GetOverLappedResult(h_com, &amp;ol, &amp;dwRead, TRUE)) {
-        //操作失败，使用GetLastError获取失败信息
-    } else {
-        //操作成功，数据读出并存入cRecved数组中
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>这便是一个可重叠IO的简单示例，可以看出当<code>ReadFile</code>返回<code>FALSE</code>后，我们通过<code>OVERLAPPED</code>结构体获取该操作的事件，并通过<code>WaitForSingleObject</code>来等待异步线程读操作的完成，然后通过<code>GetOverLappedResult</code>验证下最终读取的字节数，便算完成了。</p>
-
-<h3>事件通知</h3>
-
-<p>在一般的通信情景中，大多是有个线程一直等待消息的到来然后进行读取。在开篇的例子中我使用的是简单的睡眠轮询的方式，但在真实地应用场景中这样做显然是不符合实际的，于是便需要使用基于事件通知的方式。</p>
-
-<p>既然是事件监听，那第一步需要做的便是添加事件监听事件，这一步是通过对句柄的设置来完成的：</p>
-
-<p><code>c
-SetCommMask(h_com, EV_RXCHAR | EV_TXEMPTY);
-</code></p>
-
-<p><code>EV_RXCHAR</code>表示一旦有字节到来便触发事件，<code>EV_TXEMPTY</code>表示缓冲区为空的时候触发事件。</p>
-
-<p>接下来便是对此事件进行监听，并在事件到来时将数据读出：</p>
-
-<p>```c</p>
-
-<pre><code>while (is_running) {
-    COMSTAT ComStat;
-    DWORD dwRes, dwMask;
-    ZeroMemory(myChar, 10);
-    OVERLAPPED ol;
-    //创建等待事件
-    ol.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-    WaitCommEvent(h_com, &amp;dwMask, &amp;ol);
-    //对该事件进行等待
-    dwRes = WaitForSingleObject(ol.hEvent, 1000000);
-    if (dwRes == WAIT_OBJECT_0) {
-        if (dwMask &amp; EV_RXCHAR) {
-            rol.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-            char str[20];
-            ZeroMemory(str, 20);
-            DWORD dwRead;
-            DWORD dwErrors;
-            COMSTAT Rcs;
-            int i;
-            //获取缓冲区字节数量
-            ClearCommError(h_com, &amp;dwErrors, &amp;Rcs);
-            if (Rcs.cbInQue &gt; 0) {
-                if (ReadFile(h_com, &amp;str, Rcs.cbInQue, &amp;dwRead, &amp;rol)) {
-                    printf("%d-%d-%d\n", Rcs.cbInQue, dwRead, str[0]);
-                }
-                else {
-                    printf("error\n");
-                }
-            }
-        }
-    }
-    PurgeComm(h_com, PURGE_RXCLEAR | PURGE_TXCLEAR | PURGE_RXABORT | PURGE_TXABORT);
-}
-</code></pre>
-
-<p>```</p>
-
-<p>以上便是事件触发式读取的基本使用方法，需要注意的是，事件触发IO可以搭配重叠IO进行使用，以获得更好的效果。</p>
 ]]></content>
   </entry>
   

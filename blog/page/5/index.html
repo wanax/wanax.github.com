@@ -8,7 +8,10 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="Feb 13th, 2012 Tec 垂直发布—Httpclient模拟登陆获取页面信息 过年回了趟老家，回来后寒假还有好大一截，闲着也是没事就这两天初步了解了下垂直发布的东西，收获一点点吧，感觉离预期还差很远。趁着还有印象写下来，步步为营呗。网上搜索， &hellip;">
+	<meta name="description" content="Jun 28th, 2012 Tec 6个有用的MySQL语句(转) 1. 计算年数 你想通过生日来计算这个人有几岁了。 1
+2
+3
+SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(now()) - TO_DAYS(@dateofbirth)), &#39;%Y&#39 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,7 +74,7 @@
     <li class='category'><a href='/blog/categories/life/'>Life (19)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
-<li class='category'><a href='/blog/categories/tec/'>Tec (29)</a></li>
+<li class='category'><a href='/blog/categories/tec/'>Tec (32)</a></li>
 
   </ul>
 </section>
@@ -109,6 +112,132 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-28T01:55:00+08:00" data-updated="true" itemprop="datePublished">Jun 28<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/06/28/6ge-you-yong-de-mysqlyu-ju-zhuan/" itemprop="url">6个有用的MySQL语句(转)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>1. 计算年数</h3>
+
+<blockquote><p>你想通过生日来计算这个人有几岁了。</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> 
+</span><span class='line'><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">FROM_DAYS</span><span class="p">(</span><span class="n">TO_DAYS</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="o">-</span> <span class="n">TO_DAYS</span><span class="p">(</span><span class="o">@</span><span class="n">dateofbirth</span><span class="p">)),</span> <span class="s1">&#39;%Y&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">+</span> <span class="mi">0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+
+		
+		<a href="/blog/2012/06/28/6ge-you-yong-de-mysqlyu-ju-zhuan/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-15T19:00:00+08:00" data-updated="true" itemprop="datePublished">Mar 15<span>th</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>Life</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/03/15/ru-ci-er-yi/" itemprop="url">如此而已</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p> 2000年的石佛来到2012告诉我们他也有战斧式的梦，海布里跪吻的国王远赴加泰罗尼亚劈棘未竟的功勋，风华滚滚，手中新酿的美酒回荡在酒樽。开始的激情万丈至于后来的云淡风轻，曾经的高亢嘹亮不知觉中融入生活，成为意识的一分子，甚或连自己都不曾注意何时可以如此地如水流淌。告诉自己我们在等，等到不能再等，至于沧海桑田，握笔的手都在颤抖，依旧可以写下自己的最爱。便也可能是在此时突然一泻千里，那么一瞬的快感摊开来是一刻一划的尺度，每一个凿痕都无比熟悉而又慢慢模糊，沉沉地呼出一口浊气，仰鼻深吸，胸中吐纳的却是天地。</p>
+
+<p> 
+		
+		<a href="/blog/2012/03/15/ru-ci-er-yi/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-23T21:28:00+08:00" data-updated="true" itemprop="datePublished">Feb 23<span>rd</span>, 2012</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/tec/'>Tec</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/" itemprop="url">Struts+jquery+ajax简单整合示例</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>jsp文件：</p>
+
+<script src="https://gist.github.com/wanax/6752399.js"></script>
+
+
+
+
+
+		
+		<a href="/blog/2012/02/23/struts-plus-jquery-plus-ajaxjian-dan-zheng-he-shi-li/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -397,120 +526,6 @@ HttpURLConnection是java的标准类，HttpClient 是 Apache Jakarta Common 下�
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-21T21:30:00+08:00" data-updated="true" itemprop="datePublished">Jul 21<span>st</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ontheroad/'>OnTheRoad</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/07/21/zhe-bian-tai-yang-da-de-hen/" itemprop="url">这边太阳大得很</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>这边太阳大得很，今天骑了一上午脖子通红，菊花另算。</p>
-
-<p>西海镇出来也有六天，从大通城关翻达坂山到菜花茂盛的青石嘴，继而一路缓上爬去俄博，一个一眼望出的城镇，却有五六家川菜馆，着实费解，另一特点便是相当缺水，风尘而来却无水洗澡。只好打了一脸盆，在房间里自慰一下，另一随之而来的问题便是厕所。嗯，怎么说呢，除了入口的“公厕”尚含常理外，顺着那个箭头拐出胡同就会有那么一丝的诧异，公厕呢？然后地上如星罗散布的点点告诉了你答案。我们三个一人爬到一个小山坡上迎风洒泪，我找到一个酷似蹲坑的位置不亦乐乎，另一个则隐在了乱石岗中，云深不知。并相约明早继续，不得侵占对方领土。</p>
-
-
-		
-		<a href="/blog/2011/07/21/zhe-bian-tai-yang-da-de-hen/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-17T21:35:00+08:00" data-updated="true" itemprop="datePublished">Jul 17<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ontheroad/'>OnTheRoad</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/07/17/xi-hai-zhen/" itemprop="url">西海镇</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><img src="http://i1001.photobucket.com/albums/af134/mxiaochi/xinjiang/p_large_MuaR_66aa000417f75c43_zps86cbc46e.jpg" alt="image" /></p>
-
-<blockquote><p><em><em>青海湖畔</em></em></p></blockquote>
-
-<p>兰州出来过了海石湾去到西宁，由甘肃奔到青海，空气好了很多外温度也是相差很大。早上的时候要把带来的衣服全部穿上才将将御寒。</p>
-
-
-		
-		<a href="/blog/2011/07/17/xi-hai-zhen/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-11T21:19:00+08:00" data-updated="true" itemprop="datePublished">Jul 11<span>th</span>, 2011</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/life/'>Life</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2011/07/11/ci-jian/" itemprop="url">此间</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>这学期选了门数据库的课程，不用考试，各自搭伙造饭，期末搞个网站做演示，前三还有奖，一听之下很是兴致勃勃。早早地开始规划，各种点子，准备大展身手。有想过做个成人的玩玩但念及最后是公投，这么一搞女生的选票是很危险的便立马放弃了。确定主题后选好语言，数据库，统一编码，迫不及待。最后期末大功告成。</p>
-
-
-		
-		<a href="/blog/2011/07/11/ci-jian/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
 </div>
 
 <nav id="pagenavi">
@@ -524,7 +539,7 @@ HttpURLConnection是java的标准类，HttpClient 是 Apache Jakarta Common 下�
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2016 - Wanax -
+  Copyright &copy; 2018 - Wanax -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tec | 陋室]]></title>
   <link href="http://sonnewilling.com/blog/categories/tec/atom.xml" rel="self"/>
   <link href="http://sonnewilling.com/"/>
-  <updated>2018-07-30T08:04:56+08:00</updated>
+  <updated>2018-09-03T01:33:50-04:00</updated>
   <id>http://sonnewilling.com/</id>
   <author>
     <name><![CDATA[Wanax]]></name>
@@ -14,9 +14,215 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Data Science - Kaggle - First step]]></title>
+    <link href="http://sonnewilling.com/blog/2018/09/03/data-science-kaggle-the-first-step/"/>
+    <updated>2018-09-03T01:07:00-04:00</updated>
+    <id>http://sonnewilling.com/blog/2018/09/03/data-science-kaggle-the-first-step</id>
+    <content type="html"><![CDATA[<blockquote><p>This is my first blog written by English, you know&hellip;..</p></blockquote>
+
+<h3>A. <a href="https://www.kaggle.com/">Kaggle</a></h3>
+
+<p>Here is the wiki <a href="https://en.wikipedia.org/wiki/Kaggle">link</a>, talks about what Kaggle is and what can we get.</p>
+
+<h3>B. <a href="https://www.kaggle.com/c/titanic">Titanic: Machine Learning from Disaster</a></h3>
+
+<p>The <strong>Titanic Disaster</strong> is almost every fresh bird&rsquo;s first lesson to unveil the Kaggle&rsquo;s veil (Yes, &ldquo;Unveil the veil&rdquo;, I get it from google translation).</p>
+
+<p>Basically,  <strong>Titanic</strong> gives us an Excel called <code>train.csv</code> which contains passengers' information such as name, sex, age and so on. The <code>train.csv</code> has an important column called <strong>Survived</strong>, which is our task to analysis the relationship between <strong>Survived</strong> and the other columns. And there is another file called <code>test.csv</code>, it&rsquo;s columns almost as same as <code>train.csv</code> except it does not contain <strong>Survived</strong>. As participants, we should build a model from <code>train.csv</code> and use this model to predict each passenger which in the <code>test.csv</code>  is alive or not. The more accurate you predict, the better grade you will get.</p>
+
+<!-- more -->
+
+
+<h3>C. The normal process</h3>
+
+<ul>
+<li><p>Business Understanding</p></li>
+<li><p>Data Understanding</p></li>
+<li><p>Data Preparation</p></li>
+<li><p>Modeling</p></li>
+<li><p>Evaluation</p></li>
+<li><p>Deployment</p></li>
+</ul>
+
+
+<p><strong>1. Business Understanding</strong></p>
+
+<p>Just like Ch B I talk about, every competition has its own targets, we should know exactly what the purpose is.</p>
+
+<p><strong>2.Data Understanding</strong></p>
+
+<p>Each <code>train.csv</code> contains lots of columns, some of them may very meaningful and the others may be just some smoke bomb (Do they know that&rsquo;s mean?). The first step is find out which attribute actually affect the target such as <strong>Survived</strong>.</p>
+
+<p>Take <strong>Titanic </strong> as an example, first, we load the data:</p>
+
+<p><code>data_train = pd.read_csv(r'D:\house\project\python\test\train.csv')</code></p>
+
+<p><img src="/images/tec/kaggle01/form01.png" alt="image" /></p>
+
+<p>As you can see, there are lots of passengers and each passenger has many attributes, some of them&rsquo;s <strong>Survived</strong>=0 means they were dead, on the contrary(I always use this phrase in my English writing),   <strong>Survived</strong>=1 means they made alive.</p>
+
+<p>For intuition, I believe the ticket class which means rich or poor, age and sex will strong affect survived rata. Let me check this.</p>
+
+<p>First, the ticket class:</p>
+
+<p>```
+Survived_0 = data_train.Pclass[data_train.Survived == 0].value_counts()
+Survived_1 = data_train.Pclass[data_train.Survived == 1].value_counts()</p>
+
+<p>df = pd.DataFrame({&lsquo;Survived&rsquo;:Survived_1, &lsquo;Dead&rsquo;:Survived_0})
+df.plot(kind=&lsquo;bar&rsquo;, stacked=True)
+```</p>
+
+<p>   <img src="/images/tec/kaggle01/class.png" alt="image" /></p>
+
+<p>   opps, the higher ticket class, the more chance for people to make alive. Wealth indeed is an important attribute.</p>
+
+<p>   Second, sex:</p>
+
+<p><code>
+Survived_m = data_train.Survived[data_train.Sex == 'male'].value_counts()
+Survived_f = data_train.Survived[data_train.Sex == 'female'].value_counts()
+df2 = pd.DataFrame({'male':Survived_m, 'female':Survived_f})
+df2.plot(kind='bar', stacked=True)
+</code></p>
+
+<p>   <img src="/images/tec/kaggle01/sex.png" alt="image" /></p>
+
+<p>   Yes, women have more chance than men to make alive.</p>
+
+<p>   Last, age, let us make some different:</p>
+
+<p><code>
+plt.subplot2grid((2,3),(1,0), colspan=2)
+data_train.Age[data_train.Pclass == 1].plot(kind='kde')
+data_train.Age[data_train.Pclass == 2].plot(kind='kde')
+data_train.Age[data_train.Pclass == 3].plot(kind='kde')
+plt.xlabel('Age')
+plt.ylabel('Con')
+plt.title('Each class age dis')
+plt.legend(('1st','2st','3st'),loc='best')
+</code></p>
+
+<p>   <img src="/images/tec/kaggle01/age.png" alt="image" /></p>
+
+<p>   Above code shows older people live in higher class cabin which also means the relationship between age and wealth.</p>
+
+<p>   Again, Data Understanding is a very important step, my demo code is too simple to show how to figure out these relations, you can get a clearly instruction from  <a href="https://www.kaggle.com/helgejo/an-interactive-data-science-tutorial">An Interactive Data Science Tutorial</a>.</p>
+
+<p>   <strong>3. Data Preparation</strong></p>
+
+<p>   Before build prediction model, we should rearrange our data. In fact,  we may face many problems about the <code>train.csv</code>. Such as missing or the data type is string which most machine learning models in Python can not handle them very well. Here are some way to solve these problems</p>
+
+<ul>
+<li><p> Drop</p>
+
+<p> If one attribute lack most of data, like only one of ten has value, you can just drop it away.</p></li>
+</ul>
+
+
+<p><code>
+if X_train[X_train.Age.isnull()].value_counts() &gt; max:
+ reduced_X_train = X_train.drop(X_train.Age, axis=1)
+</code></p>
+
+<ul>
+<li><p> Set Yes or No</p>
+
+<p> If attribute which you believe is important however it has half and half missing value,  you can set <strong>Yes</strong> or <strong>No</strong> for value or null. Like this:</p></li>
+</ul>
+
+
+<p><code>
+df.loc[(df.Cabin.notnull()), 'Cabin'] = "Yes"
+df.loc[(df.Cabin.isnull()), 'Cabin'] = "No"
+</code></p>
+
+<ul>
+<li><p> Impute</p>
+
+<p>   <strong>KSLearn</strong> provides us an easy way to fill vacancy:</p></li>
+</ul>
+
+
+<p>```</p>
+
+<h2>Get Model Score from Imputation</h2>
+
+<p>from sklearn.preprocessing.imputation import Imputer
+my_imputer = Imputer()
+imputed_X_train = my_imputer.fit_transform(X_train)
+imputed_X_test = my_imputer.transform(X_test)
+```</p>
+
+<ul>
+<li><p>Using Categorical Data with One Hot Encoding</p>
+
+<p>For example, if you people responded to a survey about which what brand of car they owned, the result would be categorical (because the answers would be things like <em>Honda</em>, <em>Toyota</em>, <em>Ford</em>, <em>None</em>, etc.). Responses fall into a fixed set of categories.</p>
+
+<p>You will get an error if you try to plug these variables into most machine learning models in Python without &ldquo;encoding&rdquo; them first. Here we&rsquo;ll show the most popular method for encoding categorical variables.</p>
+
+<p>  <img src="/images/tec/kaggle01/one-hot.png" alt="image" /></p></li>
+</ul>
+
+
+<p>   It&rsquo;s most common to one-hot encode these &ldquo;object&rdquo; columns, since they can&rsquo;t be plugged directly into most models. Pandas offers a convenient function called <strong>get_dummies</strong> to get one-hot encodings. Call it like this:</p>
+
+<p><code>
+one_hot_encoded_training_predictors = pd.get_dummies(train_predictors)
+</code></p>
+
+<p>To see detail about this, can view <a href="https://www.kaggle.com/dansbecker/using-categorical-data-with-one-hot-encoding">Using Categorical Data with One Hot Encoding</a></p>
+
+<p>   <strong>4. Modeling</strong></p>
+
+<p>   Finally, we move here&hellip;.</p>
+
+<p>   After we have cleaned up data, we can choose one machine learning model to predict. I have just learned <strong>Decision Tree</strong> and <strong>Random Forest</strong>, and have heard the <strong>XGBoost</strong> is the leading model for working with standard tabular data <strong>XGBoost</strong> models dominate many <strong>Kaggle</strong> competitions.</p>
+
+<p>   To use one model, the code like this:</p>
+
+<p><code>
+model = RandomForestRegressor()
+model.fit(X_train, y_train)
+preds = model.predict(X_test)
+</code></p>
+
+<p>   So easy, isn&rsquo;t it? The <em>preds</em> is our target which should produce an Excel file to submit to <strong>Kaggle</strong>.</p>
+
+<p>   <strong>5. Evaluation</strong></p>
+
+<p>   No one can make it perfect at once, we should optimize again and again.  The normal benchmark is called <strong>Mean Absolute Error</strong> (also called <strong>MAE</strong>).</p>
+
+<p>   The prediction error for each passenger is:</p>
+
+<p><code>
+error=actual−predicted
+</code></p>
+
+<p>   It&rsquo;s easy to use like this:</p>
+
+<p><code>
+from sklearn.metrics import mean_absolute_error
+predicted_home_prices = melbourne_model.predict(X)
+mean_absolute_error(y, predicted_home_prices)
+</code></p>
+
+<p>   <strong>6. Deployment</strong></p>
+
+<p>   Bla Bla Bla, finish!</p>
+
+<h3>D. End</h3>
+
+<p>OK, this is the simplest way to go through one competition and the result must be awful, lol. There are lot of detail I have not mentioned or learned, like the powerful model <strong>XSBoost</strong>.</p>
+
+<p>Anyway, this is my first blog about data science, hope it will be a good beginning.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Business Statistics and Analysis-3]]></title>
     <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3/"/>
-    <updated>2018-07-30T07:55:00+08:00</updated>
+    <updated>2018-07-30T07:55:00-04:00</updated>
     <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-3</id>
     <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
 
@@ -193,7 +399,7 @@ B and deliver parcels in that region.
   <entry>
     <title type="html"><![CDATA[Business Statistics and Analysis-2]]></title>
     <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2/"/>
-    <updated>2018-07-30T07:54:00+08:00</updated>
+    <updated>2018-07-30T07:54:00-04:00</updated>
     <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-2</id>
     <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
 
@@ -723,7 +929,7 @@ data we have.
   <entry>
     <title type="html"><![CDATA[Business Statistics and Analysis-1]]></title>
     <link href="http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-1/"/>
-    <updated>2018-07-30T07:31:00+08:00</updated>
+    <updated>2018-07-30T07:31:00-04:00</updated>
     <id>http://sonnewilling.com/blog/2018/07/30/business-statistics-and-analysis-1</id>
     <content type="html"><![CDATA[<p>课件来源于Rice University的<a href="https://www.coursera.org/specializations/business-statistics-analysis">Business Statistics and Analysis</a></p>
 
@@ -953,7 +1159,7 @@ Prob(Time &lt; 50) = NORM.DIST(50,60,10,TRUE)
   <entry>
     <title type="html"><![CDATA[React Native入门指南]]></title>
     <link href="http://sonnewilling.com/blog/2016/10/19/react-nativeru-men-zhi-nan/"/>
-    <updated>2016-10-19T20:56:00+08:00</updated>
+    <updated>2016-10-19T20:56:00-04:00</updated>
     <id>http://sonnewilling.com/blog/2016/10/19/react-nativeru-men-zhi-nan</id>
     <content type="html"><![CDATA[<h3>一，背景</h3>
 
@@ -1131,69 +1337,6 @@ request.send();
 </ol>
 </div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS中jsBridge的原理与封装应用]]></title>
-    <link href="http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong/"/>
-    <updated>2016-10-19T20:46:00+08:00</updated>
-    <id>http://sonnewilling.com/blog/2016/10/19/ioszhong-jsbridgede-yuan-li-yu-feng-zhuang-ying-yong</id>
-    <content type="html"><![CDATA[<h3>一，基本原理</h3>
-
-<p><em>A. Web向Native通信方式：</em></p>
-
-<p>客户端Native内置的webView控件可以看做是一个简易的浏览器，可以使用该控件载入Web页面。当Web页面<code>URL</code>发生变化时会触发webView控件的<code>urlReload</code>函数，并可以拿到变化后的<code>URL</code>路径。若在此<code>URL</code>上附上一些特殊信息，便实现了Web向Native通信。</p>
-
-<p>当前Web中比较流行的做法是在页面内隐式嵌套一个<code>iFrame</code>，通过改变此<code>iFrame</code>的<code>src</code>，达到触发Native<code>urlReload</code>的目的。</p>
-
-<p><em>B. Native向Web通信方式：</em></p>
-
-<p>Native向Web通信的方式比较粗暴，在iOS端，webView内置了直接执行<code>js</code>的方法：</p>
-
-<p><code>
-[_webView stringByEvaluatingJavaScriptFromString:javascriptCommand]
-</code></p>
-
-<p>一般情况下，我们约定好Web页面<code>js</code>中定义的方法名，则此处便可以直接调用了。</p>
-
-<!--more-->
-
-
-<h3>二，大致流程：</h3>
-
-<p>Native载入H5页面时通过本地内置的<code>js</code>代码注入一个供H5页面调用的对象<code>WebViewJavascriptBridge</code>，该对象为H5页面提供函数注册方法：<code>registerHandler(handlerName, handler)</code>，以供Native调用：</p>
-
-<p>```
-bridge.registerHandler(&lsquo;testJavascriptHandler&rsquo;, function(data, responseCallback) {</p>
-
-<pre><code>        log('ObjC called testJavascriptHandler with', data)
-        var responseData = { 'Javascript Says':'Right back atcha!' }
-        log('JS responding with', responseData)
-        responseCallback(responseData)
-    })
-</code></pre>
-
-<p>```</p>
-
-<p>同时也提供调用函数：<code>callHandler(handlerName, data, responseCallback)</code>，供H5直接调用Navtive的函数方法：</p>
-
-<p>```
-bridge.callHandler(&lsquo;testObjcCallback&rsquo;, {&lsquo;foo&rsquo;: &lsquo;bar&rsquo;}, function(response) {</p>
-
-<pre><code>            log('JS got response', response)
-        })
-</code></pre>
-
-<p>```</p>
-
-<p>当H5页面载入完成后，H5页面发送<code>scheme://jsBridge/bridge_loaded</code>，通知Native页面载入完成，则Native注入<code>js</code>对象<code>WebViewJavascriptBridge</code>，供H5注册本地函数与调用Native函数。</p>
-
-<p>两方具体通信流程可参见下图：</p>
-
-<p><img src="/images/tec/jsbridge/H5%20Call%20Native.png" alt="image" /></p>
-
-<p><img src="/images/tec/jsbridge/Native%20Call%20H5.png" alt="image" /></p>
 ]]></content>
   </entry>
   

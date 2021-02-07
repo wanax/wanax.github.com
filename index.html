@@ -8,7 +8,7 @@
 	<title>陋室</title>
 	<meta name="author" content="Wanax">
 	
-	<meta name="description" content="May 23rd, 2020 胶片儿(2) 依依惜别兼之落日余晖的一根烟最是回味， 久别重逢配以大快朵颐的酒沁人心脾。 通宵未眠恰逢晨光熹微的人心旷神怡， 且歌且行和着灯红酒绿摇出的骰子都是一 为啥叫《胶片儿（2）》呢，因为之前写过一篇《胶片儿》。之前是多久呢，大概是大二的时候吧， &hellip;">
+	<meta name="description" content="Feb 6th, 2021 Life 天干地燥 趁着美国疫情横行的这一年跑了好多地方。北上缅因吃了龙虾，西去大峡谷看日落，年底又南下迈阿密跨了个年。要说有没有感染还真不好说，中间确实有咳嗽过几天，但嗅觉还是在的。 Read on &rarr; May 23rd, 2020 Life 胶片儿(2 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
 <section>
   <h3 class="catag">文章类别</h3>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/life/'>Life (20)</a></li>
+    <li class='category'><a href='/blog/categories/life/'>Life (22)</a></li>
 <li class='category'><a href='/blog/categories/ontheroad/'>OnTheRoad (13)</a></li>
 <li class='category'><a href='/blog/categories/read/'>Read (4)</a></li>
 <li class='category'><a href='/blog/categories/tec/'>Tec (33)</a></li>
@@ -125,8 +125,48 @@
   
 
 
+<time datetime="2021-02-06T15:30:00-05:00" data-updated="true" itemprop="datePublished">Feb 6<span>th</span>, 2021</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>Life</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2021/02/06/tian-gan-di-zao/" itemprop="url">天干地燥</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>趁着美国疫情横行的这一年跑了好多地方。北上缅因吃了龙虾，西去大峡谷看日落，年底又南下迈阿密跨了个年。要说有没有感染还真不好说，中间确实有咳嗽过几天，但嗅觉还是在的。</p>
+
+
+		
+		<a href="/blog/2021/02/06/tian-gan-di-zao/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2020-05-23T18:41:00-04:00" data-updated="true" itemprop="datePublished">May 23<span>rd</span>, 2020</time></div>
 		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/life/'>Life</a>
+
 
 </div>
 		
@@ -535,86 +575,6 @@
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-10-19T20:28:00-04:00" data-updated="true" itemprop="datePublished">Oct 19<span>th</span>, 2016</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/tec/'>Tec</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2016/10/19/iostu-xing-yuan-li-yu-chi-ping-xuan-ran/" itemprop="url">iOS图形原理与离屏渲染</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><em>Outline</em>:</p>
-
-<p>一，<a href="#anchor1.0">iOS图形显示基本知识</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.1 <a href="#anchor1.1">图形显示原理</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.2 <a href="#anchor1.2">iOS的显示架构</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.3 <a href="#anchor1.3">iOS图形显示流程</a></p>
-
-<p>&mdash;&mdash;&mdash; 1.4 <a href="#anchor1.4">补充知识</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.1 <a href="#anchor1.4.1">图像多层次的合成&mdash;为何设置透明会增加GPU工作量</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.2 <a href="#anchor1.4.2">图层对其&mdash;为何图片缩放会增加GPU工作量</a></p>
-
-<p>&mdash;&mdash;&mdash;&mdash;&mdash; 1.4.3 <a href="#anchor1.4.3">关于卡顿的简单原理解释</a></p>
-
-<p>二，<a href="#anchor2.0">iOS中离屏渲染相关知识</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.1 <a href="#anchor2.1">什么是离屏渲染</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.2 <a href="#anchor2.2">为什么要谨慎避免离屏渲染</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.3 <a href="#anchor2.3">离屏渲染与光栅化</a></p>
-
-<p>&mdash;&mdash;&mdash; 2.4 <a href="#anchor2.4">一些触发离屏渲染的基本case与替换方式</a></p>
-
-<p>三，<a href="#anchor3.0">iOS的一些显示性能检测方法的简单介绍</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.1 <a href="#anchor3.1">显示性能检测一些小Tip</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.2 <a href="#anchor3.2">Instruments &ndash; Core Animation</a></p>
-
-<p>&mdash;&mdash;&mdash; 3.3 <a href="#anchor3.3">Instruments &ndash; OpenGL ES</a></p>
-
-<p>四，<a href="#anchor4.0">AsyncDisplayKit分享</a></p>
-
-<p>&mdash;&mdash;&mdash; 4.1 <a href="#anchor4.1">AsyncDisplayKit是干什么的</a></p>
-
-<p>&mdash;&mdash;&mdash; 4.2 <a href="#anchor4.2">AsyncDisplayKit的一些性能上的优势</a></p>
-
-<h3><span id="anchor1.0">一，iOS图形显示基本知识</span></h3>
-
-<p>从一个像素点到真正显示在屏幕上，iOS到底在里面做了哪些工作，涉及到哪些Frameworks与Libraries？这是这一章想搞明白的问题。</p>
-
-
-		
-		<a href="/blog/2016/10/19/iostu-xing-yuan-li-yu-chi-ping-xuan-ran/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
 </div>
 
 <nav id="pagenavi">
@@ -626,7 +586,7 @@
 </nav></div>
 			</div>
 			<footer id="footer" class="inner"><p>
-  Copyright &copy; 2020 - Wanax -
+  Copyright &copy; 2021 - Wanax -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

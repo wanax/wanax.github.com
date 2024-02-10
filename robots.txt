@@ -1,4 +1,3 @@
 User-agent: *
-Disallow: 
-
-Sitemap: http://sonnewilling.com/sitemap.xml 
+Allow: /
+Sitemap: https://sonneblog.com/sitemap.xml
